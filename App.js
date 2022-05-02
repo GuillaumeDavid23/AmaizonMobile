@@ -26,5 +26,8 @@ const styles = StyleSheet.create({
     title: {
       fontWeight: "bold",
       fontSize: 25
+    },
+    test: {
+      color: "red"
     }
 });
