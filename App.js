@@ -8,6 +8,7 @@ export default function App() {
             <Text style={styles.title}>AMAIZON</Text>
             <StatusBar style="auto" />
         </View>
+        
     );
 }
 
