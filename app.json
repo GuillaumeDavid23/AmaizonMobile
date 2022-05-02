@@ -1,14 +1,14 @@
 {
   "expo": {
-    "name": "Mobile",
-    "slug": "Mobile",
+    "name": "AMAIZON",
+    "slug": "Amaizon",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/logo.png",
     "splash": {
       "image": "./assets/logoFull.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#ECE6DE"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -22,7 +22,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/logo.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#ECE6DE"
       }
     },
     "web": {
