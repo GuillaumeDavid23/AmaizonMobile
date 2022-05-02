@@ -1,6 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button, Image } from "react-native";
-import Logo from "./assets/logo.png"
+import Logo from "./assets/images/logo.png"
 export default function App() {
     return (
         <View style={styles.container}>
