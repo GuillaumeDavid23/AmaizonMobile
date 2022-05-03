@@ -2,7 +2,7 @@ import { DefaultTheme } from "react-native-paper";
 
 const theme = {
     ...DefaultTheme,
-    roundness: 0,
+    roundness: 5,
     colors: {
         ...DefaultTheme.colors,
         accent: "#DCD0C1",

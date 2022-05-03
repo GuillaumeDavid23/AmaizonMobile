@@ -63,7 +63,7 @@ export default function HomeScreen({ navigation }) {
                     justifyContent: "center",
                 }}
                 labelStyle={{ fontSize: 17 }}
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("Inventory")}
             />
             <CustomButton
                 CustomIcon={(size, color) => (
@@ -73,7 +73,7 @@ export default function HomeScreen({ navigation }) {
                 labelStyle={{ fontSize: 17 }}
                 reversed={true}
                 style={{ height: 60, width: "90%", justifyContent: "center" }}
-                onPress={() => navigation.navigate("Login")}
+                onPress={() => navigation.navigate("Contact")}
             />
             {/* <MyNavigation navigation={navigation} /> */}
         </View>
