@@ -1,30 +1,38 @@
+import * as React from "react";
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View, Button, Image } from "react-native";
-import Logo from "./assets/images/logo.png"
+
+//THEME
+import { theme } from "./themes";
+import { Provider as ThemeProvider, TextInput } from "react-native-paper";
+
+//ROUTING IMPORT
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import "react-native-gesture-handler";
+const Stack = createStackNavigator();
+import LoginScreen from "./screens/LoginScreen";
+import HomeScreen from "./screens/HomeScreen";
+
+//REDUX IMPORT 
+import { store } from "./redux/store";
+import { Provider as ReduxProvider } from "react-redux";
+
 export default function App() {
     return (
-        <View style={styles.container}>
-            <Image style={styles.tinyLogo} source={Logo} />
-            <Text style={styles.title}>AMAIZON</Text>
-            <StatusBar style="auto" />
-        </View>
-        
+        <ReduxProvider store={store}>
+            <ThemeProvider theme={theme}>
+                <StatusBar style="auto" />
+                <NavigationContainer>
+                    <Stack.Navigator
+                        screenOptions={{
+                            headerShown: false,
+                        }}
+                    >
+                        <Stack.Screen name="Login" component={LoginScreen} />
+                        <Stack.Screen name="Home" component={HomeScreen} />
+                    </Stack.Navigator>
+                </NavigationContainer>
+            </ThemeProvider>
+        </ReduxProvider>
     );
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: "#fff",
-        alignItems: "center",
-        justifyContent: "center",
-    },
-    tinyLogo: {
-        width: 100,
-        height: 100,
-    },
-    title: {
-      fontWeight: "bold",
-      fontSize: 25
-    }
-});
