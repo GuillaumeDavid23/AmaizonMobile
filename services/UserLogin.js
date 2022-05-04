@@ -1,6 +1,3 @@
-import { useSelector, useDispatch } from "react-redux";
-import { setData } from "../redux/userSlice";
-
 const doLogin = async (email, password) => {
 
     return fetch("http://192.168.1.174:8080/api/user/loginAgent", {
