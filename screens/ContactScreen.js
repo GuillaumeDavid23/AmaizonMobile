@@ -4,50 +4,52 @@ import { useTheme } from "react-native-paper";
 import { useSelector, useDispatch } from "react-redux";
 import Icon from "react-native-vector-icons/FontAwesome";
 import CustomButton from "../components/CustomButtonIcon";
+import { TouchableOpacity } from "react-native-gesture-handler";
 
 const ListItem = ({ data }) => {
     const theme = useTheme();
-    console.log('test');
 
     return (
-        <View
-            style={{
-                width: "90%",
-                height: 100,
-                backgroundColor: theme.colors.primary,
-                borderRadius: 15,
-                flexDirection: "row",
-                marginBottom: 15,
-            }}
-        >
+        <TouchableOpacity>
             <View
                 style={{
-                    height: "100%",
-                    width: "20%",
-                    justifyContent: "center",
-                    alignItems: "center",
+                    width: "90%",
+                    height: 100,
+                    backgroundColor: theme.colors.primary,
+                    borderRadius: 15,
+                    flexDirection: "row",
+                    marginBottom: 15,
                 }}
             >
-                <Icon name="user" size={50} color="white" />
+                <View
+                    style={{
+                        height: "100%",
+                        width: "20%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                    }}
+                >
+                    <Icon name="user" size={50} color="white" />
+                </View>
+                <View
+                    style={{
+                        justifyContent: "center",
+                        width: "80%",
+                        height: "100%",
+                    }}
+                >
+                    <Text style={{ fontSize: 20, color: "white" }}>
+                        {data.firstname} {data.lastname}
+                    </Text>
+                    <Text style={{ fontSize: 17, color: "white" }}>
+                        Téléphone : {data.phone ? data.phone : "Non renseigné"}
+                    </Text>
+                    <Text style={{ fontSize: 17, color: "white" }}>
+                        Email : {data.email ? data.email : "Non renseigné"}
+                    </Text>
+                </View>
             </View>
-            <View
-                style={{
-                    justifyContent: "center",
-                    width: "80%",
-                    height: "100%",
-                }}
-            >
-                <Text style={{ fontSize: 20, color: "white" }}>
-                    {data.firstname} {data.lastname}
-                </Text>
-                <Text style={{ fontSize: 17, color: "white" }}>
-                    Téléphone : {data.phone ? data.phone : "Non renseigné"}
-                </Text>
-                <Text style={{ fontSize: 17, color: "white" }}>
-                    Email : {data.email ? data.email : "Non renseigné"}
-                </Text>
-            </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
