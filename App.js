@@ -18,6 +18,7 @@ import { store } from "./redux/store";
 import { Provider as ReduxProvider } from "react-redux";
 import ContactScreen from "./screens/ContactScreen";
 import InventoryScreen from "./screens/InventoryScreen";
+import SingleContactScreen from "./screens/SingleContactScreen";
 
 export default function App() {
     return (
@@ -36,6 +37,7 @@ export default function App() {
                             name="Contact"
                             component={ContactScreen}
                         />
+                        <Stack.Screen name="SingleContact" component={SingleContactScreen} />
                         <Stack.Screen
                             name="Inventory"
                             component={InventoryScreen}
