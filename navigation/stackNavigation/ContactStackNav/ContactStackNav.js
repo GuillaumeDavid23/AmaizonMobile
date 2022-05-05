@@ -5,8 +5,8 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 // Screen imports
-import ContactScreen from "../../../screens/ContactScreen";
-import SingleContactScreen from "../../../screens/SingleContactScreen";
+import ContactScreen from "../../../screens/Contact/ContactScreen";
+import SingleContactScreen from "../../../screens/SingleContact/SingleContactScreen";
 import ClientSearch from "../../../screens/ClientSearch";
 
 // Creating Stack Navigator

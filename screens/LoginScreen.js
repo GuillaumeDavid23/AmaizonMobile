@@ -36,8 +36,8 @@ export default function LoginScreen({ navigation }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			email: '',
-			password: '',
+			email: 'guigui@test.fr',
+			password: 'Guillaume5',
 		},
 		mode: 'onTouched',
 		reValidateMode: 'onTouched',
