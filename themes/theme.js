@@ -1,9 +1,12 @@
 import { DefaultTheme } from "react-native-paper";
+import { DefaultTheme as ReactNavDefaultTheme } from "@react-navigation/native";
 
 const theme = {
+    ...ReactNavDefaultTheme,
     ...DefaultTheme,
     roundness: 5,
     colors: {
+        ...ReactNavDefaultTheme.colors,
         ...DefaultTheme.colors,
         accent: "#DCD0C1",
         primary: "#647F94",
