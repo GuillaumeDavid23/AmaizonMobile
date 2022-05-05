@@ -10,7 +10,7 @@ const ListItem = ({ data, navigation }) => {
     const theme = useTheme();
 
     return (
-        <TouchableOpacity style={{width:"100%"}} onPress={() => {
+        <TouchableOpacity style={{width:"100%"}} activeOpacity={0.8} onPress={() => {
             navigation.navigate("SingleContact", {infos: data})
         }}>
             <View
