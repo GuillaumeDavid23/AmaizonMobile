@@ -1,5 +1,6 @@
 // React imports
 import * as React from "react";
+import { KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 // Theme imports
@@ -19,6 +20,10 @@ import { Provider as ReduxProvider } from "react-redux";
 import LoginScreen from "./screens/LoginScreen";
 import TabNavigation from "./navigation/tabNavigation/TabNavigation";
 
+import InventoryScreen from "./screens/InventoryScreen";
+import SingleContactScreen from "./screens/SingleContactScreen";
+import ContactScreen from "./screens/ContactScreen";
+
 // Creating Stack Navigator
 const Stack = createStackNavigator();
 
@@ -34,9 +39,18 @@ export default function App() {
                         }}
                     >
                         <Stack.Screen name="Login" component={LoginScreen} />
+                        <Stack.Screen name="Home" component={HomeScreen} />
                         <Stack.Screen
-                            name="HomeTabNav"
-                            component={TabNavigation}
+                            name="Contact"
+                            component={ContactScreen}
+                        />
+                        <Stack.Screen
+                            name="SingleContact"
+                            component={SingleContactScreen}
+                        />
+                        <Stack.Screen
+                            name="Inventory"
+                            component={InventoryScreen}
                         />
                     </Stack.Navigator>
                 </NavigationContainer>

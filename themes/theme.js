@@ -7,6 +7,8 @@ const theme = {
         ...DefaultTheme.colors,
         accent: "#DCD0C1",
         primary: "#647F94",
+        success: "#2C6F29",
+        error: "#AE0000",
     },
 
     CustomButtonRadius: {
@@ -15,13 +17,12 @@ const theme = {
         fontSize: 50,
         shadowColor: "#000",
         shadowOffset: {
-            width: 0,
-            height: 6,
+            width: 5,
+            height: 5,
         },
-        shadowOpacity: 1,
-        shadowRadius: 10,
-
-        elevation: 12,
+        shadowOpacity: 0.8,
+        shadowRadius: 6,
+        elevation: 7,
     },
 };
 
