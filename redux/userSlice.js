@@ -18,10 +18,15 @@ export const userSlice = createSlice({
         setData: (state, action) => {
             state.auth.data = action.payload;
         },
+        setContact: (state, action) => {
+            const index = action.payload.index;
+            const data = action.payload.data;
+            state.auth.data.agent.customers[index] = data;
+        },
     },
 });
 
 // Action creators are generated for each case reducer function
-export const { setData, setAuth } = userSlice.actions;
+export const { setData, setAuth, setContact } = userSlice.actions;
 
 export default userSlice.reducer

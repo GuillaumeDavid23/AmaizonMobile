@@ -6,12 +6,12 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import CustomButton from "../components/CustomButtonIcon";
 import { TouchableOpacity } from "react-native-gesture-handler";
 
-const ListItem = ({ data, navigation }) => {
+const ListItem = ({ data, navigation, index }) => {
     const theme = useTheme();
 
     return (
         <TouchableOpacity style={{width:"100%"}} activeOpacity={0.8} onPress={() => {
-            navigation.navigate("SingleContact", {infos: data})
+            navigation.navigate("SingleContact", {infos: data, index:index})
         }}>
             <View
                 style={{
@@ -83,7 +83,7 @@ export default function ContactScreen({ navigation }) {
                 <Text style={styles.title}>Page de contact</Text>
             </View>
             {user.agent.customers.map((customer, index) => {
-                return <ListItem key={index} data={customer} navigation={navigation} />;
+                return <ListItem key={index} data={customer} navigation={navigation} index={index} />;
             })}
         </View>
     );

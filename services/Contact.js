@@ -16,8 +16,6 @@ const getClient = async (id, token) => {
 };
 
 const updateClient = async (id, token, data) => {
-    console.log(JSON.stringify( data ));
-
     return fetch(`http://192.168.1.174:8080/api/user/${id}`, {
         method: "PUT",
         headers: {
