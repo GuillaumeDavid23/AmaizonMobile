@@ -27,6 +27,8 @@ const doLogin = (email, password) => {
             }
             // else: Returning Error info
             return reject(response.json());
+        }).catch((errors) => {
+            console.log(errors);
         });
     });
 };

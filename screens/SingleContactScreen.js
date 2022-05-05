@@ -31,6 +31,7 @@ export default function SingleContactScreen({ route, navigation }) {
     const { infos, index } = route.params;
     const user = useSelector((state) => state.user.auth);
     const theme = useTheme();
+    theme.colors.
     const [isEditable, setIsEditable] = React.useState(false);
     const [client, setClient] = React.useState(infos);
     const dispatch = useDispatch();

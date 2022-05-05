@@ -4,7 +4,7 @@ import { KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 // Theme imports
-import { theme } from "./themes";
+import theme from "./themes";
 import { Provider as ThemeProvider } from "react-native-paper";
 
 // Route imports
@@ -23,7 +23,7 @@ import TabNavigation from "./navigation/tabNavigation/TabNavigation";
 import InventoryScreen from "./screens/InventoryScreen";
 import SingleContactScreen from "./screens/SingleContactScreen";
 import ContactScreen from "./screens/ContactScreen";
-
+import HomeScreen from "./screens/HomeScreen";
 // Creating Stack Navigator
 const Stack = createStackNavigator();
 
