@@ -4,7 +4,7 @@ import { KeyboardAvoidingView } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
 // Theme imports
-import theme from "./themes";
+import {theme} from "./themes";
 import { Provider as ThemeProvider } from "react-native-paper";
 
 // Route imports
