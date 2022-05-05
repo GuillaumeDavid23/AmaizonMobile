@@ -7,7 +7,10 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Screen imports
 import HomeScreen from '../../screens/HomeScreen'
-import ContactScreen from '../../screens/ContactScreen'
+import InventoryScreen from '../../screens/InventoryScreen'
+
+// NavigationScreen imports
+import { ContactStackNav } from '../stackNavigation/ContactStackNav'
 
 // Hook imports
 import { useTheme } from 'react-native-paper'
@@ -21,8 +24,6 @@ const TabNavigation = () => {
 
 	return (
 		<Tab.Navigator
-			// Tab background color
-			barStyle={{ backgroundColor: theme.colors.primary }}
 			labeled={false} // Removing screen name below icons
 		>
 			{/* Home Screen */}
@@ -31,17 +32,31 @@ const TabNavigation = () => {
 				component={HomeScreen}
 				options={{
 					tabBarIcon: ({ size, color }) => (
-						<Icon name="home" size={size} color={color} />
+						<Icon name="home" size={30} color={color} />
 					),
 				}}
 			/>
-			{/* Contact Screen */}
+			{/* Inventory Screen */}
 			<Tab.Screen
-				name="Contact"
-				component={ContactScreen}
+				name="Inventory"
+				component={InventoryScreen}
 				options={{
 					tabBarIcon: ({ size, color }) => (
-						<Icon name="account" size={size} color={color} />
+						<Icon name="domain" size={30} color={color} />
+					),
+				}}
+			/>
+			{/* Contact Stack Screen */}
+			<Tab.Screen
+				name="Contact"
+				component={ContactStackNav}
+				options={{
+					tabBarIcon: ({ size, color }) => (
+						<Icon
+							name="card-account-details"
+							size={30}
+							color={color}
+						/>
 					),
 				}}
 			/>

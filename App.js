@@ -16,14 +16,9 @@ import 'react-native-gesture-handler'
 import { store } from './redux/store'
 import { Provider as ReduxProvider } from 'react-redux'
 
-// Screen imports
-import LoginScreen from './screens/LoginScreen'
-import TabNavigation from './navigation/tabNavigation/TabNavigation'
+// Stack Screen imports
+import { LoginStackNav } from './navigation/stackNavigation'
 
-import InventoryScreen from './screens/InventoryScreen'
-import SingleContactScreen from './screens/SingleContactScreen'
-import ContactScreen from './screens/ContactScreen'
-import HomeScreen from './screens/HomeScreen'
 // Creating Stack Navigator
 const Stack = createStackNavigator()
 
@@ -32,27 +27,8 @@ export default function App() {
 		<ReduxProvider store={store}>
 			<ThemeProvider theme={theme}>
 				<StatusBar style="auto" hidden />
-				<NavigationContainer>
-					<Stack.Navigator
-						screenOptions={{
-							headerShown: false,
-						}}
-					>
-						<Stack.Screen name="Login" component={LoginScreen} />
-						<Stack.Screen name="Home" component={HomeScreen} />
-						<Stack.Screen
-							name="Contact"
-							component={ContactScreen}
-						/>
-						<Stack.Screen
-							name="SingleContact"
-							component={SingleContactScreen}
-						/>
-						<Stack.Screen
-							name="Inventory"
-							component={InventoryScreen}
-						/>
-					</Stack.Navigator>
+				<NavigationContainer theme={theme}>
+					<LoginStackNav />
 				</NavigationContainer>
 			</ThemeProvider>
 		</ReduxProvider>
