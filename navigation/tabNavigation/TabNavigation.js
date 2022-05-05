@@ -24,7 +24,7 @@ const TabNavigation = () => {
 
 	return (
 		<Tab.Navigator
-			labeled={false} // Removing screen name below icons
+			labeled={true} // Removing screen name below icons
 		>
 			{/* Home Screen */}
 			<Tab.Screen
