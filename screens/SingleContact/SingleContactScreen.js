@@ -38,7 +38,7 @@ export default function SingleContactScreen({ route, navigation }) {
 						alignSelf: 'center',
 					}}
 					labelStyle={{ fontSize: 12 }}
-					onPress={() => navigation.navigate('ClientSearch')}
+					onPress={() => navigation.navigate('ClientSearch', {client: client, index: index})}
 				/>
 				{/* FORM START */}
 				<SingleContactForm
