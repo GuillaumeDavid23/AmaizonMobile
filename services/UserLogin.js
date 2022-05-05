@@ -19,15 +19,19 @@ const doLogin = (email, password) => {
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({ email: email, password: password }),
-        }).then((response) => {
-            // If response 2xx
-            if (response.ok) {
-                // Returning User info
-                return resolve(response.json());
-            }
-            // else: Returning Error info
-            return reject(response.json());
-        });
+        })
+            .then((response) => {
+                // If response 2xx
+                if (response.ok) {
+                    // Returning User info
+                    return resolve(response.json());
+                }
+                // else: Returning Error info
+                return reject(response.json());
+            })
+            .catch((err) => {
+                return reject(err);
+            });
     });
 };
 
