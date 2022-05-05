@@ -63,7 +63,7 @@ export default function LoginScreen({ navigation }) {
                 dispatch(setAuth(dataFormat));
 
                 // Navigate to Home from Tab navigation
-                navigation.navigate("HomeTabNav");
+                navigation.navigate("TabNavHome");
             })
             // On Promise Reject
             .catch((err) => {
