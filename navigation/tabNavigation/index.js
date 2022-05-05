@@ -1,3 +1,3 @@
-import TabNavigation from "./TabNavigation";
+import TabNavigation from './TabNavigation'
 
-export { TabNavigation };
+export { TabNavigation }
