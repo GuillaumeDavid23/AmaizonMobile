@@ -7,6 +7,9 @@ import {
 	Linking,
 	TouchableWithoutFeedback,
 	Keyboard,
+	ScrollView,
+	StatusBar,
+	SafeAreaView,
 } from 'react-native'
 
 //Import selector for user infos
@@ -31,7 +34,7 @@ export default function SingleContactScreen({ route, navigation }) {
 	const { infos, index } = route.params
 	const user = useSelector((state) => state.user.auth)
 	const theme = useTheme()
-	theme.colors.const[(isEditable, setIsEditable)] = React.useState(false)
+	const [isEditable, setIsEditable] = React.useState(false)
 	const [client, setClient] = React.useState(infos)
 	const dispatch = useDispatch()
 
@@ -92,274 +95,294 @@ export default function SingleContactScreen({ route, navigation }) {
 	}
 
 	return (
-		<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-			<View style={styles.container}>
-				{/* HEADER START */}
-				<View
-					style={{
-						justifyContent: 'center',
-						alignItems: 'center',
-						marginBottom: 50,
-						width: '100%',
-					}}
-				>
+		<SafeAreaView style={styles.container}>
+				<ScrollView style={styles.scrollView}>
+					{/* HEADER START */}
 					<View
 						style={{
 							justifyContent: 'center',
 							alignItems: 'center',
-							backgroundColor: theme.colors.primary,
-							height: 100,
-							width: 100,
-							borderRadius: 50,
+							marginBottom: 30,
+							paddingTop:30,
+							width: '100%',
 						}}
 					>
-						<Icon name="user" size={50} color="white" />
+						<View
+							style={{
+								justifyContent: 'center',
+								alignItems: 'center',
+								backgroundColor: theme.colors.primary,
+								height: 100,
+								width: 100,
+								borderRadius: 50,
+							}}
+						>
+							<Icon name="user" size={50} color="white" />
+						</View>
+						<Text style={styles.title}>
+							{client.firstname} {client.lastname}
+						</Text>
 					</View>
-					<Text style={styles.title}>
-						{client.firstname} {client.lastname}
-					</Text>
-				</View>
-				{/* HEADER END */}
-
-				{/* FORM START */}
-				<View>
-					{/* EDIT SWITCH START */}
-					<SwitchCustom
-						style={{ alignSelf: 'center' }}
-						text="Modifier"
-						handleSwitch={setIsEditable}
-						isSwitchOn={isEditable}
-					/>
-					{/* EDIT SWITCH END */}
-
-					{/* NAME INPUT START */}
-					<View
+					{/* HEADER END */}
+					<CustomButton
+						CustomIcon={(size, color) => (
+							<Icon size={20} name="search" color={color} />
+						)}
+						text="Ajouter une recherche client"
+						reversed={true}
 						style={{
-							marginTop: 20,
-							flexDirection: 'row',
 							justifyContent: 'center',
+							height: 40,
+							width: '80%',
+							alignSelf: 'center',
 						}}
-					>
-						{/* LASTNAME INPUT START */}
-						<View style={{ width: '50%' }}>
+						labelStyle={{ fontSize: 12 }}
+						onPress={() => navigation.navigate('ClientSearch')}
+					/>
+					{/* FORM START */}
+					<View>
+						{/* EDIT SWITCH START */}
+						<SwitchCustom
+							style={{ alignSelf: 'center', marginTop: 20 }}
+							text="Modifier"
+							handleSwitch={setIsEditable}
+							isSwitchOn={isEditable}
+						/>
+						{/* EDIT SWITCH END */}
+
+						{/* NAME INPUT START */}
+						<View
+							style={{
+								flexDirection: 'row',
+								justifyContent: 'center',
+							}}
+						>
+							{/* LASTNAME INPUT START */}
+							<View style={{ width: '50%' }}>
+								<Controller
+									control={control}
+									rules={{
+										required: {
+											value: true,
+											message: 'Champ nom requis',
+										},
+										pattern: {
+											value: /^[a-z ,.'-]+$/i,
+											message: 'Entrer un nom valide',
+										},
+									}}
+									name="lastname"
+									render={({
+										field: { onChange, onBlur, value },
+									}) => (
+										<TextInput
+											mode="outlined"
+											label="Nom"
+											onBlur={onBlur}
+											onChangeText={onChange}
+											autoComplete="lastname"
+											value={value}
+											error={errors?.lastname}
+											style={{
+												width: '80%',
+												alignSelf: 'center',
+											}}
+											disabled={!isEditable}
+										/>
+									)}
+								/>
+								{errors?.lastname && (
+									<Text
+										style={{
+											color: theme.colors.error,
+											alignSelf: 'center',
+										}}
+									>
+										{errors.lastname.message}
+									</Text>
+								)}
+							</View>
+							{/* LASTNAME INPUT END */}
+
+							{/* FIRSTNAME INPUT START */}
+							<View style={{ width: '50%' }}>
+								<Controller
+									control={control}
+									rules={{
+										required: {
+											value: true,
+											message: 'Champ nom requis',
+										},
+										pattern: {
+											value: /^[a-z ,.'-]+$/i,
+											message: 'Entrer un nom valide',
+										},
+									}}
+									name="firstname"
+									render={({
+										field: { onChange, onBlur, value },
+									}) => (
+										<TextInput
+											mode="outlined"
+											label="Prénom"
+											onBlur={onBlur}
+											onChangeText={onChange}
+											autoComplete="firstname"
+											value={value}
+											error={errors?.firstname}
+											style={{
+												width: '80%',
+												alignSelf: 'center',
+											}}
+											disabled={!isEditable}
+										/>
+									)}
+								/>
+								{errors?.firstname && (
+									<Text
+										style={{
+											color: theme.colors.error,
+											alignSelf: 'center',
+										}}
+									>
+										{errors.firstname.message}
+									</Text>
+								)}
+							</View>
+							{/* FIRSTNAME INPUT END */}
+						</View>
+						{/* NAME INPUT START */}
+
+						{/* EMAIL INPUT START */}
+						<View style={{ marginTop: 20, alignItems: 'center' }}>
 							<Controller
 								control={control}
 								rules={{
 									required: {
 										value: true,
-										message: 'Champ nom requis',
+										message: 'Champ email requis',
 									},
 									pattern: {
-										value: /^[a-z ,.'-]+$/i,
-										message: 'Entrer un nom valide',
+										value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+										message: 'Entrer une email valide',
 									},
 								}}
-								name="lastname"
 								render={({
 									field: { onChange, onBlur, value },
 								}) => (
 									<TextInput
 										mode="outlined"
-										label="Nom"
+										label="Email"
 										onBlur={onBlur}
 										onChangeText={onChange}
-										autoComplete="lastname"
+										autoComplete="email"
 										value={value}
-										error={errors?.lastname}
-										style={{
-											width: '80%',
-											alignSelf: 'center',
-										}}
+										error={errors?.email}
+										style={{ width: '90%' }}
 										disabled={!isEditable}
 									/>
 								)}
+								name="email"
 							/>
-							{errors?.lastname && (
-								<Text
-									style={{
-										color: theme.colors.error,
-										alignSelf: 'center',
-									}}
-								>
-									{errors.lastname.message}
+							{errors?.email && (
+								<Text style={{ color: theme.colors.error }}>
+									{errors.email.message}
 								</Text>
 							)}
 						</View>
-						{/* LASTNAME INPUT END */}
+						{/* EMAIL INPUT END */}
 
-						{/* FIRSTNAME INPUT START */}
-						<View style={{ width: '50%' }}>
+						{/* PHONE INPUT START */}
+						<View style={{ marginTop: 20, alignItems: 'center' }}>
 							<Controller
 								control={control}
 								rules={{
 									required: {
 										value: true,
-										message: 'Champ nom requis',
+										message: 'Champ email requis',
 									},
 									pattern: {
-										value: /^[a-z ,.'-]+$/i,
-										message: 'Entrer un nom valide',
+										value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/i,
+										message: 'Entrer une email valide',
 									},
 								}}
-								name="firstname"
 								render={({
 									field: { onChange, onBlur, value },
 								}) => (
 									<TextInput
 										mode="outlined"
-										label="Prénom"
+										label="Téléphone"
 										onBlur={onBlur}
 										onChangeText={onChange}
-										autoComplete="firstname"
+										autoComplete="phone"
 										value={value}
-										error={errors?.firstname}
-										style={{
-											width: '80%',
-											alignSelf: 'center',
-										}}
+										error={errors?.phone}
+										style={{ width: '90%' }}
 										disabled={!isEditable}
 									/>
 								)}
+								name="phone"
 							/>
-							{errors?.firstname && (
-								<Text
-									style={{
-										color: theme.colors.error,
-										alignSelf: 'center',
-									}}
-								>
-									{errors.firstname.message}
+							{errors?.phone && (
+								<Text style={{ color: theme.colors.error }}>
+									{errors.phone.message}
 								</Text>
 							)}
 						</View>
-						{/* FIRSTNAME INPUT END */}
+						{/* PHONE INPUT END */}
+						{isEditable ? <SendButton /> : null}
 					</View>
-					{/* NAME INPUT START */}
+					{/* FORM END */}
 
-					{/* EMAIL INPUT START */}
-					<View style={{ marginTop: 20, alignItems: 'center' }}>
-						<Controller
-							control={control}
-							rules={{
-								required: {
-									value: true,
-									message: 'Champ email requis',
-								},
-								pattern: {
-									value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
-									message: 'Entrer une email valide',
-								},
-							}}
-							render={({
-								field: { onChange, onBlur, value },
-							}) => (
-								<TextInput
-									mode="outlined"
-									label="Email"
-									onBlur={onBlur}
-									onChangeText={onChange}
-									autoComplete="email"
-									value={value}
-									error={errors?.email}
-									style={{ width: '90%' }}
-									disabled={!isEditable}
-								/>
-							)}
-							name="email"
-						/>
-						{errors?.email && (
-							<Text style={{ color: theme.colors.error }}>
-								{errors.email.message}
-							</Text>
+					<CustomButton
+						CustomIcon={(size, color) => (
+							<Icon size={20} name="phone" color={color} />
 						)}
-					</View>
-					{/* EMAIL INPUT END */}
-
-					{/* PHONE INPUT START */}
-					<View style={{ marginTop: 20, alignItems: 'center' }}>
-						<Controller
-							control={control}
-							rules={{
-								required: {
-									value: true,
-									message: 'Champ email requis',
-								},
-								pattern: {
-									value: /^(?:(?:\+|00)33|0)\s*[1-9](?:[\s.-]*\d{2}){4}$/i,
-									message: 'Entrer une email valide',
-								},
-							}}
-							render={({
-								field: { onChange, onBlur, value },
-							}) => (
-								<TextInput
-									mode="outlined"
-									label="Téléphone"
-									onBlur={onBlur}
-									onChangeText={onChange}
-									autoComplete="phone"
-									value={value}
-									error={errors?.phone}
-									style={{ width: '90%' }}
-									disabled={!isEditable}
-								/>
-							)}
-							name="phone"
-						/>
-						{errors?.phone && (
-							<Text style={{ color: theme.colors.error }}>
-								{errors.phone.message}
-							</Text>
+						text="Contacter par téléphone"
+						reversed={true}
+						style={{
+							justifyContent: 'center',
+							height: 40,
+							width: '80%',
+							alignSelf: 'center',
+							marginTop: 20,
+						}}
+						labelStyle={{ fontSize: 12 }}
+						onPress={() => Linking.openURL(`tel:${client.phone}`)}
+					/>
+					<CustomButton
+						CustomIcon={(size, color) => (
+							<Icon size={20} name="envelope" color={color} />
 						)}
-					</View>
-					{/* PHONE INPUT END */}
-					{isEditable ? <SendButton /> : null}
-				</View>
-				{/* FORM END */}
-
-				<CustomButton
-					CustomIcon={(size, color) => (
-						<Icon size={20} name="phone" color={color} />
-					)}
-					text="Contacter par téléphone"
-					reversed={true}
-					style={{
-						justifyContent: 'center',
-						height: 40,
-						width: '80%',
-						alignSelf: 'center',
-						marginTop: 20,
-					}}
-					labelStyle={{ fontSize: 12 }}
-					onPress={() => Linking.openURL(`tel:${client.phone}`)}
-				/>
-				<CustomButton
-					CustomIcon={(size, color) => (
-						<Icon size={20} name="envelope" color={color} />
-					)}
-					text="Contacter par Mail"
-					reversed={true}
-					style={{
-						justifyContent: 'center',
-						height: 40,
-						width: '80%',
-						alignSelf: 'center',
-						marginTop: 20,
-					}}
-					labelStyle={{ fontSize: 12 }}
-					onPress={() => Linking.openURL(`mailto:${client.email}`)}
-				/>
-			</View>
-		</TouchableWithoutFeedback>
+						text="Contacter par Mail"
+						reversed={true}
+						style={{
+							justifyContent: 'center',
+							height: 40,
+							width: '80%',
+							alignSelf: 'center',
+							marginTop: 20,
+							marginBottom:50
+						}}
+						labelStyle={{ fontSize: 12 }}
+						onPress={() =>
+							Linking.openURL(`mailto:${client.email}`)
+						}
+					/>
+				</ScrollView>
+		</SafeAreaView>
 	)
 }
 
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		height: '100%',
 		backgroundColor: '#ECE6DE',
-		paddingTop: 50,
 		alignItems: 'center',
+	},
+	scrollView: {
+		backgroundColor: '#ECE6DE',
 	},
 	title: {
 		fontWeight: 'bold',
