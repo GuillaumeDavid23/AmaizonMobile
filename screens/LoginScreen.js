@@ -2,8 +2,11 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
+// Env imports
+import { AGENT_LOGIN, AGENT_PASS } from '@env'
+
 // Design imports
-import { TextInput, Snackbar } from 'react-native-paper'
+import { TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Logo from '../assets/images/logoFull.png'
 import CustomButton from '../components/CustomButtonIcon'
@@ -19,7 +22,7 @@ import { setAuth } from '../redux/userSlice'
 export default function LoginScreen({ navigation }) {
 	// Password state
 	const [isVisible, setIsVisible] = React.useState(false)
-	const dispatch = useDispatch();
+	const dispatch = useDispatch()
 
 	// SnackBar states
 	const [isSnackVisible, setIsSnackVisible] = React.useState(false)
@@ -32,8 +35,8 @@ export default function LoginScreen({ navigation }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			email: 'guigui@test.fr',
-			password: 'Guillaume5',
+			email: AGENT_LOGIN ? AGENT_LOGIN : '',
+			password: AGENT_PASS ? AGENT_PASS : '',
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
@@ -65,7 +68,6 @@ export default function LoginScreen({ navigation }) {
 				if (typeof err === 'object') {
 					// Handling rejected Promise
 					const { message } = await err
-					console.log(message)
 					setSnackText(message)
 				} else {
 					setSnackText(err)
