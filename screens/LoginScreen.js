@@ -99,6 +99,7 @@ export default function LoginScreen({ navigation }) {
 						<TextInput
 							mode="outlined"
 							label="Email"
+							keyboardType="email-address"
 							onBlur={onBlur}
 							onChangeText={onChange}
 							autoComplete="email"
