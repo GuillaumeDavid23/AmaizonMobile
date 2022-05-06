@@ -9,7 +9,17 @@ export default function InventoryScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Page d'état des lieux</Text>
+			<Text style={styles.title}>Menu Propriétés</Text>
+			<CustomButton
+				CustomIcon={(size, color) => (
+					<Icon size={size} name="arrow-right" color={color} />
+				)}
+				text="Voir la liste de propriétés"
+				labelStyle={{ fontSize: 17 }}
+				reversed={true}
+				style={{ height: 60, width: '90%', justifyContent: 'center' }}
+				onPress={() => navigation.navigate('PropertyList')}
+			/>
 		</View>
 	)
 }
@@ -28,5 +38,6 @@ const styles = StyleSheet.create({
 	title: {
 		fontWeight: 'bold',
 		fontSize: 25,
+		marginBottom: 20
 	},
 })

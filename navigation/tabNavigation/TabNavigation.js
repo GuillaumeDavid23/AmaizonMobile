@@ -14,6 +14,7 @@ import { ContactStackNav } from '../stackNavigation/ContactStackNav'
 
 // Hook imports
 import { useTheme } from 'react-native-paper'
+import { PropertyStackNav } from '../stackNavigation/PropertyStackNav'
 
 // Create Bottom Tab Navigator
 const Tab = createMaterialBottomTabNavigator()
@@ -39,7 +40,7 @@ const TabNavigation = () => {
 			{/* Inventory Screen */}
 			<Tab.Screen
 				name="Inventory"
-				component={InventoryScreen}
+				component={PropertyStackNav}
 				options={{
 					tabBarIcon: ({ size, color }) => (
 						<Icon name="domain" size={30} color={color} />
