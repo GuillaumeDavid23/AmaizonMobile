@@ -16,14 +16,14 @@ import SwitchCustom from '../../../components/CustomSwitch'
 import SendButton from './SendButton'
 
 //Import fetch method
-import { updateClient } from '../../../services/Contact'
-import { setContact } from '../../../redux/userSlice'
+import { createClient, updateClient } from '../../../services/Contact'
+import { addContact, setContact } from '../../../redux/userSlice'
 import validate from '../../../utils/validation'
 
 
-const SingleContactForm = (props) => {
-	const [isEditable, setIsEditable] = React.useState(false)
-	const { client, setClient, index, setSnackVisisble } = props
+const CreateContactForm = (props) => {
+	const [isVisible, setIsVisible] = React.useState(false)
+	const { client, setClient, navigation } = props
 	const user = useSelector((state) => state.user.auth)
 	const dispatch = useDispatch()
 	const theme = useTheme()
@@ -35,10 +35,11 @@ const SingleContactForm = (props) => {
 		setValue,
 	} = useForm({
 		defaultValues: {
-			firstname: client.firstname,
-			lastname: client.lastname,
-			email: client.email,
-			phone: client.phone,
+			firstname: '',
+			lastname: '',
+			email: '',
+			phone: '',
+			password: '',
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
@@ -46,34 +47,27 @@ const SingleContactForm = (props) => {
 
 	//ENVOIE DES DONNEES
 	const onSubmit = (data) => {
-		updateClient(client._id, user.token, data)
-			.then((response) => {
-				const infosClient = { ...data, _id: client._id }
-				const sendData = {
-					data: infosClient,
-					index: index,
-				}
-				dispatch(setContact(sendData))
-				setClient(data)
-				setIsEditable(false)
-				setSnackVisisble(true)
-
-			})
-			.catch((errors) => {
-				console.log(errors)
-			})
+		const sendData = {
+			...data,
+			buyer: {
+				agent: user.data._id
+			},
+		}
+		createClient(user.token, sendData).then((response) => {
+			console.log(response)
+			const contact = {
+				_id: response.user._id,
+				firstname: response.user.firstname,
+				lastname: response.user.lastname,
+				email: response.user.email,
+				phone: response.user.phone,
+			}
+			dispatch(addContact(contact))
+			navigation.navigate('ContactHome')
+		})
 	}
 	return (
 		<View>
-			{/* EDIT SWITCH START */}
-			<SwitchCustom
-				style={{ alignSelf: 'center', marginTop: 20 }}
-				text="Modifier"
-				handleSwitch={setIsEditable}
-				isSwitchOn={isEditable}
-			/>
-			{/* EDIT SWITCH END */}
-
 			{/* NAME INPUT START */}
 			<View
 				style={{
@@ -100,7 +94,6 @@ const SingleContactForm = (props) => {
 									width: '80%',
 									alignSelf: 'center',
 								}}
-								disabled={!isEditable}
 							/>
 						)}
 					/>
@@ -136,7 +129,6 @@ const SingleContactForm = (props) => {
 									width: '80%',
 									alignSelf: 'center',
 								}}
-								disabled={!isEditable}
 							/>
 						)}
 					/>
@@ -165,12 +157,12 @@ const SingleContactForm = (props) => {
 							mode="outlined"
 							label="Email"
 							onBlur={onBlur}
+							keyboardType="email-address"
 							onChangeText={onChange}
 							autoComplete="email"
 							value={value}
 							error={errors?.email}
 							style={{ width: '90%' }}
-							disabled={!isEditable}
 						/>
 					)}
 					name="email"
@@ -193,13 +185,12 @@ const SingleContactForm = (props) => {
 							mode="outlined"
 							label="Téléphone"
 							onBlur={onBlur}
-							onChangeText={onChange}
 							keyboardType="phone-pad"
+							onChangeText={onChange}
 							autoComplete="phone"
 							value={value}
 							error={errors?.phone}
 							style={{ width: '90%' }}
-							disabled={!isEditable}
 						/>
 					)}
 					name="phone"
@@ -211,11 +202,50 @@ const SingleContactForm = (props) => {
 				)}
 			</View>
 			{/* PHONE INPUT END */}
-			{isEditable ? (
-				<SendButton handleSubmit={handleSubmit} onSubmit={onSubmit} />
-			) : null}
+
+			{/* PASSWORD INPUT START*/}
+			<View style={{ marginBottom: 30, marginTop: 20, alignItems:'center' }}>
+				<Controller
+					control={control}
+					rules={{
+						required: {
+							value: true,
+							message: 'Champ mot de passe requis',
+						},
+					}}
+					render={({ field: { onChange, onBlur, value } }) => (
+						<TextInput
+							mode="outlined"
+							label="Mot de passe"
+							secureTextEntry={!isVisible}
+							onBlur={onBlur}
+							autoComplete="password"
+							onChangeText={onChange}
+							value={value}
+							error={errors?.password}
+							style={{ width: '90%'}}
+							right={
+								<TextInput.Icon
+									name={isVisible ? 'eye-off' : 'eye'}
+									onPress={() => setIsVisible(!isVisible)}
+								/>
+							}
+						/>
+					)}
+					name="password"
+				/>
+				{/* Password Form show-error part */}
+				{errors?.password && (
+					<Text style={{ color: 'red' }}>
+						{errors.password.message}
+					</Text>
+				)}
+			</View>
+			{/* PASSWORD INPUT END */}
+
+			<SendButton handleSubmit={handleSubmit} onSubmit={onSubmit} />
 		</View>
 	)
 }
 
-export default SingleContactForm
+export default CreateContactForm

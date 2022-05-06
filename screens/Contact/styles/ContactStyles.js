@@ -17,7 +17,7 @@ const ContactStyles = StyleSheet.create({
 		fontSize: 25,
 		marginBottom: 20,
 	},
-	list: { flex: 1, width: '90%' },
+	list: { flex: 1, width: '90%', marginBottom:50 },
 	listItem: {
 		width: '100%',
 		height: 100,

@@ -35,4 +35,22 @@ const updateClient = async (id, token, data) => {
 		.catch((errors) => console.log(errors))
 }
 
-export { getClient, updateClient }
+const createClient = async (token, data) => {
+	return fetch(`${API_URL}api/user`, {
+		method: 'POST',
+		headers: {
+			Accept: 'application/json',
+			'Content-Type': 'application/json',
+			Authorization: `bearer ${token}`,
+		},
+		body: JSON.stringify(data),
+	})
+		.then((response) => {
+			if (response.ok) {
+				return response.json()
+			}
+		})
+		.catch((errors) => console.log(errors))
+}
+
+export { getClient, updateClient, createClient }
