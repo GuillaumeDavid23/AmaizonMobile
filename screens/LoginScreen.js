@@ -67,6 +67,7 @@ export default function LoginScreen({ navigation }) {
 			})
 			// On Promise Reject
 			.catch((err) => {
+				console.log(err);
 				// Handling rejected Promise
 				err.then((reason) => {
 					// Adding text to SnackBar

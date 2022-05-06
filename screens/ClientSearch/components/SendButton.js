@@ -23,7 +23,7 @@ const SendButton = (props) => {
 				width: '80%',
 				alignSelf: 'center',
 				marginTop: 20,
-				backgroundColor: theme.colors.success,
+				backgroundColor: theme.colors.primary,
 			}}
 			labelStyle={{ fontSize: 12 }}
 			onPress={handleSubmit(onSubmit)}

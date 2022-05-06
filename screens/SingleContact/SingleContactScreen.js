@@ -16,11 +16,12 @@ import SingleContactHeader from './components/SingleContactHeader'
 //import style
 import { SingleContactStyle as styles } from './styles/SingleContactStyles'
 import SingleContactForm from './components/SingleContactForm'
+import { getClient } from '../../services/Contact'
 
 export default function SingleContactScreen({ route, navigation }) {
 	const { infos, index } = route.params
 	const [client, setClient] = React.useState(infos)
-
+	
 	return (
 		<SafeAreaView style={styles.container}>
 			<ScrollView style={styles.scrollView}>

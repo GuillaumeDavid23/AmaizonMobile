@@ -1,5 +1,7 @@
+import { API_URL } from '@env'
+
 const getClient = async (id, token) => {
-	return fetch(`http://192.168.1.174:8080/api/user/${id}`, {
+	return fetch(`${API_URL}api/user/${id}`, {
 		method: 'GET',
 		headers: {
 			Accept: 'application/json',
@@ -16,7 +18,7 @@ const getClient = async (id, token) => {
 }
 
 const updateClient = async (id, token, data) => {
-	return fetch(`http://192.168.1.174:8080/api/user/${id}`, {
+	return fetch(`${API_URL}api/user/${id}`, {
 		method: 'PUT',
 		headers: {
 			Accept: 'application/json',

@@ -29,6 +29,16 @@ const validate = {
 			message: 'Entrer une téléphone valide',
 		},
 	},
+	number: {
+		required: {
+			value: false,
+			message: 'Champ téléphone requis',
+		},
+		pattern: {
+			value: /^[\d]*$/i,
+			message: 'Entrer un nombre valide',
+		},
+	},
 }
 
 export default validate
