@@ -10,8 +10,10 @@ const theme = {
 		...DefaultTheme.colors,
 		accent: '#DCD0C1',
 		primary: '#647F94',
-		success: '#2C6F29',
+		success: '#388e3c',
 		error: '#AE0000',
+		info: '#0288d1',
+		warning: '#f57c00',
 	},
 
 	CustomButtonRadius: {
