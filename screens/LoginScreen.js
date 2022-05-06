@@ -7,21 +7,15 @@ import { TextInput, Snackbar } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import Logo from '../assets/images/logoFull.png'
 import CustomButton from '../components/CustomButtonIcon'
+import CustomSnackBar from '../components/CustomSnackBar'
 
 // Service imports
 import doLogin from '../services/UserLogin'
-
-// Redux imports
-import { useDispatch } from 'react-redux'
-import { setAuth } from '../redux/userSlice'
 
 // HookForm imports
 import { useForm, Controller } from 'react-hook-form'
 
 export default function LoginScreen({ navigation }) {
-	// Retrieve Redux dispatch
-	const dispatch = useDispatch()
-
 	// Password state
 	const [isVisible, setIsVisible] = React.useState(false)
 
@@ -36,11 +30,10 @@ export default function LoginScreen({ navigation }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			email: 'guigui@test.fr',
-			password: 'Guillaume5',
+			email: '',
+			password: '',
 		},
-		mode: 'onTouched',
-		reValidateMode: 'onTouched',
+		mode: 'onChange',
 		shouldFocusError: true,
 	})
 
@@ -66,16 +59,17 @@ export default function LoginScreen({ navigation }) {
 				navigation.navigate('TabNavHome')
 			})
 			// On Promise Reject
-			.catch((err) => {
-				console.log(err);
-				// Handling rejected Promise
-				err.then((reason) => {
-					// Adding text to SnackBar
-					setSnackText(reason.error)
-				}).finally(() => {
-					// In any case: show error SnackBar
-					setIsSnackVisible(true)
-				})
+			.catch(async (err) => {
+				if (typeof err === 'object') {
+					// Handling rejected Promise
+					const { message } = await err
+					console.log(message)
+					setSnackText(message)
+				} else {
+					setSnackText(err)
+				}
+
+				setIsSnackVisible(true)
 			})
 	}
 	return (
@@ -168,18 +162,13 @@ export default function LoginScreen({ navigation }) {
 			/>
 
 			{/* SnackBar */}
-			<Snackbar
+			<CustomSnackBar
 				visible={isSnackVisible}
-				onDismiss={() => setIsSnackVisible(false)}
-				action={{
-					label: 'Fermer',
-					onPress: () => {
-						setIsSnackVisible(false)
-					},
-				}}
-			>
-				Erreur - {snackText}
-			</Snackbar>
+				setVisible={setIsSnackVisible}
+				type="error"
+				title="Erreur"
+				text={snackText}
+			/>
 		</View>
 	)
 }

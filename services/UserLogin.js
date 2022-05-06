@@ -26,11 +26,14 @@ const doLogin = (email, password) => {
 					// Returning User info
 					return resolve(response.json())
 				}
-				// else: Returning Error info
+				// Else: Returning Error info
 				return reject(response.json())
 			})
 			.catch((err) => {
-				return reject(err)
+				// Handling Fetch problems
+				return reject({
+					message: "L'API ne semble pas être disponible",
+				})
 			})
 	})
 }
