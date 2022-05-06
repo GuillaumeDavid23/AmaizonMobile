@@ -22,7 +22,7 @@ export default function App() {
 		<ReduxProvider store={store}>
 			<ThemeProvider theme={theme}>
 				<StatusBar style="auto" hidden />
-				<NavigationContainer>
+				<NavigationContainer theme={theme}>
 					<LoginStackNav />
 				</NavigationContainer>
 			</ThemeProvider>
