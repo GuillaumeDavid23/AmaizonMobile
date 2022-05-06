@@ -21,9 +21,10 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import { getClient, updateClient } from '../../../services/Contact'
 import { setContact } from '../../../redux/userSlice'
 import validate from '../../../utils/validation'
+import CustomSnackBar from '../../../components/CustomSnackBar'
 
 const ClientSearchForm = (props) => {
-	const { clientId, index } = props
+	const { clientId, setSnackVisisble } = props
 	const user = useSelector((state) => state.user.auth)
 	const dispatch = useDispatch()
 	const theme = useTheme()
@@ -119,7 +120,8 @@ const ClientSearchForm = (props) => {
 		updateClient(client._id, user.token, clientSend)
 			.then((response) => {
 				console.log(response);
-				//MESSAGE DE VALIDATION A FAIRE
+				setSnackVisisble(true)
+
 			})
 			.catch((errors) => {
 				console.log(errors)
@@ -583,6 +585,7 @@ const ClientSearchForm = (props) => {
 			</View>
 			{/* PROPERTY TYPE END */}
 			<SendButton handleSubmit={handleSubmit} onSubmit={onSubmit} />
+			
 		</View>
 	)
 }

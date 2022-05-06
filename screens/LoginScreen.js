@@ -14,10 +14,12 @@ import doLogin from '../services/UserLogin'
 
 // HookForm imports
 import { useForm, Controller } from 'react-hook-form'
-
+import { useDispatch } from 'react-redux'
+import { setAuth } from '../redux/userSlice'
 export default function LoginScreen({ navigation }) {
 	// Password state
 	const [isVisible, setIsVisible] = React.useState(false)
+	const dispatch = useDispatch();
 
 	// SnackBar states
 	const [isSnackVisible, setIsSnackVisible] = React.useState(false)
@@ -30,8 +32,8 @@ export default function LoginScreen({ navigation }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			email: '',
-			password: '',
+			email: 'guigui@test.fr',
+			password: 'Guillaume5',
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
