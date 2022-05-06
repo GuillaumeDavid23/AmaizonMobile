@@ -8,6 +8,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import ContactScreen from "../../../screens/Contact/ContactScreen";
 import SingleContactScreen from "../../../screens/SingleContact/SingleContactScreen";
 import ClientSearch from "../../../screens/ClientSearch/ClientSearch";
+import CreateContactScreen from "../../../screens/createContact/createContactScreen";
 
 // Creating Stack Navigator
 const Stack = createStackNavigator();
@@ -24,10 +25,8 @@ const ContactStackNav = () => {
 				name="SingleContact"
 				component={SingleContactScreen}
 			/>
-			<Stack.Screen
-				name="ClientSearch"
-				component={ClientSearch}
-			/>
+			<Stack.Screen name="ClientSearch" component={ClientSearch} />
+			<Stack.Screen name="CreateClient" component={CreateContactScreen} />
 		</Stack.Navigator>
 	)
 };

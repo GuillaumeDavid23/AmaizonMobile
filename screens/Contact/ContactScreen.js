@@ -3,6 +3,8 @@ import { Text, View, FlatList } from 'react-native'
 import { useSelector} from 'react-redux'
 import ContactListItem from './components/ContactListItem'
 import { ContactStyles as styles } from './styles/ContactStyles'
+import { FAB } from 'react-native-paper'
+import CustomFAB from '../../components/CustomFAB'
 
 export default function ContactScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
@@ -15,8 +17,9 @@ export default function ContactScreen({ navigation }) {
 				<FlatList
 					data={user.agent.customers}
 					keyExtractor={(customer) => customer._id}
-					renderItem={(customer, index) => {
-						const { item } = customer
+					renderItem={(customer) => {
+						const { item, index } = customer
+
 						return (
 							<ContactListItem
 								key={index}
@@ -28,6 +31,7 @@ export default function ContactScreen({ navigation }) {
 					}}
 					style={styles.list}
 				/>
+				<CustomFAB onPress={() => {navigation.navigate('CreateClient')}} />
 			</View>
 		</View>
 	)

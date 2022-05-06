@@ -17,10 +17,11 @@ import SingleContactHeader from './components/SingleContactHeader'
 import { SingleContactStyle as styles } from './styles/SingleContactStyles'
 import SingleContactForm from './components/SingleContactForm'
 import { getClient } from '../../services/Contact'
-
+import CustomSnackBar from '../../components/CustomSnackBar'
 export default function SingleContactScreen({ route, navigation }) {
 	const { infos, index } = route.params
 	const [client, setClient] = React.useState(infos)
+	const [snackVisible, setSnackVisible] = React.useState(false)
 	
 	return (
 		<SafeAreaView style={styles.container}>
@@ -39,13 +40,17 @@ export default function SingleContactScreen({ route, navigation }) {
 						alignSelf: 'center',
 					}}
 					labelStyle={{ fontSize: 12 }}
-					onPress={() => navigation.navigate('ClientSearch', {client: client})}
+					onPress={() =>
+						navigation.navigate('ClientSearch', { client: client })
+					}
 				/>
 				{/* FORM START */}
 				<SingleContactForm
 					client={client}
 					setClient={setClient}
 					index={index}
+					snackVisible={snackVisible}
+					setSnackVisisble={setSnackVisible}
 				/>
 				{/* FORM END */}
 
@@ -81,6 +86,13 @@ export default function SingleContactScreen({ route, navigation }) {
 					}}
 					labelStyle={{ fontSize: 12 }}
 					onPress={() => Linking.openURL(`mailto:${client.email}`)}
+				/>
+				<CustomSnackBar
+					title="Validé"
+					text="Le client est enregistré"
+					type="success"
+					setVisible={setSnackVisible}
+					visible={snackVisible}
 				/>
 			</ScrollView>
 		</SafeAreaView>
