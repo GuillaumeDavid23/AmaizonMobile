@@ -1,6 +1,6 @@
 import * as React from 'react'
-import { Text, View, FlatList } from 'react-native'
-import { useSelector} from 'react-redux'
+import { Text, View, FlatList, Image } from 'react-native'
+import { useSelector } from 'react-redux'
 import ContactListItem from './components/ContactListItem'
 import { ContactStyles as styles } from './styles/ContactStyles'
 import { FAB } from 'react-native-paper'
@@ -9,19 +9,21 @@ import { TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useForm, Controller } from 'react-hook-form'
 import validate from '../../utils/validation'
+import logo from '../../assets/images/logoFull.png'
+
 export default function ContactScreen({ navigation }) {
-		const {
-			control,
-			handleSubmit,
-			formState: { errors },
-			setValue,
-		} = useForm({
-			defaultValues: {
-				search: "",
-			},
-			mode: 'onChange',
-			shouldFocusError: true,
-		})
+	const {
+		control,
+		handleSubmit,
+		formState: { errors },
+		setValue,
+	} = useForm({
+		defaultValues: {
+			search: '',
+		},
+		mode: 'onChange',
+		shouldFocusError: true,
+	})
 	const user = useSelector((state) => state.user.auth.data)
 	const [listCustomer, setListCustomer] = React.useState([])
 	React.useLayoutEffect(() => {
@@ -29,20 +31,21 @@ export default function ContactScreen({ navigation }) {
 	})
 
 	const onSubmit = (data) => {
-		if (data.search === "") {
+		if (data.search === '') {
 			setListCustomer(user.agent.customers)
 			return
 		}
-		
-		setListCustomer(user.agent.customers.filter((item) => {
+
+		setListCustomer(
+			user.agent.customers.filter((item) => {
 				return item.firstname.includes(data.search)
 			})
 		)
-		
 	}
 
 	return (
 		<View style={styles.container}>
+			<Image style={styles.fullLogo} source={logo} />
 			<View style={styles.header}>
 				<Text style={styles.title}>Carnet de contact</Text>
 			</View>
@@ -115,5 +118,3 @@ export default function ContactScreen({ navigation }) {
 		</View>
 	)
 }
-
-

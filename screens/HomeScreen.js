@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import CustomButton from '../components/CustomButtonIcon'
 import { useSelector, useDispatch } from 'react-redux'
 import tinyLogo from '../assets/images/logo.png'
+import logo from '../assets/images/logoFull.png'
 import { BottomNavigation } from 'react-native-paper'
 
 const MyNavigation = ({ navigation }) => {
@@ -37,6 +38,7 @@ export default function HomeScreen({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Image style={styles.logo} source={tinyLogo} />
+			<Image style={styles.fullLogo} source={logo} />
 
 			<Text style={{ fontSize: 25 }}>Bonjour {user.firstname} ! </Text>
 			<Text
@@ -84,8 +86,12 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#ECE6DE',
-		paddingTop: 50,
+		paddingTop: 30,
 		alignItems: 'center',
+	},
+	fullLogo: {
+		height: 50,
+		resizeMode: 'contain',
 	},
 	logo: {
 		height: 200,

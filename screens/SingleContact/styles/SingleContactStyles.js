@@ -9,14 +9,14 @@ const SingleContactStyle = StyleSheet.create({
 		backgroundColor: '#ECE6DE',
 		alignItems: 'center',
 	},
-	header:{
+	header: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		marginBottom: 30,
-		paddingTop: 30,
+		paddingTop: 10,
 		width: '100%',
 	},
-	icon:{
+	icon: {
 		justifyContent: 'center',
 		alignItems: 'center',
 		height: 100,
@@ -30,7 +30,13 @@ const SingleContactStyle = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 25,
 	},
-
+	fullLogo: {
+		height: 50,
+		resizeMode: 'contain',
+	},
+	dnone: {
+		display: 'none'
+	}
 })
 
 export {SingleContactStyle}

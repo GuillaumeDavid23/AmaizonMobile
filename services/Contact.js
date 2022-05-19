@@ -10,9 +10,7 @@ const getClient = async (id, token) => {
 		},
 	})
 		.then((response) => {
-			if (response.ok) {
 				return response.json()
-			}
 		})
 		.catch((errors) => console.log(errors))
 }

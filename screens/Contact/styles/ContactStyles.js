@@ -17,7 +17,7 @@ const ContactStyles = StyleSheet.create({
 		fontSize: 25,
 		marginBottom: 20,
 	},
-	list: { flex: 1, width: '90%', marginBottom:50 },
+	list: { flex: 1, width: '90%', marginBottom: 50 },
 	listItem: {
 		width: '100%',
 		height: 100,
@@ -37,6 +37,10 @@ const ContactStyles = StyleSheet.create({
 		justifyContent: 'center',
 		width: '80%',
 		height: '100%',
+	},
+	fullLogo: {
+		height: 50,
+		resizeMode: 'contain',
 	},
 })
 

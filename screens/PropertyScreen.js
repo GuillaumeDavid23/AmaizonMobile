@@ -1,14 +1,15 @@
 import * as React from 'react'
-import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import CustomButton from '../components/CustomButtonIcon'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
+import logo from '../assets/images/logoFull.png'
 
 export default function PropertyScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
 	return (
 		<View style={styles.container}>
+			<Image style={styles.fullLogo} source={logo} />
 			<Text style={styles.title}>Menu Propriétés</Text>
 			<View
 				style={{
@@ -66,6 +67,10 @@ const styles = StyleSheet.create({
 	title: {
 		fontWeight: 'bold',
 		fontSize: 25,
-		marginBottom: 20
+		marginBottom: 20,
+	},
+	fullLogo: {
+		height: 50,
+		resizeMode: 'contain',
 	},
 })

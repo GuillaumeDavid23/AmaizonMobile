@@ -14,7 +14,12 @@ const ClientSearchStyles = StyleSheet.create({
 	title: {
 		fontWeight: 'bold',
 		fontSize: 25,
-		marginBottom: 50
+		marginBottom: 50,
+		textAlign: 'center',
+	},
+	fullLogo: {
+		height: 50,
+		resizeMode: 'contain',
 	},
 })
 

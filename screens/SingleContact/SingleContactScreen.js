@@ -4,6 +4,7 @@ import {
 	Linking,
 	ScrollView,
 	SafeAreaView,
+	Image
 } from 'react-native'
 
 //Import customs elements
@@ -18,6 +19,8 @@ import { SingleContactStyle as styles } from './styles/SingleContactStyles'
 import SingleContactForm from './components/SingleContactForm'
 import { getClient } from '../../services/Contact'
 import CustomSnackBar from '../../components/CustomSnackBar'
+import logo from '../../assets/images/logoFull.png'
+
 export default function SingleContactScreen({ route, navigation }) {
 	const { infos, index } = route.params
 	const [client, setClient] = React.useState(infos)
@@ -25,7 +28,9 @@ export default function SingleContactScreen({ route, navigation }) {
 	
 	return (
 		<SafeAreaView style={styles.container}>
+			<Image style={{...styles.fullLogo, marginTop: 10}} source={logo} />
 			<ScrollView style={styles.scrollView}>
+
 				<SingleContactHeader client={client} />
 				<CustomButton
 					CustomIcon={(size, color) => (

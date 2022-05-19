@@ -19,7 +19,7 @@ import SendButton from './SendButton'
 import { updateClient } from '../../../services/Contact'
 import { setContact } from '../../../redux/userSlice'
 import validate from '../../../utils/validation'
-
+import { SingleContactStyle as styles } from '../styles/SingleContactStyles'
 
 const SingleContactForm = (props) => {
 	const [isEditable, setIsEditable] = React.useState(false)
@@ -57,7 +57,6 @@ const SingleContactForm = (props) => {
 				setClient(data)
 				setIsEditable(false)
 				setSnackVisisble(true)
-
 			})
 			.catch((errors) => {
 				console.log(errors)
@@ -96,10 +95,13 @@ const SingleContactForm = (props) => {
 								autoComplete="lastname"
 								value={value}
 								error={errors?.lastname}
-								style={{
-									width: '80%',
-									alignSelf: 'center',
-								}}
+								style={[
+									{
+										width: '80%',
+										alignSelf: 'center',
+									},
+									!isEditable ? styles.dnone : null,
+								]}
 								disabled={!isEditable}
 							/>
 						)}
@@ -132,10 +134,13 @@ const SingleContactForm = (props) => {
 								autoComplete="firstname"
 								value={value}
 								error={errors?.firstname}
-								style={{
-									width: '80%',
-									alignSelf: 'center',
-								}}
+								style={[
+									{
+										width: '80%',
+										alignSelf: 'center',
+									},
+									!isEditable ? styles.dnone : null,
+								]}
 								disabled={!isEditable}
 							/>
 						)}
