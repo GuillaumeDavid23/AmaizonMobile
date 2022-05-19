@@ -34,6 +34,7 @@ const MyNavigation = ({ navigation }) => {
 
 export default function HomeScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
+
 	return (
 		<View style={styles.container}>
 			<Image style={styles.logo} source={tinyLogo} />
@@ -49,6 +50,7 @@ export default function HomeScreen({ navigation }) {
 			>
 				Que souhaitez vous faire {'\n'} aujourd'hui ?{' '}
 			</Text>
+
 			<CustomButton
 				CustomIcon={(size, color) => (
 					<Icon size={size} name="arrow-right" color={color} />
@@ -64,6 +66,21 @@ export default function HomeScreen({ navigation }) {
 				}}
 				labelStyle={{ fontSize: 17 }}
 				onPress={() => navigation.navigate('Inventory')}
+			/>
+			<CustomButton
+				CustomIcon={(size, color) => (
+					<Icon size={size} name="arrow-right" color={color} />
+				)}
+				text="Ajouter un bien"
+				reversed={true}
+				style={{
+					marginBottom: 30,
+					height: 60,
+					width: '90%',
+					justifyContent: 'center',
+				}}
+				labelStyle={{ fontSize: 17 }}
+				onPress={() => navigation.navigate('AddProperty')}
 			/>
 			<CustomButton
 				CustomIcon={(size, color) => (

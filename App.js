@@ -4,7 +4,7 @@ import { StatusBar } from 'expo-status-bar'
 
 // Theme imports
 import { theme } from './themes'
-import { Provider as ThemeProvider } from 'react-native-paper'
+import { Provider as PaperProvider } from 'react-native-paper'
 
 // Route imports
 import { NavigationContainer } from '@react-navigation/native'
@@ -20,12 +20,12 @@ import { LoginStackNav } from './navigation/stackNavigation'
 export default function App() {
 	return (
 		<ReduxProvider store={store}>
-			<ThemeProvider theme={theme}>
+			<PaperProvider theme={theme}>
 				<StatusBar style="auto" hidden />
 				<NavigationContainer theme={theme}>
 					<LoginStackNav />
 				</NavigationContainer>
-			</ThemeProvider>
+			</PaperProvider>
 		</ReduxProvider>
 	)
 }
