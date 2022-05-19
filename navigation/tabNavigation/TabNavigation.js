@@ -7,7 +7,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Screen imports
 import HomeScreen from '../../screens/HomeScreen'
-import InventoryScreen from '../../screens/InventoryScreen'
+import PropertyScreen from '../../screens/PropertyScreen'
 
 // NavigationScreen imports
 import { ContactStackNav } from '../stackNavigation/ContactStackNav'
@@ -33,17 +33,27 @@ const TabNavigation = () => {
 				component={HomeScreen}
 				options={{
 					tabBarIcon: ({ size, color }) => (
-						<Icon name="home" size={30} color={color} />
+						<Icon
+							name="home"
+							size={30}
+							color={color}
+							style={{ width: 30, height: 30 }}
+						/>
 					),
 				}}
 			/>
 			{/* Inventory Screen */}
 			<Tab.Screen
-				name="Inventory"
+				name="Propriétés"
 				component={PropertyStackNav}
 				options={{
 					tabBarIcon: ({ size, color }) => (
-						<Icon name="domain" size={30} color={color} />
+						<Icon
+							name="domain"
+							size={30}
+							color={color}
+							style={{ width: 30, height: 30 }}
+						/>
 					),
 				}}
 			/>
@@ -57,6 +67,7 @@ const TabNavigation = () => {
 							name="card-account-details"
 							size={30}
 							color={color}
+							style={{ width: 30, height: 30 }}
 						/>
 					),
 				}}

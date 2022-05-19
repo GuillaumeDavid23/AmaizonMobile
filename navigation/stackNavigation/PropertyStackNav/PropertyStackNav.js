@@ -5,8 +5,9 @@ import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
 // Screen imports
-import InventoryScreen from '../../../screens/InventoryScreen'
+import PropertyScreen from '../../../screens/PropertyScreen'
 import ListProperty from '../../../screens/ListProperty/ListPropertyScreen'
+import InventoryScreen from '../../../screens/Inventory/Inventory'
 
 // Creating Stack Navigator
 const Stack = createStackNavigator()
@@ -18,9 +19,10 @@ const PropertyStackNav = () => {
 				headerShown: false,
 			}}
 		>
-			<Stack.Screen name="PropertyHome" component={InventoryScreen} />
-			
+			<Stack.Screen name="PropertyHome" component={PropertyScreen} />
+
 			<Stack.Screen name="PropertyList" component={ListProperty} />
+			<Stack.Screen name="Inventory" component={InventoryScreen} />
 		</Stack.Navigator>
 	)
 }

@@ -1,7 +1,5 @@
 import * as React from 'react'
-import { StatusBar } from 'expo-status-bar'
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
-import Icon from 'react-native-vector-icons/FontAwesome'
 import { useSelector, useDispatch } from 'react-redux'
 import { getAllProperties } from '../../services/Property'
 import CustomCard from './components/CustomCard'
@@ -18,7 +16,7 @@ export default function ListProperty({ navigation }) {
 	}, [])
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Liste des propriété</Text>
+			<Text style={styles.title}>Liste des propriétés</Text>
 			<FlatList
 				data={allProperties}
 				keyExtractor={(item) => item._id}
@@ -36,7 +34,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: '#ECE6DE',
-		paddingTop: 50,
+		paddingTop: 30,
 		alignItems: 'center',
 	},
 	logo: {
@@ -47,4 +45,7 @@ const styles = StyleSheet.create({
 		fontWeight: 'bold',
 		fontSize: 25,
 	},
+	list: {
+		width: '100%'
+	}
 })
