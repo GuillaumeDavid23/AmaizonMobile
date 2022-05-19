@@ -21,6 +21,8 @@ export const userSlice = createSlice({
 		setContact: (state, action) => {
 			const index = action.payload.index
 			const data = action.payload.data
+			console.log(data);
+			console.log(state.auth.data.agent.customers[index])
 			state.auth.data.agent.customers[index] = data
 		},
 		addContact: (state, action) => {

@@ -23,8 +23,10 @@ export default function ContactScreen({ navigation }) {
 			shouldFocusError: true,
 		})
 	const user = useSelector((state) => state.user.auth.data)
-	const [listCustomer, setListCustomer] = React.useState(user.agent.customers)
-
+	const [listCustomer, setListCustomer] = React.useState([])
+	React.useLayoutEffect(() => {
+		setListCustomer(user.agent.customers)
+	})
 
 	const onSubmit = (data) => {
 		if (data.search === "") {
