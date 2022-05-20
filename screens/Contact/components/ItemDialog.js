@@ -3,8 +3,9 @@ import { Linking } from 'react-native'
 import { useTheme, Portal, Dialog, Button } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import CustomButton from '../../../components/CustomButtonIcon'
+import { ContactStyles as styles } from '../styles/ContactStyles'
 
-const ItemDialog = ({ visible, hideDialog, data, navigation, index }) => {
+const ItemDialog = ({ visible, hideDialog, data, navigation, index, anime }) => {
 
 	const theme = useTheme()
 
@@ -13,7 +14,7 @@ const ItemDialog = ({ visible, hideDialog, data, navigation, index }) => {
 			<Dialog
 				visible={visible}
 				onDismiss={hideDialog}
-				style={{ backgroundColor: 'white' }}
+				style={{ ...styles.dialog, backgroundColor: 'white', transform: [{translateX: anime}] }}
 			>
 				<Dialog.Title
 					style={{

@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Animated } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import CustomButton from '../components/CustomButtonIcon'
 import { useSelector } from 'react-redux'
@@ -34,7 +34,26 @@ const MyNavigation = ({ navigation }) => {
 
 export default function HomeScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
-
+	const slideAnime = React.useRef(new Animated.Value(-350)).current
+	const slideAnime2 = React.useRef(new Animated.Value(-350)).current
+	const slideAnime3 = React.useRef(new Animated.Value(-350)).current
+	Animated.timing(slideAnime, {
+		toValue: 0,
+		duration: 500,
+		useNativeDriver: true,
+	}).start()
+	Animated.timing(slideAnime2, {
+		toValue: 0,
+		duration: 500,
+		delay: 250,
+		useNativeDriver: true,
+	}).start()
+	Animated.timing(slideAnime3, {
+		toValue: 0,
+		duration: 500,
+		delay: 500,
+		useNativeDriver: true,
+	}).start()
 	return (
 		<View style={styles.container}>
 			<Image style={styles.logo} source={tinyLogo} />
@@ -64,6 +83,7 @@ export default function HomeScreen({ navigation }) {
 					height: 60,
 					width: '90%',
 					justifyContent: 'center',
+					transform: [{ translateX: slideAnime }],
 				}}
 				labelStyle={{ fontSize: 17 }}
 				onPress={() => navigation.navigate('Inventory')}
@@ -79,6 +99,7 @@ export default function HomeScreen({ navigation }) {
 					height: 60,
 					width: '90%',
 					justifyContent: 'center',
+					transform: [{ translateX: slideAnime2 }],
 				}}
 				labelStyle={{ fontSize: 17 }}
 				onPress={() => navigation.navigate('AddProperty')}
@@ -90,7 +111,12 @@ export default function HomeScreen({ navigation }) {
 				text="Accéder aux contacts"
 				labelStyle={{ fontSize: 17 }}
 				reversed={true}
-				style={{ height: 60, width: '90%', justifyContent: 'center' }}
+				style={{
+					height: 60,
+					width: '90%',
+					justifyContent: 'center',
+					transform: [{ translateX: slideAnime3 }],
+				}}
 				onPress={() => navigation.navigate('Contact')}
 			/>
 			{/* <MyNavigation navigation={navigation} /> */}

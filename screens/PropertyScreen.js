@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import { StyleSheet, Text, View, Image, Animated } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons'
 import CustomButton from '../components/CustomButtonIcon'
@@ -8,6 +8,29 @@ import logo from '../assets/images/logoFull.png'
 
 export default function PropertyScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
+	const slideAnime = React.useRef(new Animated.Value(650)).current
+	const slideAnime2 = React.useRef(new Animated.Value(550)).current
+	const slideAnime3 = React.useRef(new Animated.Value(450)).current
+	Animated.timing(slideAnime, {
+		toValue: 0,
+		duration: 500,
+		useNativeDriver: true,
+	}).start()
+	Animated.timing(slideAnime2, {
+		toValue: 0,
+		duration: 500,
+		delay: 250,
+		useNativeDriver: true,
+	}).start()
+	Animated.timing(slideAnime3, {
+		toValue: 0,
+		duration: 500,
+		delay: 500,
+		useNativeDriver: true,
+	}).start()
+	React.useEffect(() => {
+
+	})
 	return (
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
@@ -33,6 +56,7 @@ export default function PropertyScreen({ navigation }) {
 						height: 60,
 						width: '80%',
 						marginBottom: 30,
+						transform: [{ translateY: slideAnime }],
 					}}
 					onPress={() => navigation.navigate('PropertyList')}
 				/>
@@ -51,6 +75,7 @@ export default function PropertyScreen({ navigation }) {
 						height: 60,
 						width: '80%',
 						justifyContent: 'center',
+						transform: [{ translateY: slideAnime2 }],
 					}}
 					labelStyle={{ fontSize: 17 }}
 					onPress={() => navigation.navigate('AddProperty')}
@@ -66,6 +91,7 @@ export default function PropertyScreen({ navigation }) {
 						justifyContent: 'center',
 						height: 60,
 						width: '80%',
+						transform: [{ translateY: slideAnime3 }],
 					}}
 					onPress={() => navigation.navigate('Inventory')}
 				/>

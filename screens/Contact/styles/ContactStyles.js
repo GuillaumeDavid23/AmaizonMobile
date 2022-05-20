@@ -43,6 +43,13 @@ const ContactStyles = StyleSheet.create({
 		height: 50,
 		resizeMode: 'contain',
 	},
+	dialog: {
+		transform: [
+			{
+				translateY: -600
+			}
+		]
+	}
 })
 
 export {ContactStyles}

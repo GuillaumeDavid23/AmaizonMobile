@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Text, View } from 'react-native'
+import { Text, View, Animated } from 'react-native'
 import { useTheme } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { TouchableOpacity } from 'react-native-gesture-handler'
@@ -9,13 +9,26 @@ import ItemDialog from './ItemDialog'
 
 const ContactListItem = ({ data, navigation, index }) => {
 	const [visible, setVisible] = React.useState(false)
+	const fadeAnim = React.useRef(new Animated.Value(400)).current 
 
-	const showDialog = () => setVisible(true)
+	const showDialog = () => {
+		Animated.timing(fadeAnim, {
+			toValue: 0,
+			duration: 800,
+			useNativeDriver: true
+		}).start(setVisible(true))
+	}
 
-	const hideDialog = () => setVisible(false)
+	const hideDialog = () => {
+		Animated.timing(fadeAnim, {
+			toValue: -400,
+			duration: 800,
+			useNativeDriver: true,
+		}).start(() => {setVisible(false)})
+		
+	}
 
 	const theme = useTheme()
-
 	return (
 		<View>
 			<TouchableOpacity
@@ -46,6 +59,7 @@ const ContactListItem = ({ data, navigation, index }) => {
 				data={data}
 				navigation={navigation}
 				index={index}
+				anime={fadeAnim}
 			/>
 		</View>
 	)
