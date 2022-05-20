@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
+import IconMCI from 'react-native-vector-icons/MaterialCommunityIcons'
 import CustomButton from '../components/CustomButtonIcon'
 import { useSelector } from 'react-redux'
 import logo from '../assets/images/logoFull.png'
@@ -10,20 +11,21 @@ export default function PropertyScreen({ navigation }) {
 	return (
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
-			<Text style={styles.title}>Menu Propriétés</Text>
 			<View
 				style={{
 					width: '100%',
-					height: '80%',
+					height: '70%',
 					alignItems: 'center',
 					justifyContent: 'center',
 				}}
 			>
+				<Text style={styles.title}>Propriétés</Text>
+				<Text style={styles.subtitle}>Que voulez-vous faire ?</Text>
 				<CustomButton
 					CustomIcon={(size, color) => (
 						<Icon size={30} name="home" color={color} />
 					)}
-					text="Listing des Propriétés"
+					text="Lister les biens"
 					labelStyle={{ fontSize: 17 }}
 					reversed={true}
 					style={{
@@ -36,9 +38,28 @@ export default function PropertyScreen({ navigation }) {
 				/>
 				<CustomButton
 					CustomIcon={(size, color) => (
+						<IconMCI
+							size={30}
+							name="home-plus-outline"
+							color={color}
+						/>
+					)}
+					text="Ajouter un bien"
+					reversed={true}
+					style={{
+						marginBottom: 30,
+						height: 60,
+						width: '80%',
+						justifyContent: 'center',
+					}}
+					labelStyle={{ fontSize: 17 }}
+					onPress={() => navigation.navigate('AddProperty')}
+				/>
+				<CustomButton
+					CustomIcon={(size, color) => (
 						<Icon size={30} name="wpforms" color={color} />
 					)}
-					text="Etat des lieux"
+					text="Faire un état des lieux"
 					labelStyle={{ fontSize: 17 }}
 					reversed={true}
 					style={{
@@ -67,10 +88,16 @@ const styles = StyleSheet.create({
 	title: {
 		fontWeight: 'bold',
 		fontSize: 25,
-		marginBottom: 20,
+		textDecorationLine: 'underline',
+		marginTop: 50
 	},
 	fullLogo: {
 		height: 50,
 		resizeMode: 'contain',
 	},
+	subtitle: {
+		fontSize: 20,
+		marginBottom: 20,
+		fontStyle: 'italic'
+	}
 })
