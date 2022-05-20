@@ -1,9 +1,10 @@
 import { API_URL } from '@env'
 
-const getAllProperties = async () => {
+const getAllProperties = async (userToken) => {
 	return fetch(`${API_URL}api/property`, {
 		method: 'GET',
 		headers: {
+			Authorization: `Bearer ${userToken}`,
 			Accept: 'application/json',
 			'Content-Type': 'application/json',
 		},

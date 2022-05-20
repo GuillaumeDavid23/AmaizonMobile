@@ -5,11 +5,11 @@ import { getAllProperties } from '../../services/Property'
 import CustomCard from './components/CustomCard'
 
 export default function ListProperty({ navigation }) {
-	const user = useSelector((state) => state.user.auth.data)
+	const user = useSelector((state) => state.user.auth)
 	const [allProperties, setAllProperties] = React.useState([])
 
     React.useLayoutEffect(() => {
-		getAllProperties().then((response) => {
+		getAllProperties(user.token).then((response) => {
 			const allDatas = response.properties
 			setAllProperties(allDatas)
 		})
