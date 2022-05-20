@@ -61,7 +61,7 @@ export default function HomeScreen({ navigation }) {
 				reversed={true}
 				style={{
 					marginBottom: 30,
-					marginTop: 50,
+					marginTop: 30,
 					height: 60,
 					width: '90%',
 					justifyContent: 'center',
