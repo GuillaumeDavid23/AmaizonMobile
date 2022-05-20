@@ -27,7 +27,7 @@ const theme = {
 		},
 		shadowOpacity: 0.8,
 		shadowRadius: 6,
-		elevation: 7,
+		elevation: 6,
 	},
 }
 

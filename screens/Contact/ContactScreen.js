@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 import ContactListItem from './components/ContactListItem'
 import { ContactStyles as styles } from './styles/ContactStyles'
 import CustomFAB from '../../components/CustomFAB'
-import { TextInput } from 'react-native-paper'
+import { Searchbar } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useForm, Controller } from 'react-hook-form'
 import validate from '../../utils/validation'
@@ -66,29 +66,16 @@ export default function ContactScreen({ navigation }) {
 						}}
 						name="search"
 						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Rechercher"
-								onBlur={onBlur}
+							 <Searchbar
+							 	onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="search"
 								value={value}
 								error={errors?.search}
 								style={{
 									width: '100%',
 								}}
-								right={
-									<TextInput.Icon
-										name={() => (
-											<Icon
-												name="search"
-												size={20}
-												color="#5D5D5D"
-											/>
-										)} // where <Icon /> is any component from vector-icons or anything else
-										onPress={handleSubmit(onSubmit)}
-									/>
-								}
+								onIconPress={handleSubmit(onSubmit)}
+								placeholder="Rechercher"
 							/>
 						)}
 					/>
