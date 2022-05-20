@@ -12,16 +12,13 @@ import { useForm, Controller } from 'react-hook-form'
 import { useTheme, TextInput, RadioButton } from 'react-native-paper'
 
 //Import customs elements
-import SwitchCustom from '../../../components/CustomSwitch'
 import SendButton from './SendButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
 
 //Import fetch method
 import { getClient, updateClient } from '../../../services/Contact'
-import { setContact } from '../../../redux/userSlice'
 import validate from '../../../utils/validation'
-import CustomSnackBar from '../../../components/CustomSnackBar'
 
 const ClientSearchForm = (props) => {
 	const { clientId, setSnackVisisble } = props

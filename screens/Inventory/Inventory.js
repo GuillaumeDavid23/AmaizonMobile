@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { StyleSheet, Text, View } from 'react-native'
 
 export default function InventoryScreen({ navigation }) {
-	const user = useSelector((state) => state.user.auth.data)
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Etats des lieux</Text>

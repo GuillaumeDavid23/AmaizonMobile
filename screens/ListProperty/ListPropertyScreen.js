@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
-import { useSelector, useDispatch } from 'react-redux'
+import { useSelector } from 'react-redux'
 import { getAllProperties } from '../../services/Property'
 import CustomCard from './components/CustomCard'
 

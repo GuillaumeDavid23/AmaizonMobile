@@ -12,12 +12,11 @@ import { useForm, Controller } from 'react-hook-form'
 import { useTheme, TextInput } from 'react-native-paper'
 
 //Import customs elements
-import SwitchCustom from '../../../components/CustomSwitch'
 import SendButton from './SendButton'
 
 //Import fetch method
-import { createClient, updateClient } from '../../../services/Contact'
-import { addContact, setContact } from '../../../redux/userSlice'
+import { createClient } from '../../../services/Contact'
+import { addContact } from '../../../redux/userSlice'
 import validate from '../../../utils/validation'
 
 

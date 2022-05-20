@@ -1,18 +1,13 @@
 import * as React from 'react'
 import {
-	Avatar,
 	Card,
-	Title,
 	Button,
 	Dialog,
 	Portal,
-	Provider,
 } from 'react-native-paper'
 import { StyleSheet, View, Text, ScrollView } from 'react-native'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import IconFW5 from 'react-native-vector-icons/FontAwesome5'
-import IconMI from 'react-native-vector-icons/MaterialIcons'
-import { theme } from '../../../themes'
 
 import { API_URL } from '@env'
 

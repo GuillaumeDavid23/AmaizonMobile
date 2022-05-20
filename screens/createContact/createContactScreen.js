@@ -6,17 +6,12 @@ import {
 	SafeAreaView,
 } from 'react-native'
 
-//Import customs elements
-import CustomButton from '../../components/CustomButtonIcon'
-import Icon from 'react-native-vector-icons/FontAwesome'
-
 //Import fetch method
 import SingleContactHeader from './components/CreateContactHeader'
 
 //import style
 import { SingleContactStyle as styles } from './styles/SingleContactStyles'
 import SingleContactForm from './components/CreateContactForm'
-import { getClient } from '../../services/Contact'
 
 export default function CreateContactScreen({ navigation }) {
 	const [client, setClient] = React.useState({})

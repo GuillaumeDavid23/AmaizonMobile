@@ -1,9 +1,7 @@
 import * as React from 'react'
-import { StyleSheet, Text, View, Linking } from 'react-native'
-import { useTheme, Portal, Dialog, Paragraph, Button } from 'react-native-paper'
+import { Linking } from 'react-native'
+import { useTheme, Portal, Dialog, Button } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
-import { TouchableOpacity } from 'react-native-gesture-handler'
-import { ContactStyles as styles } from '../styles/ContactStyles'
 import CustomButton from '../../../components/CustomButtonIcon'
 
 const ItemDialog = ({ visible, hideDialog, data, navigation, index }) => {
