@@ -53,4 +53,43 @@ const createClient = async (token, data) => {
 		.catch((errors) => console.log(errors))
 }
 
-export { getClient, updateClient, createClient }
+const searchClient = async (token, lastname) => {
+	return fetch(`${API_URL}api/user/searchClient/${lastname}`, {
+		method: 'GET',
+		headers: { Authorization: `bearer ${token}` },
+	})
+		.then((response) => {
+			if (response.ok) {
+				return response.json()
+			}
+		})
+		.catch((errors) => console.log(errors))
+}
+
+const createSeller = async (userId, propertyId, token) => {
+	// Returning new Promise
+	return new Promise((resolve, reject) => {
+		// Fetching API
+		fetch(`${API_URL}api/user/createSeller/${userId}/${propertyId}`, {
+			method: 'PUT',
+			headers: { Authorization: `bearer ${token}` },
+		})
+			.then((response) => {
+				// If response 2xx
+				if (response.ok) {
+					// Returning User info
+					return resolve(response.json())
+				}
+				// Else: Returning Error info
+				return reject(response.json())
+			})
+			.catch((err) => {
+				// Handling Fetch problems
+				return reject({
+					message: "L'API ne semble pas être disponible",
+				})
+			})
+	})
+}
+
+export { getClient, updateClient, createClient, searchClient, createSeller }

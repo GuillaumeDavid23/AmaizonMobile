@@ -1,5 +1,5 @@
 // React imports
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native'
 
 // HookForm imports
@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux'
 // import { setAuth } from '../../redux/userSlice'
 
 // Store imports:
+import { getClient, searchClient, createSeller } from '../../services/Contact'
 import { createProperty } from '../../services/Property'
 
 // Design imports
@@ -19,6 +20,7 @@ import {
 	ProgressBar,
 	Colors,
 	DataTable,
+	Checkbox,
 } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import CustomButton from '../../components/CustomButtonIcon'
@@ -101,37 +103,39 @@ export default function AddProperty({ navigation }) {
 		} else if (previousOrNext === 'next') {
 			// On check si des erreurs on été générés sur la page actuelle et dans ce cas, on bloque l'accès à la page suivante.
 			if (
-				!(errors.title || errors.propertyType || errors.description) &&
-				visiblePage === 1
-			) {
-				newVisiblePage++
-			} else if (
-				!(
-					errors.location ||
-					errors.postalCode ||
-					errors.city ||
-					errors.country
-				) &&
-				visiblePage === 2
-			) {
-				newVisiblePage++
-			} else if (
-				!(
-					errors.surface ||
-					errors.roomNumber ||
-					errors.electricMeterRef ||
-					errors.gasMeterRef
-				) &&
-				visiblePage === 3
-			) {
-				newVisiblePage++
-			} else if (
-				!(
-					errors.list_equipments ||
-					errors.heatingType ||
-					errors.hotWaterType
-				) &&
-				visiblePage === 4
+				(visiblePage === 1 &&
+					!(
+						errors.title ||
+						errors.propertyType ||
+						errors.description
+					)) ||
+				(visiblePage === 2 &&
+					!(
+						errors.location ||
+						errors.postalCode ||
+						errors.city ||
+						errors.country
+					)) ||
+				(visiblePage === 3 &&
+					!(
+						errors.surface ||
+						errors.roomNumber ||
+						errors.electricMeterRef ||
+						errors.gasMeterRef
+					)) ||
+				(visiblePage === 4 &&
+					!(
+						errors.list_equipments ||
+						errors.heatingType ||
+						errors.hotWaterType
+					)) ||
+				(visiblePage === 5 &&
+					!(
+						errors.transactionType ||
+						errors.amount ||
+						errors.isToSell
+					)) ||
+				(visiblePage === 6 && checked)
 			) {
 				newVisiblePage++
 			}
@@ -160,6 +164,22 @@ export default function AddProperty({ navigation }) {
 		}
 	}
 
+	// Recherche du Seller:
+	const [searchSeller, setSearchSeller] = useState('')
+	const [sellers, setSellers] = useState([])
+	const [checked, setChecked] = useState()
+	useEffect(() => {
+		if (searchSeller.length > 0) {
+			searchClient(token, searchSeller)
+				.then((res) => {
+					setSellers(res.datas)
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
+	}, [searchSeller])
+
 	// Destructuring HookForm hook
 	const {
 		control,
@@ -181,7 +201,7 @@ export default function AddProperty({ navigation }) {
 	})
 
 	// Gestion de l'affichage des erreurs:
-	if (Object.keys(errors).length > 0 && visiblePage === 5) {
+	if (Object.keys(errors).length > 0 && visiblePage === 6) {
 		if (errors.title || errors.propertyType || errors.description) {
 			setVisiblePage(1)
 		} else if (
@@ -204,6 +224,8 @@ export default function AddProperty({ navigation }) {
 			errors.hotWaterType
 		) {
 			setVisiblePage(4)
+		} else if (errors.transactionType || errors.amount || errors.isToSell) {
+			setVisiblePage(5)
 		}
 	}
 
@@ -215,7 +237,7 @@ export default function AddProperty({ navigation }) {
 		}
 
 		// Temporaire, inclusion de propertyRef dans les datas:
-		data['propertyRef'] = 'RDF5614326'
+		data['propertyRef'] = 'RDF5613325'
 
 		// Récupération des valeurs dans le select list_equipments:
 		if (data.list_equipments !== undefined) {
@@ -264,31 +286,18 @@ export default function AddProperty({ navigation }) {
 	}
 
 	// Affichage du tableau récapitulatif:
-	const displaySummaryDataTable = (datas) => {
-		return (
-			<DataTable>
-				{Object.keys(datas).map((key) => {
-					return (
-						<DataTable.Row key={key}>
-							<DataTable.Cell>{key}</DataTable.Cell>
-							<View style={{ flex: 1, justifyContent: 'center' }}>
-								{typeof datas[key] === 'object' && (
-									<Text>{datas[key].join(', ')}</Text>
-								)}
-								{typeof datas[key] === 'string' && (
-									<Text>{datas[key]}</Text>
-								)}
-								{typeof datas[key] === 'boolean' &&
-									datas[key] && <Text>Oui</Text>}
-								{typeof datas[key] === 'boolean' &&
-									!datas[key] && <Text>Non</Text>}
-							</View>
-						</DataTable.Row>
-					)
-				})}
-			</DataTable>
-		)
-	}
+	const [seller, setSeller] = useState({})
+	useEffect(() => {
+		if (checked) {
+			try {
+				getClient(checked, token).then((res) => {
+					setSeller(res.data)
+				})
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}, [checked])
 
 	// Gestion de la validation:
 	const handleValidation = (data) => {
@@ -305,7 +314,19 @@ export default function AddProperty({ navigation }) {
 				// dispatch(setAuth(dataFormat))
 				// // Navigate to Home from Tab navigation
 				if (res !== undefined) {
-					navigation.navigate('TabNavHome')
+					createSeller(checked, res.datas, token)
+						.then((res2) => {
+							if (res2 !== undefined) {
+								navigation.navigate('TabNavHome')
+							} else {
+								setSnackText('Erreur Serveur !')
+								setIsSnackVisible(true)
+							}
+						})
+						.catch(async (err) => {
+							await err
+							console.log('err2:', err)
+						})
 				} else {
 					setSnackText('Erreur Serveur !')
 					setIsSnackVisible(true)
@@ -314,7 +335,9 @@ export default function AddProperty({ navigation }) {
 			// On Promise Reject
 			.catch(async (err) => {
 				await err
-				err = err._W
+				if (err._W) {
+					err = err._W
+				}
 				// Handling rejected Promise
 				if (typeof err === 'object') {
 					let { message } = err
@@ -995,24 +1018,63 @@ export default function AddProperty({ navigation }) {
 						</Text>
 					)}
 				</View>
-				<CustomButton
-					style={{ marginBottom: 20 }}
-					text="Valider"
-					CustomIcon={(size, color) => (
-						<Icon size={size} name="arrow-right" color={color} />
-					)}
-					onPress={handleSubmit(onSubmit)}
-					reversed
-				/>
 			</View>
 
 			{/* Page 6: Infos Vendeur */}
-			{/* <View>
+			<View
+				style={{
+					display: visiblePage === 6 ? 'flex' : 'none',
+				}}
+			>
 				<Text style={{ fontSize: 25, textAlign: 'center' }}>
 					Infos Vendeur:
-				</Text> */}
-			{/* Submit Button */}
-			{/* <CustomButton
+				</Text>
+
+				<TextInput
+					onChangeText={setSearchSeller}
+					value={searchSeller}
+					style={{
+						border: '1px solid grey',
+						height: 30,
+						backgroundColor: 'white',
+						marginVertical: 20,
+					}}
+				/>
+				<View style={{ marginBottom: 20 }}>
+					{sellers.map((seller) => {
+						return (
+							<View
+								key={seller._id}
+								style={{
+									display: 'flex',
+									flexDirection: 'row',
+									alignItems: 'center',
+								}}
+							>
+								<Text>
+									{seller.lastname} {seller.firstname}
+								</Text>
+								<Checkbox
+									status={
+										checked === seller._id
+											? 'checked'
+											: 'unchecked'
+									}
+									onPress={() => {
+										setChecked(
+											checked !== seller._id
+												? seller._id
+												: null
+										)
+									}}
+								/>
+							</View>
+						)
+					})}
+				</View>
+
+				{/* Submit Button */}
+				<CustomButton
 					style={{ marginBottom: 20 }}
 					text="Ajouter"
 					CustomIcon={(size, color) => (
@@ -1020,21 +1082,74 @@ export default function AddProperty({ navigation }) {
 					)}
 					onPress={handleSubmit(onSubmit)}
 					reversed
-					// disabled={errors.email || errors.password ? true : false}
+					disabled={checked ? false : true}
 				/>
-			</View> */}
+			</View>
 
-			{/* Page 6: Récapitulatif */}
+			{/* Page 7: Récapitulatif */}
 			<ScrollView
 				style={{
-					display: visiblePage === 6 ? 'flex' : 'none',
+					display: visiblePage === 7 ? 'flex' : 'none',
 					width: Dimensions.get('screen').width,
 				}}
 			>
 				<Text style={{ fontSize: 25, textAlign: 'center' }}>
 					Récapitulatif:
 				</Text>
-				<View>{displaySummaryDataTable(datasToValidate)}</View>
+				{datasToValidate && seller && (
+					<View>
+						<DataTable>
+							{Object.keys(datasToValidate).map((key) => {
+								return (
+									<DataTable.Row key={key}>
+										<DataTable.Cell>{key}</DataTable.Cell>
+										<View
+											style={{
+												flex: 1,
+												justifyContent: 'center',
+											}}
+										>
+											{typeof datasToValidate[key] ===
+												'object' && (
+												<Text>
+													{datasToValidate[key].join(
+														', '
+													)}
+												</Text>
+											)}
+											{typeof datasToValidate[key] ===
+												'string' && (
+												<Text>
+													{datasToValidate[key]}
+												</Text>
+											)}
+											{typeof datasToValidate[key] ===
+												'boolean' &&
+												datasToValidate[key] && (
+													<Text>Oui</Text>
+												)}
+											{typeof datasToValidate[key] ===
+												'boolean' &&
+												!datasToValidate[key] && (
+													<Text>Non</Text>
+												)}
+										</View>
+									</DataTable.Row>
+								)
+							})}
+							<DataTable.Row>
+								<DataTable.Cell>
+									<Text>Client</Text>
+								</DataTable.Cell>
+								<DataTable.Cell>
+									<Text>
+										{seller.lastname} {seller.firstname}
+									</Text>
+								</DataTable.Cell>
+							</DataTable.Row>
+						</DataTable>
+					</View>
+				)}
 				<View style={{ alignItems: 'center' }}>
 					<CustomButton
 						style={{ marginVertical: 20, width: '90%' }}
@@ -1058,7 +1173,7 @@ export default function AddProperty({ navigation }) {
 			</ScrollView>
 
 			<View style={{ flexDirection: 'row', marginVertical: 10 }}>
-				{visiblePage > 1 && visiblePage !== 6 && (
+				{visiblePage > 1 && visiblePage !== 7 && (
 					<Button
 						icon="arrow-left"
 						mode="contained"
@@ -1070,7 +1185,7 @@ export default function AddProperty({ navigation }) {
 						Précedent
 					</Button>
 				)}
-				{visiblePage < 5 && (
+				{visiblePage < 6 && (
 					<Button
 						icon="arrow-right"
 						mode="contained"
