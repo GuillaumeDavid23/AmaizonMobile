@@ -1,11 +1,7 @@
 import * as React from 'react'
-import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View, Image } from 'react-native'
-import CustomButton from '../../components/CustomButtonIcon'
-import { useSelector, useDispatch } from 'react-redux'
+import { Text, View } from 'react-native'
 import { ClientSearchStyles as styles } from './styles/ClientSearchStyles'
 import ClientSearchForm from './components/ClientSearchForm'
-import { getClient } from '../../services/Contact'
 import CustomSnackBar from '../../components/CustomSnackBar'
 export default function ClientSearch({ route, navigation }) {
 		const { client } = route.params

@@ -17,26 +17,27 @@ const ContactStyles = StyleSheet.create({
 		fontSize: 25,
 		marginBottom: 20,
 	},
-	list: { flex: 1, width: '90%', marginBottom: 50 },
+	list: { flex: 1, width: '100%', marginBottom: 50 },
 	listItem: {
 		width: '100%',
-		height: 100,
-
+		paddingVertical: 15,
 		borderRadius: 15,
 		flexDirection: 'row',
 		marginBottom: 15,
+		alignItems:'center'
 	},
 	listIcon: {
-		height: '100%',
-		width: '20%',
 		justifyContent: 'center',
 		alignItems: 'center',
+		marginRight: 20,
+		marginLeft: 10
 	},
 	listContact: { fontSize: 17, color: 'white' },
 	listBoxInfos: {
+		width:"75%",
 		justifyContent: 'center',
-		width: '80%',
-		height: '100%',
+		flexDirection:'row',
+		justifyContent:'space-between'
 	},
 	fullLogo: {
 		height: 50,

@@ -59,39 +59,7 @@ export default function SingleContactScreen({ route, navigation }) {
 				/>
 				{/* FORM END */}
 
-				<CustomButton
-					CustomIcon={(size, color) => (
-						<Icon size={20} name="phone" color={color} />
-					)}
-					text="Contacter par téléphone"
-					reversed={true}
-					style={{
-						justifyContent: 'center',
-						height: 40,
-						width: '80%',
-						alignSelf: 'center',
-						marginTop: 20,
-					}}
-					labelStyle={{ fontSize: 12 }}
-					onPress={() => Linking.openURL(`tel:${client.phone}`)}
-				/>
-				<CustomButton
-					CustomIcon={(size, color) => (
-						<Icon size={20} name="envelope" color={color} />
-					)}
-					text="Contacter par Mail"
-					reversed={true}
-					style={{
-						justifyContent: 'center',
-						height: 40,
-						width: '80%',
-						alignSelf: 'center',
-						marginTop: 20,
-						marginBottom: 50,
-					}}
-					labelStyle={{ fontSize: 12 }}
-					onPress={() => Linking.openURL(`mailto:${client.email}`)}
-				/>
+				
 				<CustomSnackBar
 					title="Validé"
 					text="Le client est enregistré"
