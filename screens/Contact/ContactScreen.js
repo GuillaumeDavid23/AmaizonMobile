@@ -25,10 +25,10 @@ export default function ContactScreen({ navigation }) {
 		shouldFocusError: true,
 	})
 	const user = useSelector((state) => state.user.auth.data)
-	const [listCustomer, setListCustomer] = React.useState([])
-	React.useLayoutEffect(() => {
+	const [listCustomer, setListCustomer] = React.useState(user.agent.customers)
+	React.useEffect(() => {
 		setListCustomer(user.agent.customers)
-	})
+	}, [user])
 
 	const onSubmit = (data) => {
 		if (data.search === '') {
@@ -38,7 +38,9 @@ export default function ContactScreen({ navigation }) {
 
 		setListCustomer(
 			user.agent.customers.filter((item) => {
-				return item.firstname.includes(data.search)
+				return item.firstname
+					.toLowerCase()
+					.includes(data.search.toLowerCase())
 			})
 		)
 	}
