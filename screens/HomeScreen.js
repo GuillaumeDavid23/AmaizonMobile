@@ -54,18 +54,22 @@ export default function HomeScreen({ navigation }) {
 		delay: 500,
 		useNativeDriver: true,
 	}).start()
+
+
+	
 	return (
 		<View style={styles.container}>
 			<Image style={styles.logo} source={tinyLogo} />
 			<Image style={styles.fullLogo} source={logo} />
 
-			<Text style={{ fontSize: 25 }}>Bonjour {user.firstname} ! </Text>
+			<Text style={{ fontSize: 25, fontFamily: 'DosisSemiBold' }}>Bonjour {user.firstname} ! </Text>
 			<Text
 				style={{
 					fontSize: 25,
 					textAlign: 'center',
 					marginTop: 30,
 					fontWeight: '300',
+					fontFamily:'Dosis'
 				}}
 			>
 				Que souhaitez vous faire {'\n'} aujourd'hui ?{' '}
@@ -140,6 +144,7 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 	},
 	title: {
+		fontFamily: 'Dosis',
 		fontWeight: 'bold',
 		fontSize: 25,
 	},

@@ -1,7 +1,11 @@
 // React imports
 import * as React from 'react'
 import { StatusBar } from 'expo-status-bar'
-
+import { View } from 'react-native'
+import * as SplashScreen from 'expo-splash-screen'
+import * as Font from 'expo-font'
+import Dosis from './assets/fonts/Dosis.ttf'
+import DosisSemiBold from './assets/fonts/Dosis-SemiBold.ttf'
 // Theme imports
 import { theme } from './themes'
 import { Provider as PaperProvider } from 'react-native-paper'
@@ -18,13 +22,47 @@ import { Provider as ReduxProvider } from 'react-redux'
 import { LoginStackNav } from './navigation/stackNavigation'
 
 export default function App() {
+	const [appIsReady, setAppIsReady] = React.useState(false)
+
+	React.useEffect(() => {
+		async function prepare() {
+			try {
+				await SplashScreen.preventAutoHideAsync()
+				await Font.loadAsync({
+					Dosis,
+					DosisSemiBold,
+				})
+			} catch (e) {
+				console.warn(e)
+			} finally {
+				setAppIsReady(true)
+			}
+		}
+
+		prepare()
+	}, [])
+
+	const onLayoutRootView = React.useCallback(async () => {
+		if (appIsReady) {
+			await SplashScreen.hideAsync()
+		}
+	}, [appIsReady])
+	
+	React.useLayoutEffect(()=> {
+		onLayoutRootView();
+	})
+
+	if (!appIsReady) {
+		return null
+	}
+	
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
-				<StatusBar style="auto" hidden />
-				<NavigationContainer theme={theme}>
-					<LoginStackNav />
-				</NavigationContainer>
+				<StatusBar style="auto" />
+					<NavigationContainer theme={theme}>
+						<LoginStackNav />
+					</NavigationContainer>
 			</PaperProvider>
 		</ReduxProvider>
 	)

@@ -4,13 +4,15 @@ import { useSelector } from 'react-redux'
 import ContactListItem from './components/ContactListItem'
 import { ContactStyles as styles } from './styles/ContactStyles'
 import CustomFAB from '../../components/CustomFAB'
-import { Searchbar } from 'react-native-paper'
+import { Searchbar, Title, useTheme } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import { useForm, Controller } from 'react-hook-form'
 import validate from '../../utils/validation'
 import logo from '../../assets/images/logoFull.png'
 
 export default function ContactScreen({ navigation }) {
+	const theme = useTheme()
+
 	const {
 		control,
 		handleSubmit,
@@ -48,7 +50,7 @@ export default function ContactScreen({ navigation }) {
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
 			<View style={styles.header}>
-				<Text style={styles.title}>Carnet de contact</Text>
+				<Title style={styles.title}>Carnet de contact</Title>
 			</View>
 			<View>
 				<View
@@ -66,8 +68,8 @@ export default function ContactScreen({ navigation }) {
 						}}
 						name="search"
 						render={({ field: { onChange, onBlur, value } }) => (
-							 <Searchbar
-							 	onBlur={onBlur}
+							<Searchbar
+								onBlur={onBlur}
 								onChangeText={onChange}
 								value={value}
 								error={errors?.search}

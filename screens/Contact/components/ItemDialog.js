@@ -14,12 +14,15 @@ const ItemDialog = ({ visible, hideDialog, data, navigation, index, anime }) => 
 			<Dialog
 				visible={visible}
 				onDismiss={hideDialog}
-				style={{ ...styles.dialog, backgroundColor: 'white', transform: [{translateX: anime}] }}
+				style={{
+					...styles.dialog,
+					backgroundColor: 'white',
+					transform: [{ translateX: anime }],
+				}}
 			>
 				<Dialog.Title
 					style={{
 						color: theme.colors.primary,
-						fontWeight: 'bold',
 						textAlign: 'center',
 					}}
 				>
@@ -34,12 +37,12 @@ const ItemDialog = ({ visible, hideDialog, data, navigation, index, anime }) => 
 						reversed={true}
 						style={{
 							justifyContent: 'center',
-							height: 40,
-							width: '80%',
+							height: 50,
+							width: '90%',
 							alignSelf: 'center',
 							marginTop: 20,
 						}}
-						labelStyle={{ fontSize: 12 }}
+						labelStyle={{ fontSize: 14 }}
 						onPress={() => Linking.openURL(`tel:${data.phone}`)}
 					/>
 					<CustomButton
@@ -50,12 +53,12 @@ const ItemDialog = ({ visible, hideDialog, data, navigation, index, anime }) => 
 						reversed={true}
 						style={{
 							justifyContent: 'center',
-							height: 40,
-							width: '80%',
+							height: 50,
+							width: '90%',
 							alignSelf: 'center',
 							marginTop: 20,
 						}}
-						labelStyle={{ fontSize: 12 }}
+						labelStyle={{ fontSize: 14 }}
 						onPress={() => Linking.openURL(`mailto:${data.email}`)}
 					/>
 					<CustomButton
@@ -66,12 +69,12 @@ const ItemDialog = ({ visible, hideDialog, data, navigation, index, anime }) => 
 						reversed={true}
 						style={{
 							justifyContent: 'center',
-							height: 40,
-							width: '80%',
+							height: 50,
+							width: '90%',
 							alignSelf: 'center',
 							marginTop: 20,
 						}}
-						labelStyle={{ fontSize: 12 }}
+						labelStyle={{ fontSize: 14 }}
 						onPress={() => {
 							hideDialog()
 							navigation.navigate('SingleContact', {

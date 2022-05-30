@@ -46,7 +46,7 @@ const ContactListItem = ({ data, navigation, index }) => {
 						<Icon name="user" size={25} color="white" />
 					</View>
 					<View style={styles.listBoxInfos}>
-						<Text style={{ ...styles.listContact, fontSize: 20 }}>
+						<Text style={{ ...styles.listContact }}>
 							{data.firstname} {data.lastname}
 						</Text>
 						<Icon name="eye" size={25} color="white" />

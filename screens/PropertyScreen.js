@@ -112,10 +112,10 @@ const styles = StyleSheet.create({
 		resizeMode: 'contain',
 	},
 	title: {
-		fontWeight: 'bold',
+		fontFamily: 'DosisSemiBold',
 		fontSize: 25,
 		textDecorationLine: 'underline',
-		marginTop: 50
+		marginTop: 50,
 	},
 	fullLogo: {
 		height: 50,
@@ -124,6 +124,6 @@ const styles = StyleSheet.create({
 	subtitle: {
 		fontSize: 20,
 		marginBottom: 20,
-		fontStyle: 'italic'
-	}
+		fontFamily: 'Dosis',
+	},
 })

@@ -1,6 +1,24 @@
-import { DefaultTheme } from 'react-native-paper'
+import { configureFonts, DefaultTheme } from 'react-native-paper'
 import { DefaultTheme as ReactNavDefaultTheme } from '@react-navigation/native'
+const fontConfig = {
+	default: {
+		regular: {
+			fontFamily: 'Dosis',
+		},
+		medium: {
+			fontFamily: 'DosisSemiBold',
+		},
+		light: {
+			fontFamily: 'Dosis',
+		},
+		thin: {
+			fontFamily: 'Dosis',
+		},
+	},
+}
 
+fontConfig.ios = fontConfig.default
+fontConfig.android = fontConfig.default
 const theme = {
 	...ReactNavDefaultTheme,
 	...DefaultTheme,
@@ -29,6 +47,7 @@ const theme = {
 		shadowRadius: 6,
 		elevation: 6,
 	},
+	fonts: configureFonts(fontConfig),
 }
 
 export default theme

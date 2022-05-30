@@ -13,8 +13,7 @@ const ContactStyles = StyleSheet.create({
 		width: '100%',
 	},
 	title: {
-		fontWeight: 'bold',
-		fontSize: 25,
+		fontSize: 28,
 		marginBottom: 20,
 	},
 	list: { flex: 1, width: '100%', marginBottom: 50 },
@@ -32,7 +31,7 @@ const ContactStyles = StyleSheet.create({
 		marginRight: 20,
 		marginLeft: 10
 	},
-	listContact: { fontSize: 17, color: 'white' },
+	listContact: { fontSize: 20, color: 'white', fontFamily: 'Dosis' },
 	listBoxInfos: {
 		width:"75%",
 		justifyContent: 'center',
