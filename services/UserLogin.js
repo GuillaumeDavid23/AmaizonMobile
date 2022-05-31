@@ -1,6 +1,3 @@
-// Env import
-import { API_URL } from '@env'
-
 /**
  * Main Agent login function.
  *
@@ -12,7 +9,7 @@ const doLogin = (email, password) => {
 	// Returning new Promise
 	return new Promise((resolve, reject) => {
 		// Fetching API
-		fetch(`${API_URL}api/user/loginAgent`, {
+		fetch(`${process.env.API_URL}api/user/loginAgent`, {
 			method: 'POST',
 			headers: {
 				Accept: 'application/json',
