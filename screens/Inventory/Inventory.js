@@ -4,11 +4,13 @@ import { Title, useTheme } from 'react-native-paper'
 import logo from '../../assets/images/logoFull.png'
 import InventoryFormStep1 from './components/InventoryFormStep1'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
+import InventoryFormStep2 from './components/InventoryFormStep2'
+import moment from 'moment'
+import InventoryFormStep3 from './components/InventoryFormStep3'
 
 export default function InventoryScreen({ navigation }) {
 	const theme = useTheme()
-
 	//Création du formulaire
 	const {
 		control,
@@ -17,26 +19,70 @@ export default function InventoryScreen({ navigation }) {
 		setValue,
 	} = useForm({
 		defaultValues: {
-			PropertyRef: 'TESTIII',
-			ClientRef: 'TESTIII',
-			dateStart: new Date(),
+			PropertyRef: 'APT4585',
+			ClientRef: 'CL1223E',
+			OldClientRef: 'CL1245E',
+			dateStart: moment(new Date()).format('YYYY-MM-DD'),
 			inOut: false,
+			keyNumber: '2',
+			lst_equipement: [],
+			lst_heater: [],
+			lst_hotWater: [],
+			lst_statsMeters: [],
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
 	})
-	console.log()
 	//ENVOIE DES DONNEES
 	const onSubmit = (data) => {
 		console.log(data)
 	}
+
+	// Déclaration options selects Stuffs:
+	const [stuffs, setStuffs] = React.useState({
+		value: '',
+		list: [
+			{ _id: 1, value: 'Sonnerie' },
+			{ _id: 2, value: 'Interphone' },
+			{ _id: 3, value: 'Alarme' },
+			{ _id: 4, value: 'Cave' },
+			{ _id: 5, value: 'Parking / Boxe / Garage' },
+			{ _id: 6, value: 'Jardin' },
+			{ _id: 7, value: 'Balcon / Terrasse' },
+			{ _id: 8, value: 'Boite aux lettres' },
+		],
+		selectedList: [],
+		error: '',
+	})
+
+	// Déclaration options selects Heat:
+	const heatTypes = [
+		{ _id: 1, value: 'Collectif' },
+		{ _id: 2, value: 'Gaz' },
+		{ _id: 3, value: 'Elec' },
+		{ _id: 4, value: 'Autre' },
+	]
+	const [heatingTypes, setHeatingTypes] = React.useState({
+		value: '',
+		list: heatTypes,
+		selectedList: [],
+		error: '',
+	})
+	const [hotWaterTypes, setHotWaterTypes] = React.useState({
+		value: '',
+		list: heatTypes,
+		selectedList: [],
+		error: '',
+	})
 	return (
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
 			<Title>Nouvel état des lieux</Title>
 			<View style={{ flex: 1, width: '100%' }}>
+				{/* Début des étapes */}
 				<ProgressSteps
-					labelColor="black"
+					labelColor="grey"
+					labelFontSize={12}
 					activeStepIconBorderColor={
 						Object.keys(errors).length > 0
 							? theme.colors.warning
@@ -52,8 +98,9 @@ export default function InventoryScreen({ navigation }) {
 					completedStepIconColor={theme.colors.success}
 					completedProgressBarColor={theme.colors.success}
 				>
+					{/* Début étape numéro 1 */}
 					<ProgressStep
-						label="Etape 1"
+						label="Références"
 						nextBtnText="Suivant"
 						previousBtnText="Précédent"
 						onNext={handleSubmit(onSubmit)}
@@ -68,17 +115,35 @@ export default function InventoryScreen({ navigation }) {
 							/>
 						</View>
 					</ProgressStep>
+					{/* Fin étape numéro 1 */}
+
+					{/* Début étape numéro 2 */}
 					<ProgressStep
-						label="Etape 2"
+						label="Équipements"
 						previousBtnText="Précédent"
 						nextBtnText="Suivant"
 						nextBtnTextStyle={{ color: theme.colors.primary }}
 						previousBtnTextStyle={{ color: theme.colors.primary }}
+						onNext={handleSubmit(onSubmit)}
+						errors={Object.keys(errors).length > 0 ? true : false}
 					>
 						<View style={{ alignItems: 'center' }}>
-							<Text>This is the content within step 2!</Text>
+							<InventoryFormStep2
+								control={control}
+								errors={errors}
+								setValue={setValue}
+								setStuffs={setStuffs}
+								stuffs={stuffs}
+								heatingTypes={heatingTypes}
+								setHeatingTypes={setHeatingTypes}
+								hotWaterTypes={hotWaterTypes}
+								setHotWaterTypes={setHotWaterTypes}
+							/>
 						</View>
 					</ProgressStep>
+					{/* Fin étape numéro 2 */}
+
+					{/* Début étape numéro 3 */}
 					<ProgressStep
 						label="Etape 3"
 						previousBtnText="Précédent"
@@ -87,9 +152,16 @@ export default function InventoryScreen({ navigation }) {
 						previousBtnTextStyle={{ color: theme.colors.primary }}
 					>
 						<View style={{ alignItems: 'center' }}>
-							<Text>This is the content within step 3!</Text>
+							<InventoryFormStep3
+								control={control}
+								errors={errors}
+								setValue={setValue}
+							/>
 						</View>
 					</ProgressStep>
+					{/* Fin étape numéro 3 */}
+
+					{/* Début étape numéro 4 */}
 					<ProgressStep
 						label="Etape 4"
 						previousBtnText="Précédent"
@@ -101,7 +173,9 @@ export default function InventoryScreen({ navigation }) {
 							<Text>This is the content within step 4!</Text>
 						</View>
 					</ProgressStep>
+					{/* Fin étape numéro 4 */}
 				</ProgressSteps>
+				{/* Fin des étapes */}
 			</View>
 		</View>
 	)
