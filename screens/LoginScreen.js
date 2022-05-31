@@ -2,9 +2,6 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
 
-// Env imports
-import { AGENT_LOGIN, AGENT_PASS } from '@env'
-
 // Design imports
 import { TextInput } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
@@ -35,8 +32,8 @@ export default function LoginScreen({ navigation }) {
 		formState: { errors },
 	} = useForm({
 		defaultValues: {
-			email: AGENT_LOGIN ? AGENT_LOGIN : '',
-			password: AGENT_PASS ? AGENT_PASS : '',
+			email: process.env.AGENT_LOGIN ? process.env.AGENT_LOGIN : '',
+			password: process.env.AGENT_PASS ? process.env.AGENT_PASS : '',
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
