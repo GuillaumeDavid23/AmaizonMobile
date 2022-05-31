@@ -62,14 +62,16 @@ export default function HomeScreen({ navigation }) {
 			<Image style={styles.logo} source={tinyLogo} />
 			<Image style={styles.fullLogo} source={logo} />
 
-			<Text style={{ fontSize: 25, fontFamily: 'DosisSemiBold' }}>Bonjour {user.firstname} ! </Text>
+			<Text style={{ fontSize: 25, fontFamily: 'DosisSemiBold' }}>
+				Bonjour {user.firstname} !{' '}
+			</Text>
 			<Text
 				style={{
 					fontSize: 25,
 					textAlign: 'center',
 					marginTop: 30,
 					fontWeight: '300',
-					fontFamily:'Dosis'
+					fontFamily: 'Dosis',
 				}}
 			>
 				Que souhaitez vous faire {'\n'} aujourd'hui ?{' '}

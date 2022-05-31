@@ -20,7 +20,8 @@ import { Provider as ReduxProvider } from 'react-redux'
 
 // Stack Screen imports
 import { LoginStackNav } from './navigation/stackNavigation'
-
+import moment from 'moment'
+moment.locale('fr')
 export default function App() {
 	const [appIsReady, setAppIsReady] = React.useState(false)
 
