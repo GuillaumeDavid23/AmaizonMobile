@@ -1,7 +1,5 @@
-import { API_URL } from '@env'
-
 const getAllProperties = async () => {
-	return fetch(`${API_URL}api/property`, {
+	return fetch(`${process.env.API_URL}api/property`, {
 		method: 'GET',
 		headers: {
 			Accept: 'application/json',
@@ -20,14 +18,14 @@ const createProperty = async (data, userToken) => {
 	// Returning new Promise
 	return new Promise((resolve, reject) => {
 		// Fetching API
-		fetch(`${API_URL}api/property`, {
+		fetch(`${process.env.API_URL}api/property`, {
 			method: 'POST',
 			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
+				// Accept: 'multipart/form-data',
+				// 'Content-Type': 'multipart/form-data',
 				Authorization: 'bearer ' + userToken,
 			},
-			body: JSON.stringify(data),
+			body: data,
 		})
 			.then((response) => {
 				// If response 2xx

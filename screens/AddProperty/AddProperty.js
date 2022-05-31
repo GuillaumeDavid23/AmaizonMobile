@@ -1,97 +1,29 @@
 // React imports
-import { useEffect, useState } from 'react'
-import { StyleSheet, Text, View, ScrollView, Dimensions } from 'react-native'
+import { useState, useEffect } from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
 // HookForm imports
-import { useForm, Controller } from 'react-hook-form'
-// import { useDispatch } from 'react-redux'
+import { useForm } from 'react-hook-form'
 import { useSelector } from 'react-redux'
-// import { setAuth } from '../../redux/userSlice'
 
 // Store imports:
-import { getClient, searchClient, createSeller } from '../../services/Contact'
+import { createSeller, getClient } from '../../services/Contact'
 import { createProperty } from '../../services/Property'
 
-// Design imports
-import {
-	TextInput,
-	Switch,
-	Button,
-	ProgressBar,
-	Colors,
-	DataTable,
-	Checkbox,
-} from 'react-native-paper'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import CustomButton from '../../components/CustomButtonIcon'
-import CustomSnackBar from '../../components/CustomSnackBar'
-import { PaperSelect } from 'react-native-paper-select'
+// Pages imports:
+import Pages from './components/Pages'
 
-// Regex imports
-import { REGSTRING, REGNUM, REGID } from '../../utils/regex'
+// Design imports
+import { Button, ProgressBar, Colors } from 'react-native-paper'
+import CustomSnackBar from '../../components/CustomSnackBar'
 
 export default function AddProperty({ navigation }) {
 	// Récupération du token:
 	const token = useSelector((state) => state.user.auth.token)
 
-	// Déclaration options selects propertyType:
-	const [propertyTypes, setPropertyTypes] = useState({
-		value: '',
-		list: [
-			{ _id: 1, value: 'Maison' },
-			{ _id: 2, value: 'Appartement' },
-		],
-		selectedList: [],
-		error: '',
-	})
-
-	// Déclaration options selects transactionTypes:
-	const [transactionTypes, setTransactionTypes] = useState({
-		value: '',
-		list: [
-			{ _id: 1, value: 'Achat' },
-			{ _id: 2, value: 'Location' },
-		],
-		selectedList: [],
-		error: '',
-	})
-
-	// Déclaration options selects Stuffs:
-	const [stuffs, setStuffs] = useState({
-		value: '',
-		list: [
-			{ _id: 1, value: 'Sonnerie' },
-			{ _id: 2, value: 'Interphone' },
-			{ _id: 3, value: 'Alarme' },
-			{ _id: 4, value: 'Cave' },
-			{ _id: 5, value: 'Parking / Boxe / Garage' },
-			{ _id: 6, value: 'Jardin' },
-			{ _id: 7, value: 'Balcon / Terrasse' },
-			{ _id: 8, value: 'Boite aux lettres' },
-		],
-		selectedList: [],
-		error: '',
-	})
-
-	// Déclaration options selects Heat:
-	const heatTypes = [
-		{ _id: 1, value: 'Collectif' },
-		{ _id: 2, value: 'Gaz' },
-		{ _id: 3, value: 'Elec' },
-		{ _id: 4, value: 'Autre' },
-	]
-	const [heatingTypes, setHeatingTypes] = useState({
-		value: '',
-		list: heatTypes,
-		selectedList: [],
-		error: '',
-	})
-	const [hotWaterTypes, sethotWaterTypes] = useState({
-		value: '',
-		list: heatTypes,
-		selectedList: [],
-		error: '',
-	})
+	// SnackBar states
+	const [isSnackVisible, setIsSnackVisible] = useState(false)
+	const [snackText, setSnackText] = useState('')
 
 	// Gestion de la pagination:
 	const [visiblePage, setVisiblePage] = useState(1)
@@ -135,7 +67,8 @@ export default function AddProperty({ navigation }) {
 						errors.amount ||
 						errors.isToSell
 					)) ||
-				(visiblePage === 6 && checked)
+				(visiblePage === 6 && checked) ||
+				visiblePage === 7
 			) {
 				newVisiblePage++
 			}
@@ -146,39 +79,29 @@ export default function AddProperty({ navigation }) {
 				setProgress(0)
 				break
 			case 2:
-				setProgress(0.2)
+				setProgress(0.15)
 				break
 			case 3:
-				setProgress(0.4)
+				setProgress(0.3)
 				break
 			case 4:
-				setProgress(0.6)
+				setProgress(0.45)
 				break
 			case 5:
-				setProgress(0.8)
+				setProgress(0.6)
 				break
 			case 6:
+				setProgress(0.75)
+				break
+			case 7:
+				setProgress(0.9)
+				break
+			case 8:
 				setProgress(1)
 				break
 			default:
 		}
 	}
-
-	// Recherche du Seller:
-	const [searchSeller, setSearchSeller] = useState('')
-	const [sellers, setSellers] = useState([])
-	const [checked, setChecked] = useState()
-	useEffect(() => {
-		if (searchSeller.length > 0) {
-			searchClient(token, searchSeller)
-				.then((res) => {
-					setSellers(res.datas)
-				})
-				.catch((err) => {
-					console.log(err)
-				})
-		}
-	}, [searchSeller])
 
 	// Destructuring HookForm hook
 	const {
@@ -201,7 +124,7 @@ export default function AddProperty({ navigation }) {
 	})
 
 	// Gestion de l'affichage des erreurs:
-	if (Object.keys(errors).length > 0 && visiblePage === 6) {
+	if (Object.keys(errors).length > 0 && visiblePage === 7) {
 		if (errors.title || errors.propertyType || errors.description) {
 			setVisiblePage(1)
 		} else if (
@@ -226,9 +149,39 @@ export default function AddProperty({ navigation }) {
 			setVisiblePage(4)
 		} else if (errors.transactionType || errors.amount || errors.isToSell) {
 			setVisiblePage(5)
+		} else if (errors.transactionType || errors.amount || errors.isToSell) {
+			setVisiblePage(5)
+		} else if (!checked) {
+			setVisiblePage(6)
 		}
 	}
 
+	// Récupération du client:
+	const [checked, setChecked] = useState()
+	const [seller, setSeller] = useState({})
+	useEffect(() => {
+		if (checked) {
+			try {
+				getClient(checked, token).then((res) => {
+					setSeller(res.data)
+				})
+			} catch (error) {
+				console.log(error)
+			}
+		}
+	}, [checked])
+
+	// Gestion des uploads Photos:
+	const [photosList, setPhotosList] = useState({
+		photo1: {},
+		photo2: {},
+		photo3: {},
+		photo4: {},
+		photo5: {},
+	})
+
+	// Gestion de la pré-validation:
+	const [datasToDisplay, setDatasToDisplay] = useState([])
 	const [datasToValidate, setDatasToValidate] = useState([])
 	const onSubmit = (data) => {
 		// Hotfix isToSell:
@@ -281,38 +234,34 @@ export default function AddProperty({ navigation }) {
 		delete data.city
 		delete data.country
 
-		setDatasToValidate(data)
-		handleNavigation('next')
-	}
-
-	// Affichage du tableau récapitulatif:
-	const [seller, setSeller] = useState({})
-	useEffect(() => {
-		if (checked) {
-			try {
-				getClient(checked, token).then((res) => {
-					setSeller(res.data)
-				})
-			} catch (error) {
-				console.log(error)
+		// Génération du formData:
+		var formData = new FormData()
+		// Traitement des datas (retrait des undefined):
+		for (const key in data) {
+			if (data[key] !== undefined) {
+				formData.append(key, data[key])
 			}
 		}
-	}, [checked])
+		for (const key in photosList) {
+			formData.append(key, photosList[key])
+		}
+
+		// Formattage des datas to display
+		let datasToDisplayToState = {}
+		for (var pair of formData.entries()) {
+			datasToDisplayToState[pair[0]] = pair[1]
+		}
+		setDatasToDisplay(datasToDisplayToState)
+
+		setDatasToValidate(formData)
+		handleNavigation('next')
+	}
 
 	// Gestion de la validation:
 	const handleValidation = (data) => {
 		createProperty(data, token)
 			// On Promise Successful
 			.then((res) => {
-				// // Formating datas
-				// const dataFormat = {
-				// 	token: data.token,
-				// 	isLoggedIn: true,
-				// 	data: data.data,
-				// }
-				// // Dispatching formatted data to redux store
-				// dispatch(setAuth(dataFormat))
-				// // Navigate to Home from Tab navigation
 				if (res !== undefined) {
 					createSeller(checked, res.datas, token)
 						.then((res2) => {
@@ -361,10 +310,6 @@ export default function AddProperty({ navigation }) {
 			})
 	}
 
-	// SnackBar states
-	const [isSnackVisible, setIsSnackVisible] = useState(false)
-	const [snackText, setSnackText] = useState('')
-
 	return (
 		<View style={styles.container}>
 			<View>
@@ -378,802 +323,26 @@ export default function AddProperty({ navigation }) {
 				/>
 			</View>
 
-			{/* Page 1: Infos Principales */}
-			<View style={{ display: visiblePage === 1 ? 'flex' : 'none' }}>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Infos Principales:
-				</Text>
-				{/* Title Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Intitulé de la propriété requis.',
-							},
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Intitulé"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.title}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="title"
-					/>
-					{/* Title Form show-error part */}
-					{errors?.title && (
-						<Text style={{ color: 'red' }}>
-							{errors.title.message}
-						</Text>
-					)}
-				</View>
-				{/* PropertyType Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Type de propriété requis.',
-							},
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<PaperSelect
-								label="Type de propriété"
-								value={value}
-								onSelection={onChange}
-								arrayList={[...propertyTypes.list]}
-								selectedArrayList={propertyTypes.selectedList}
-								errorText={propertyTypes.error}
-								multiEnable={false}
-								checkboxLabelStyle={{
-									color: 'black',
-									fontWeight: '700',
-								}}
-							/>
-						)}
-						name="propertyType"
-					/>
-					{/* PropertyType Form show-error part */}
-					{errors?.propertyType && (
-						<Text style={{ color: 'red' }}>
-							{errors.propertyType.message}
-						</Text>
-					)}
-				</View>
-				{/* Description Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Description"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.description}
-								style={{ width: 300, height: 150 }}
-							/>
-						)}
-						name="description"
-					/>
-					{/* Description Form show-error part */}
-					{errors?.description && (
-						<Text style={{ color: 'red' }}>
-							{errors.description.message}
-						</Text>
-					)}
-				</View>
-			</View>
+			<Pages
+				visiblePage={visiblePage}
+				control={control}
+				errors={errors}
+				token={token}
+				checked={checked}
+				setChecked={setChecked}
+				photosList={photosList}
+				setPhotosList={setPhotosList}
+				handleSubmit={handleSubmit}
+				onSubmit={onSubmit}
+				datasToDisplay={datasToDisplay}
+				seller={seller}
+				datasToValidate={datasToValidate}
+				handleValidation={handleValidation}
+			/>
 
-			{/* Page 2: Infos Géographiques */}
-			<View style={{ display: visiblePage === 2 ? 'flex' : 'none' }}>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Infos Géographiques:
-				</Text>
-				{/* Location Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Adresse requise.',
-							},
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Adresse"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.location}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="location"
-					/>
-					{/* Location Form show-error part */}
-					{errors?.location && (
-						<Text style={{ color: 'red' }}>
-							{errors.location.message}
-						</Text>
-					)}
-				</View>
-				{/* PostalCode Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Code Postal requis.',
-							},
-							pattern: {
-								value: REGID.value,
-								message: REGID.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Code Postal"
-								keyboardType="numeric"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.postalCode}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="postalCode"
-					/>
-					{/* PostalCode Form show-error part */}
-					{errors?.postalCode && (
-						<Text style={{ color: 'red' }}>
-							{errors.postalCode.message}
-						</Text>
-					)}
-				</View>
-				{/* City Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Ville requise.',
-							},
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Ville"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.city}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="city"
-					/>
-					{/* City Form show-error part */}
-					{errors?.city && (
-						<Text style={{ color: 'red' }}>
-							{errors.city.message}
-						</Text>
-					)}
-				</View>
-				{/* Country Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Pays requis.',
-							},
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Pays"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.country}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="country"
-					/>
-					{/* Country Form show-error part */}
-					{errors?.country && (
-						<Text style={{ color: 'red' }}>
-							{errors.country.message}
-						</Text>
-					)}
-				</View>
-			</View>
-
-			{/* Page 3: Infos Principales 2 */}
-			<View style={{ display: visiblePage === 3 ? 'flex' : 'none' }}>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Infos Principales 2:
-				</Text>
-				{/* Surface Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Surface requise.',
-							},
-							pattern: {
-								value: REGNUM.value,
-								message: REGNUM.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Surface"
-								keyboardType="numeric"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.surface}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="surface"
-					/>
-					{/* Surface Form show-error part */}
-					{errors?.surface && (
-						<Text style={{ color: 'red' }}>
-							{errors.surface.message}
-						</Text>
-					)}
-				</View>
-				{/* RoomNumber Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							required: {
-								value: true,
-								message: 'Nombre de chambres requis.',
-							},
-							pattern: {
-								value: REGNUM.value,
-								message: REGNUM.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Nombre de chambres"
-								keyboardType="numeric"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.roomNumber}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="roomNumber"
-					/>
-					{/* RoomNumber Form show-error part */}
-					{errors?.roomNumber && (
-						<Text style={{ color: 'red' }}>
-							{errors.roomNumber.message}
-						</Text>
-					)}
-				</View>
-				{/* ElectricMeterRef Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Référence compteur électrique"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.electricMeterRef}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="electricMeterRef"
-					/>
-					{/* ElectricMeterRef Form show-error part */}
-					{errors?.electricMeterRef && (
-						<Text style={{ color: 'red' }}>
-							{errors.electricMeterRef.message}
-						</Text>
-					)}
-				</View>
-				{/* GasMeterRef Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							pattern: {
-								value: REGSTRING.value,
-								message: REGSTRING.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<TextInput
-								mode="outlined"
-								label="Référence compteur de gaz"
-								onBlur={onBlur}
-								onChangeText={onChange}
-								value={value}
-								error={errors?.gasMeterRef}
-								style={{ width: 300 }}
-							/>
-						)}
-						name="gasMeterRef"
-					/>
-					{/* GasMeterRef Form show-error part */}
-					{errors?.gasMeterRef && (
-						<Text style={{ color: 'red' }}>
-							{errors.gasMeterRef.message}
-						</Text>
-					)}
-				</View>
-			</View>
-
-			{/* Page 4: Infos techniques */}
-			<View
-				style={{
-					display: visiblePage === 4 ? 'flex' : 'none',
-					width: 300,
-				}}
-			>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Infos techniques:
-				</Text>
-				{/* List_Equipments Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						// rules={{
-						// 	pattern: {
-						// 		value: REGNUM.value,
-						// 		message: REGNUM.message,
-						// 	},
-						// }}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<PaperSelect
-								label="Liste équipements"
-								value={stuffs.value}
-								onSelection={onChange}
-								arrayList={[...stuffs.list]}
-								selectedArrayList={stuffs.selectedList}
-								errorText={stuffs.error}
-								multiEnable={true}
-								// textInputMode="flat"
-								// searchStyle={{
-								// 	iconColor: 'red',
-								// }}
-							/>
-						)}
-						name="list_equipments"
-					/>
-					{/* List_Equipments Form show-error part */}
-					{errors?.list_equipments && (
-						<Text style={{ color: 'red' }}>
-							{errors.list_equipments.message}
-						</Text>
-					)}
-				</View>
-				{/* HeatingType Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							pattern: {
-								value: REGID.value,
-								message: REGID.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<PaperSelect
-								label="Type de chauffage"
-								value={value}
-								onSelection={onChange}
-								arrayList={[...heatingTypes.list]}
-								selectedArrayList={heatingTypes.selectedList}
-								errorText={heatingTypes.error}
-								multiEnable={false}
-								checkboxLabelStyle={{
-									color: 'black',
-									fontWeight: '700',
-								}}
-							/>
-						)}
-						name="heatingType"
-					/>
-					{/* HeatingType Form show-error part */}
-					{errors?.heatingType && (
-						<Text style={{ color: 'red' }}>
-							{errors.heatingType.message}
-						</Text>
-					)}
-				</View>
-				{/* HotWaterType Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Controller
-						control={control}
-						rules={{
-							pattern: {
-								value: REGID.value,
-								message: REGID.message,
-							},
-						}}
-						render={({ field: { onChange, onBlur, value } }) => (
-							<PaperSelect
-								label="Type de chauffage d'eau chaude"
-								value={value}
-								onSelection={onChange}
-								arrayList={[...hotWaterTypes.list]}
-								selectedArrayList={hotWaterTypes.selectedList}
-								errorText={hotWaterTypes.error}
-								multiEnable={false}
-								checkboxLabelStyle={{
-									color: 'black',
-									fontWeight: '700',
-								}}
-							/>
-						)}
-						name="hotWaterType"
-					/>
-					{/* HotWaterType Form show-error part */}
-					{errors?.hotWaterType && (
-						<Text style={{ color: 'red' }}>
-							{errors.hotWaterType.message}
-						</Text>
-					)}
-				</View>
-			</View>
-
-			{/* Page 5: Infos financières */}
-			<View
-				style={{
-					display: visiblePage === 5 ? 'flex' : 'none',
-					width: 300,
-				}}
-			>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Infos financières:
-				</Text>
-				<View>
-					{/* TransactionType Form part */}
-					<View
-						style={{
-							marginVertical: 20,
-						}}
-					>
-						<Controller
-							style={{ alignItems: 'center' }}
-							control={control}
-							rules={{
-								required: {
-									value: true,
-									message: 'Type de transaction requis.',
-								},
-								pattern: {
-									value: REGSTRING.value,
-									message: REGSTRING.message,
-								},
-							}}
-							render={({
-								field: { onChange, onBlur, value },
-							}) => (
-								<PaperSelect
-									label="Type de transaction"
-									value={value}
-									onSelection={onChange}
-									arrayList={[...transactionTypes.list]}
-									selectedArrayList={
-										transactionTypes.selectedList
-									}
-									errorText={transactionTypes.error}
-									multiEnable={false}
-									checkboxLabelStyle={{
-										color: 'black',
-										fontWeight: '700',
-									}}
-								/>
-							)}
-							name="transactionType"
-						/>
-						{/* TransactionType Form show-error part */}
-						{errors?.transactionType && (
-							<Text style={{ color: 'red' }}>
-								{errors.transactionType.message}
-							</Text>
-						)}
-					</View>
-					{/* Amount Form part */}
-					<View style={{ marginVertical: 20, alignItems: 'center' }}>
-						<Controller
-							control={control}
-							rules={{
-								required: {
-									value: true,
-									message: 'Montant requis.',
-								},
-								pattern: {
-									value: REGNUM.value,
-									message: REGNUM.message,
-								},
-							}}
-							render={({
-								field: { onChange, onBlur, value },
-							}) => (
-								<TextInput
-									mode="outlined"
-									label="Montant"
-									keyboardType="numeric"
-									onBlur={onBlur}
-									onChangeText={onChange}
-									value={value}
-									error={errors?.description}
-									style={{ width: 300 }}
-								/>
-							)}
-							name="amount"
-						/>
-						{/* Amount Form show-error part */}
-						{errors?.amount && (
-							<Text style={{ color: 'red' }}>
-								{errors.amount.message}
-							</Text>
-						)}
-					</View>
-				</View>
-				{/* IsToSell Form part */}
-				<View style={{ marginVertical: 20 }}>
-					<Text>
-						Cette propriété est à vendre/louer dès maintenant:
-					</Text>
-					<View
-						style={{
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'center',
-						}}
-					>
-						<Text>Non</Text>
-						<Controller
-							control={control}
-							rules={{
-								pattern: {
-									value: REGID.value,
-									message: REGID.message,
-								},
-							}}
-							render={({
-								field: { onChange, onBlur, value = true },
-							}) => (
-								<Switch
-									value={value}
-									onValueChange={onChange}
-								/>
-							)}
-							name="isToSell"
-						/>
-						<Text>Oui</Text>
-					</View>
-					{/* IsToSell Form show-error part */}
-					{errors?.isToSell && (
-						<Text style={{ color: 'red' }}>
-							{errors.isToSell.message}
-						</Text>
-					)}
-				</View>
-			</View>
-
-			{/* Page 6: Infos Vendeur */}
-			<View
-				style={{
-					display: visiblePage === 6 ? 'flex' : 'none',
-				}}
-			>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Infos Vendeur:
-				</Text>
-
-				<TextInput
-					onChangeText={setSearchSeller}
-					value={searchSeller}
-					style={{
-						border: '1px solid grey',
-						height: 30,
-						backgroundColor: 'white',
-						marginVertical: 20,
-					}}
-				/>
-				<View style={{ marginBottom: 20 }}>
-					{sellers.map((seller) => {
-						return (
-							<View
-								key={seller._id}
-								style={{
-									display: 'flex',
-									flexDirection: 'row',
-									alignItems: 'center',
-								}}
-							>
-								<Text>
-									{seller.lastname} {seller.firstname}
-								</Text>
-								<Checkbox
-									status={
-										checked === seller._id
-											? 'checked'
-											: 'unchecked'
-									}
-									onPress={() => {
-										setChecked(
-											checked !== seller._id
-												? seller._id
-												: null
-										)
-									}}
-								/>
-							</View>
-						)
-					})}
-				</View>
-
-				{/* Submit Button */}
-				<CustomButton
-					style={{ marginBottom: 20 }}
-					text="Ajouter"
-					CustomIcon={(size, color) => (
-						<Icon size={size} name="arrow-right" color={color} />
-					)}
-					onPress={handleSubmit(onSubmit)}
-					reversed
-					disabled={checked ? false : true}
-				/>
-			</View>
-
-			{/* Page 7: Récapitulatif */}
-			<ScrollView
-				style={{
-					display: visiblePage === 7 ? 'flex' : 'none',
-					width: Dimensions.get('screen').width,
-				}}
-			>
-				<Text style={{ fontSize: 25, textAlign: 'center' }}>
-					Récapitulatif:
-				</Text>
-				{datasToValidate && seller && (
-					<View>
-						<DataTable>
-							{Object.keys(datasToValidate).map((key) => {
-								return (
-									<DataTable.Row key={key}>
-										<DataTable.Cell>{key}</DataTable.Cell>
-										<View
-											style={{
-												flex: 1,
-												justifyContent: 'center',
-											}}
-										>
-											{typeof datasToValidate[key] ===
-												'object' && (
-												<Text>
-													{datasToValidate[key].join(
-														', '
-													)}
-												</Text>
-											)}
-											{typeof datasToValidate[key] ===
-												'string' && (
-												<Text>
-													{datasToValidate[key]}
-												</Text>
-											)}
-											{typeof datasToValidate[key] ===
-												'boolean' &&
-												datasToValidate[key] && (
-													<Text>Oui</Text>
-												)}
-											{typeof datasToValidate[key] ===
-												'boolean' &&
-												!datasToValidate[key] && (
-													<Text>Non</Text>
-												)}
-										</View>
-									</DataTable.Row>
-								)
-							})}
-							<DataTable.Row>
-								<DataTable.Cell>
-									<Text>Client</Text>
-								</DataTable.Cell>
-								<DataTable.Cell>
-									<Text>
-										{seller.lastname} {seller.firstname}
-									</Text>
-								</DataTable.Cell>
-							</DataTable.Row>
-						</DataTable>
-					</View>
-				)}
-				<View style={{ alignItems: 'center' }}>
-					<CustomButton
-						style={{ marginVertical: 20, width: '90%' }}
-						text="Retour"
-						CustomIcon={(size, color) => (
-							<Icon size={size} name="arrow-left" color={color} />
-						)}
-						onPress={() => handleNavigation('previous')}
-					/>
-					{/* Submit Button */}
-					<CustomButton
-						style={{ marginBottom: 20, width: '90%' }}
-						text="Valider"
-						CustomIcon={(size, color) => (
-							<Icon size={size} name="check" color={color} />
-						)}
-						onPress={() => handleValidation(datasToValidate)}
-						reversed
-					/>
-				</View>
-			</ScrollView>
-
+			{/* Bouttons de navigation */}
 			<View style={{ flexDirection: 'row', marginVertical: 10 }}>
-				{visiblePage > 1 && visiblePage !== 7 && (
+				{visiblePage > 1 && visiblePage !== 8 && (
 					<Button
 						icon="arrow-left"
 						mode="contained"
@@ -1185,7 +354,7 @@ export default function AddProperty({ navigation }) {
 						Précedent
 					</Button>
 				)}
-				{visiblePage < 6 && (
+				{visiblePage < 7 && (
 					<Button
 						icon="arrow-right"
 						mode="contained"
