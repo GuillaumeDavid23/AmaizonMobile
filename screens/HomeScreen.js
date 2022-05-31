@@ -7,31 +7,6 @@ import tinyLogo from '../assets/images/logo.png'
 import logo from '../assets/images/logoFull.png'
 import { BottomNavigation } from 'react-native-paper'
 
-const MyNavigation = ({ navigation }) => {
-	const [index, setIndex] = React.useState(0)
-	const [routes] = React.useState([
-		{ key: 'contacts', title: 'Contacts', icon: 'queue-music' },
-		{ key: 'properties', title: 'Propriétés', icon: 'history' },
-		{ key: 'home', title: 'Accueil', icon: 'home' },
-		{ key: 'profile', title: 'Mon compte', icon: 'home' },
-	])
-
-	const renderScene = BottomNavigation.SceneMap({
-		contacts: navigation.navigate('Home'),
-		properties: navigation.navigate('Home'),
-		home: navigation.navigate('Home'),
-		profile: navigation.navigate('Login'),
-	})
-
-	return (
-		<BottomNavigation
-			navigationState={{ index, routes }}
-			onIndexChange={setIndex}
-			renderScene={renderScene}
-		/>
-	)
-}
-
 export default function HomeScreen({ navigation }) {
 	const user = useSelector((state) => state.user.auth.data)
 	const slideAnime = React.useRef(new Animated.Value(-350)).current
@@ -55,21 +30,21 @@ export default function HomeScreen({ navigation }) {
 		useNativeDriver: true,
 	}).start()
 
-
-	
 	return (
 		<View style={styles.container}>
 			<Image style={styles.logo} source={tinyLogo} />
 			<Image style={styles.fullLogo} source={logo} />
 
-			<Text style={{ fontSize: 25, fontFamily: 'DosisSemiBold' }}>Bonjour {user.firstname} ! </Text>
+			<Text style={{ fontSize: 25, fontFamily: 'DosisSemiBold' }}>
+				Bonjour {user.firstname} !{' '}
+			</Text>
 			<Text
 				style={{
 					fontSize: 25,
 					textAlign: 'center',
 					marginTop: 30,
 					fontWeight: '300',
-					fontFamily:'Dosis'
+					fontFamily: 'Dosis',
 				}}
 			>
 				Que souhaitez vous faire {'\n'} aujourd'hui ?{' '}
@@ -106,7 +81,12 @@ export default function HomeScreen({ navigation }) {
 					transform: [{ translateX: slideAnime2 }],
 				}}
 				labelStyle={{ fontSize: 17 }}
-				onPress={() => navigation.navigate('AddProperty')}
+				onPress={() =>
+					navigation.navigate('Propriétés', {
+						screen: 'AddProperty',
+						initial: false,
+					})
+				}
 			/>
 			<CustomButton
 				CustomIcon={(size, color) => (
