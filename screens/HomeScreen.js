@@ -65,7 +65,12 @@ export default function HomeScreen({ navigation }) {
 					transform: [{ translateX: slideAnime }],
 				}}
 				labelStyle={{ fontSize: 17 }}
-				onPress={() => navigation.navigate('Inventory')}
+				onPress={() =>
+					navigation.navigate('Propriétés', {
+						screen: 'Inventory',
+						initial: false,
+					})
+				}
 			/>
 			<CustomButton
 				CustomIcon={(size, color) => (
