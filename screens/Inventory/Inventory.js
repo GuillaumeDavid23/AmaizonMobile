@@ -33,10 +33,6 @@ export default function InventoryScreen({ navigation }) {
 		mode: 'onChange',
 		shouldFocusError: true,
 	})
-	//ENVOIE DES DONNEES
-	const onSubmit = (data) => {
-		console.log(data)
-	}
 
 	// Déclaration options selects Stuffs:
 	const [stuffs, setStuffs] = React.useState({
@@ -74,6 +70,29 @@ export default function InventoryScreen({ navigation }) {
 		selectedList: [],
 		error: '',
 	})
+	const [electricMeter, setElectricMeter] = React.useState({
+		name: 'electric',
+		ref: '',
+		value: '',
+	})
+	const [gazMeter, setGazMeter] = React.useState({
+		name: 'gaz',
+		ref: '',
+		value: '',
+	})
+	const [waterMeter, setWaterMeter] = React.useState({
+		name: 'water',
+		ref: '',
+		value: '',
+	})
+
+	//ENVOIE DES DONNEES
+	const onSubmit = (data) => {
+		data.lst_statsMeters = [electricMeter, gazMeter, waterMeter]
+		console.log(data)
+	}
+
+
 	return (
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
@@ -148,6 +167,7 @@ export default function InventoryScreen({ navigation }) {
 						label="Etape 3"
 						previousBtnText="Précédent"
 						nextBtnText="Suivant"
+						onNext={handleSubmit(onSubmit)}
 						nextBtnTextStyle={{ color: theme.colors.primary }}
 						previousBtnTextStyle={{ color: theme.colors.primary }}
 					>
@@ -156,6 +176,12 @@ export default function InventoryScreen({ navigation }) {
 								control={control}
 								errors={errors}
 								setValue={setValue}
+								electricMeter={electricMeter}
+								setElectricMeter={setElectricMeter}
+								gazMeter={gazMeter}
+								setGazMeter={setGazMeter}
+								waterMeter={waterMeter}
+								setWaterMeter={setWaterMeter}
 							/>
 						</View>
 					</ProgressStep>

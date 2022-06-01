@@ -16,43 +16,129 @@ import DateTimePicker from '@react-native-community/datetimepicker'
 import moment from 'moment'
 
 const InventoryFormStep3 = (props) => {
-	const { control, errors, setValue } = props
-	const user = useSelector((state) => state.user.auth)
-
-	const dispatch = useDispatch()
+	const {
+		control,
+		errors,
+		setValue,
+		electricMeter,
+		gazMeter,
+		waterMeter,
+		setElectricMeter,
+		setGazMeter,
+		setWaterMeter,
+	} = props
 	const theme = useTheme()
-	const [date, setDate] = React.useState(new Date())
-	const [dateTimeShow, setDateTimeShow] = React.useState(false)
 
 	return (
 		<View style={{ flex: 1, width: '100%', marginTop: 10 }}>
-			{/* lst_statsMeters INPUT START */}
+			{/* ElectricStats INPUT START */}
 			<View style={{ width: '100%' }}>
-				<Controller
-					control={control}
-					rules={validate.alphaNumeric}
-					name="lst_statsMeters"
-					render={({ field: { onChange, onBlur, value } }) => (
-						<TextInput
-							mode="outlined"
-							label="Référence du compteur électrique"
-							onBlur={onBlur}
-							onChangeText={onChange}
-							value={value}
-							error={errors?.lst_statsMeters}
-							style={{
-								width: '90%',
-								alignSelf: 'center',
-							}}
-							theme={{ colors: { error: '#f57c00' } }}
-							right={
-								<TextInput.Icon
-									name="home-outline"
-									color={theme.colors.primary}
-								/>
-							}
+				<TextInput
+					mode="outlined"
+					label="Référence du compteur électrique"
+					onChangeText={(value) => {
+						setElectricMeter({
+							...electricMeter,
+							ref: value,
+						})
+					}}
+					value={electricMeter.ref}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '90%',
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="home-outline"
+							color={theme.colors.primary}
 						/>
-					)}
+					}
+				/>
+				<TextInput
+					mode="outlined"
+					label="Nombre de Kw/h"
+					onChangeText={(value) => {
+						setElectricMeter({
+							...electricMeter,
+							value: value,
+						})
+					}}
+					value={electricMeter.value}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '90%',
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="home-outline"
+							color={theme.colors.primary}
+						/>
+					}
+				/>
+				{errors?.lst_statsMeters && (
+					<Text
+						style={{
+							color: theme.colors.warning,
+							alignSelf: 'center',
+						}}
+					>
+						{errors.lst_statsMeters.message}
+					</Text>
+				)}
+			</View>
+			{/* ElectricStats INPUT END */}
+
+			{/* GazStats INPUT START */}
+			<View style={{ width: '100%' }}>
+				<TextInput
+					mode="outlined"
+					label="Référence du compteur de gaz"
+					onChangeText={(value) => {
+						setGazMeter({
+							...gazMeter,
+							ref: value,
+						})
+					}}
+					value={gazMeter.ref}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '90%',
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="home-outline"
+							color={theme.colors.primary}
+						/>
+					}
+				/>
+				<TextInput
+					mode="outlined"
+					label="Nombre de M³ de gaz"
+					onChangeText={(value) => {
+						setGazMeter({
+							...gazMeter,
+							value: value,
+						})
+					}}
+					value={gazMeter.value}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '90%',
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="home-outline"
+							color={theme.colors.primary}
+						/>
+					}
 				/>
 				{errors?.lst_statsMeters && (
 					<Text
@@ -76,6 +162,66 @@ const InventoryFormStep3 = (props) => {
 				}}
 			/>
 
+			{/* GazStats INPUT START */}
+			<View style={{ width: '100%' }}>
+				<TextInput
+					mode="outlined"
+					label="Référence du compteur d'eau"
+					onChangeText={(value) => {
+						setWaterMeter({
+							...waterMeter,
+							ref: value,
+						})
+					}}
+					value={waterMeter.ref}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '90%',
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="home-outline"
+							color={theme.colors.primary}
+						/>
+					}
+				/>
+				<TextInput
+					mode="outlined"
+					label="Nombre de M³ d'eau"
+					onChangeText={(value) => {
+						setWaterMeter({
+							...waterMeter,
+							value: value,
+						})
+					}}
+					value={waterMeter.value}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '90%',
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="home-outline"
+							color={theme.colors.primary}
+						/>
+					}
+				/>
+				{errors?.lst_statsMeters && (
+					<Text
+						style={{
+							color: theme.colors.warning,
+							alignSelf: 'center',
+						}}
+					>
+						{errors.lst_statsMeters.message}
+					</Text>
+				)}
+			</View>
+			{/* ElectricStats INPUT END */}
 		</View>
 	)
 }
