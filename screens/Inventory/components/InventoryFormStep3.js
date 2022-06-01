@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Controller } from 'react-hook-form'
 
 //Import framework element
-import { useTheme, TextInput, Button } from 'react-native-paper'
+import { useTheme, TextInput, Button, Divider } from 'react-native-paper'
 
 import validate from '../../../utils/validation'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -66,6 +66,15 @@ const InventoryFormStep3 = (props) => {
 				)}
 			</View>
 			{/* ElectricStats INPUT END */}
+			<Divider
+				style={{
+					height: 2,
+					width: '90%',
+					backgroundColor: 'grey',
+					marginTop: 10,
+					marginBottom: 5,
+				}}
+			/>
 
 		</View>
 	)
