@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Controller } from 'react-hook-form'
 
 //Import framework element
-import { useTheme, TextInput, Button, Divider } from 'react-native-paper'
+import { useTheme, TextInput, Button, Divider, Title } from 'react-native-paper'
 
 import validate from '../../../utils/validation'
 import DateTimePicker from '@react-native-community/datetimepicker'
@@ -30,12 +30,44 @@ const InventoryFormStep3 = (props) => {
 	const theme = useTheme()
 
 	return (
-		<View style={{ flex: 1, width: '100%', marginTop: 10 }}>
+		<View
+			style={{
+				flex: 1,
+				width: '100%',
+				marginTop: 10,
+				alignItems: 'center',
+			}}
+		>
+			<Divider
+				style={{
+					height: 2,
+					width: '90%',
+					backgroundColor: 'grey',
+					marginTop: 10,
+					marginBottom: 5,
+				}}
+			/>
+			<Title>Electricité</Title>
+			<Divider
+				style={{
+					height: 2,
+					width: '90%',
+					backgroundColor: 'grey',
+					marginTop: 10,
+					marginBottom: 5,
+				}}
+			/>
 			{/* ElectricStats INPUT START */}
-			<View style={{ width: '100%' }}>
+			<View
+				style={{
+					width: '100%',
+					flexDirection: 'row',
+					justifyContent: 'space-evenly',
+				}}
+			>
 				<TextInput
 					mode="outlined"
-					label="Référence du compteur électrique"
+					label="Réf. compteur"
 					onChangeText={(value) => {
 						setElectricMeter({
 							...electricMeter,
@@ -45,13 +77,14 @@ const InventoryFormStep3 = (props) => {
 					value={electricMeter.ref}
 					error={errors?.lst_statsMeters}
 					style={{
-						width: '90%',
+						width: '43%',
 						alignSelf: 'center',
+						height: 50,
 					}}
 					theme={{ colors: { error: '#f57c00' } }}
 					right={
 						<TextInput.Icon
-							name="home-outline"
+							name="lightbulb-outline"
 							color={theme.colors.primary}
 						/>
 					}
@@ -68,13 +101,14 @@ const InventoryFormStep3 = (props) => {
 					value={electricMeter.value}
 					error={errors?.lst_statsMeters}
 					style={{
-						width: '90%',
+						width: '43%',
 						alignSelf: 'center',
+						height: 50,
 					}}
 					theme={{ colors: { error: '#f57c00' } }}
 					right={
 						<TextInput.Icon
-							name="home-outline"
+							name="lightbulb-outline"
 							color={theme.colors.primary}
 						/>
 					}
@@ -93,65 +127,16 @@ const InventoryFormStep3 = (props) => {
 			{/* ElectricStats INPUT END */}
 
 			{/* GazStats INPUT START */}
-			<View style={{ width: '100%' }}>
-				<TextInput
-					mode="outlined"
-					label="Référence du compteur de gaz"
-					onChangeText={(value) => {
-						setGazMeter({
-							...gazMeter,
-							ref: value,
-						})
-					}}
-					value={gazMeter.ref}
-					error={errors?.lst_statsMeters}
-					style={{
-						width: '90%',
-						alignSelf: 'center',
-					}}
-					theme={{ colors: { error: '#f57c00' } }}
-					right={
-						<TextInput.Icon
-							name="home-outline"
-							color={theme.colors.primary}
-						/>
-					}
-				/>
-				<TextInput
-					mode="outlined"
-					label="Nombre de M³ de gaz"
-					onChangeText={(value) => {
-						setGazMeter({
-							...gazMeter,
-							value: value,
-						})
-					}}
-					value={gazMeter.value}
-					error={errors?.lst_statsMeters}
-					style={{
-						width: '90%',
-						alignSelf: 'center',
-					}}
-					theme={{ colors: { error: '#f57c00' } }}
-					right={
-						<TextInput.Icon
-							name="home-outline"
-							color={theme.colors.primary}
-						/>
-					}
-				/>
-				{errors?.lst_statsMeters && (
-					<Text
-						style={{
-							color: theme.colors.warning,
-							alignSelf: 'center',
-						}}
-					>
-						{errors.lst_statsMeters.message}
-					</Text>
-				)}
-			</View>
-			{/* ElectricStats INPUT END */}
+			<Divider
+				style={{
+					height: 2,
+					width: '90%',
+					backgroundColor: 'grey',
+					marginTop: 10,
+					marginBottom: 5,
+				}}
+			/>
+			<Title>Gaz</Title>
 			<Divider
 				style={{
 					height: 2,
@@ -162,50 +147,57 @@ const InventoryFormStep3 = (props) => {
 				}}
 			/>
 
-			{/* GazStats INPUT START */}
-			<View style={{ width: '100%' }}>
+			<View
+				style={{
+					width: '100%',
+					flexDirection: 'row',
+					justifyContent: 'space-evenly',
+				}}
+			>
 				<TextInput
 					mode="outlined"
-					label="Référence du compteur d'eau"
+					label="Réf. compteur"
 					onChangeText={(value) => {
-						setWaterMeter({
-							...waterMeter,
+						setGazMeter({
+							...gazMeter,
 							ref: value,
 						})
 					}}
-					value={waterMeter.ref}
+					value={gazMeter.ref}
 					error={errors?.lst_statsMeters}
 					style={{
-						width: '90%',
+						width: '43%',
 						alignSelf: 'center',
+						height: 50,
 					}}
 					theme={{ colors: { error: '#f57c00' } }}
 					right={
 						<TextInput.Icon
-							name="home-outline"
+							name="bottle-tonic-outline"
 							color={theme.colors.primary}
 						/>
 					}
 				/>
 				<TextInput
 					mode="outlined"
-					label="Nombre de M³ d'eau"
+					label="Nombre de M³"
 					onChangeText={(value) => {
-						setWaterMeter({
-							...waterMeter,
+						setGazMeter({
+							...gazMeter,
 							value: value,
 						})
 					}}
-					value={waterMeter.value}
+					value={gazMeter.value}
 					error={errors?.lst_statsMeters}
 					style={{
-						width: '90%',
+						width: '43%',
 						alignSelf: 'center',
+						height: 50,
 					}}
 					theme={{ colors: { error: '#f57c00' } }}
 					right={
 						<TextInput.Icon
-							name="home-outline"
+							name="bottle-tonic-outline"
 							color={theme.colors.primary}
 						/>
 					}
@@ -221,7 +213,95 @@ const InventoryFormStep3 = (props) => {
 					</Text>
 				)}
 			</View>
-			{/* ElectricStats INPUT END */}
+			{/* GazStats INPUT END */}
+			<Divider
+				style={{
+					height: 2,
+					width: '90%',
+					backgroundColor: 'grey',
+					marginTop: 10,
+					marginBottom: 5,
+				}}
+			/>
+			<Title>Eau</Title>
+			<Divider
+				style={{
+					height: 2,
+					width: '90%',
+					backgroundColor: 'grey',
+					marginTop: 10,
+					marginBottom: 5,
+				}}
+			/>
+			{/* waterStats INPUT START */}
+			<View
+				style={{
+					width: '100%',
+					marginBottom: 30,
+					flexDirection: 'row',
+					justifyContent: 'space-evenly',
+				}}
+			>
+				<TextInput
+					mode="outlined"
+					label="Réf. compteur"
+					onChangeText={(value) => {
+						setWaterMeter({
+							...waterMeter,
+							ref: value,
+						})
+					}}
+					value={waterMeter.ref}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '43%',
+						height: 50,
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="water-outline"
+							color={theme.colors.primary}
+						/>
+					}
+				/>
+				<TextInput
+					mode="outlined"
+					label="Nombre de M³"
+					onChangeText={(value) => {
+						setWaterMeter({
+							...waterMeter,
+							value: value,
+						})
+					}}
+					value={waterMeter.value}
+					error={errors?.lst_statsMeters}
+					style={{
+						width: '43%',
+						height: 50,
+						alignSelf: 'center',
+					}}
+					theme={{ colors: { error: '#f57c00' } }}
+					right={
+						<TextInput.Icon
+							name="water-outline"
+							color={theme.colors.primary}
+						/>
+					}
+				/>
+				{errors?.lst_statsMeters && (
+					<Text
+						style={{
+							color: theme.colors.warning,
+							alignSelf: 'center',
+						}}
+					>
+						{errors.lst_statsMeters.message}
+					</Text>
+				)}
+			</View>
+			{/* waterStats INPUT END */}
 		</View>
 	)
 }
