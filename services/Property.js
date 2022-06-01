@@ -1,4 +1,9 @@
-const getAllProperties = async () => {
+/**
+ * Will retrieve all existing property
+ * @param {String} userToken User API Access Token
+ * @returns {Promise}
+ */
+const getAllProperties = async (userToken) => {
 	return fetch(`${process.env.API_URL}api/property`, {
 		method: 'GET',
 		headers: {
@@ -8,11 +13,25 @@ const getAllProperties = async () => {
 		},
 	})
 		.then((response) => {
+			// If 2xx
 			if (response.ok) {
+				// Return Promise to handle
 				return response.json()
 			}
+
+			// Return Promise Rejection
+			return Promise.reject(`Erreur - Code ${response.status}`)
 		})
-		.catch((errors) => console.log(errors))
+		.catch((error) => {
+			// If error is a Promise
+			if (typeof (error, Promise)) {
+				// Propagate Promise rejection
+				throw error
+			}
+
+			// return new Promise Rejection
+			return Promise.reject("L'API ne semble pas être disponible")
+		})
 }
 
 const createProperty = async (data, userToken) => {

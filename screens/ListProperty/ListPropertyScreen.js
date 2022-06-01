@@ -5,16 +5,23 @@ import { getAllProperties } from '../../services/Property'
 import CustomCard from './components/CustomCard'
 import logo from '../../assets/images/logoFull.png'
 
-
 export default function ListProperty({ navigation }) {
 	const user = useSelector((state) => state.user.auth)
 	const [allProperties, setAllProperties] = React.useState([])
 
-    React.useLayoutEffect(() => {
-		getAllProperties(user.token).then((response) => {
-			const allDatas = response.properties
-			setAllProperties(allDatas)
-		})
+	React.useLayoutEffect(() => {
+		getAllProperties(user.token)
+			.then((response) => {
+				if (response) {
+					const allDatas = response.properties
+					setAllProperties(allDatas)
+				} else {
+					console.error(response)
+				}
+			})
+			.catch((err) => {
+				console.error(err)
+			})
 	}, [])
 	return (
 		<View style={styles.container}>
