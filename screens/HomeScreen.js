@@ -42,7 +42,7 @@ export default function HomeScreen({ navigation }) {
 				style={{
 					fontSize: 25,
 					textAlign: 'center',
-					marginTop: 30,
+					marginTop: 15,
 					fontWeight: '300',
 					fontFamily: 'Dosis',
 				}}
@@ -58,7 +58,7 @@ export default function HomeScreen({ navigation }) {
 				reversed={true}
 				style={{
 					marginBottom: 30,
-					marginTop: 30,
+					marginTop: 15,
 					height: 60,
 					width: '90%',
 					justifyContent: 'center',
@@ -119,13 +119,15 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ECE6DE',
 		paddingTop: 30,
 		alignItems: 'center',
+		justifyContent:'center',
+		paddingBottom:30
 	},
 	fullLogo: {
 		height: 50,
 		resizeMode: 'contain',
 	},
 	logo: {
-		height: 200,
+		maxHeight: 200,
 		resizeMode: 'contain',
 	},
 	title: {
