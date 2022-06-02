@@ -1,6 +1,15 @@
 // React imports
 import * as React from 'react'
-import { StyleSheet, Text, View, Image } from 'react-native'
+import {
+	StyleSheet,
+	Text,
+	View,
+	Image,
+	Linking,
+	Button,
+	Alert,
+	TouchableOpacity,
+} from 'react-native'
 
 // Design imports
 import { TextInput } from 'react-native-paper'
@@ -8,7 +17,6 @@ import Icon from 'react-native-vector-icons/FontAwesome'
 import Logo from '../assets/images/logoFull.png'
 import CustomButton from '../components/CustomButtonIcon'
 import CustomSnackBar from '../components/CustomSnackBar'
-
 // Service imports
 import doLogin from '../services/UserLogin'
 
@@ -72,6 +80,38 @@ export default function LoginScreen({ navigation }) {
 
 				setIsSnackVisible(true)
 			})
+	}
+
+	const forgotUrl = 'http://192.168.1.219:3000/forgetPass'
+
+	const OpenURLButton = ({ url, children }) => {
+		const handlePress = React.useCallback(async () => {
+			// Checking if the link is supported for links with custom URL scheme.
+			const supported = await Linking.canOpenURL(url)
+
+			if (supported) {
+				// Opening the link with some app, if the URL scheme is "http" the web link should be opened
+				// by some browser in the mobile
+				await Linking.openURL(url)
+			} else {
+				Alert.alert(`Nous ne pouvons pas ouvrir le lien: ${url}`)
+			}
+		}, [url])
+
+		return (
+			<TouchableOpacity onPress={handlePress}>
+				<Text
+					style={{
+						textDecorationLine: 'underline',
+						textAlign: 'center',
+						fontSize: 16,
+						marginTop: 20,
+					}}
+				>
+					{children}
+				</Text>
+			</TouchableOpacity>
+		)
 	}
 	return (
 		<View style={styles.container}>
@@ -151,7 +191,6 @@ export default function LoginScreen({ navigation }) {
 					</Text>
 				)}
 			</View>
-
 			{/* Submit Button */}
 			<CustomButton
 				text="Connexion"
@@ -161,8 +200,9 @@ export default function LoginScreen({ navigation }) {
 				onPress={handleSubmit(onSubmit)}
 				reversed
 				disabled={errors.email || errors.password ? true : false}
+				style={{width: '80%'}}
 			/>
-
+			<OpenURLButton url={forgotUrl}>Mot de passe oublié ?</OpenURLButton>
 			{/* SnackBar */}
 			<CustomSnackBar
 				visible={isSnackVisible}
