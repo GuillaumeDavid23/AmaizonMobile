@@ -11,6 +11,7 @@ export default function PropertyScreen({ navigation }) {
 	const slideAnime = React.useRef(new Animated.Value(650)).current
 	const slideAnime2 = React.useRef(new Animated.Value(550)).current
 	const slideAnime3 = React.useRef(new Animated.Value(450)).current
+	const slideAnime4 = React.useRef(new Animated.Value(350)).current
 	Animated.timing(slideAnime, {
 		toValue: 0,
 		duration: 500,
@@ -28,9 +29,13 @@ export default function PropertyScreen({ navigation }) {
 		delay: 500,
 		useNativeDriver: true,
 	}).start()
-	React.useEffect(() => {
-
-	})
+	Animated.timing(slideAnime4, {
+		toValue: 0,
+		duration: 500,
+		delay: 750,
+		useNativeDriver: true,
+	}).start()
+	
 	return (
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
@@ -94,6 +99,22 @@ export default function PropertyScreen({ navigation }) {
 						transform: [{ translateY: slideAnime3 }],
 					}}
 					onPress={() => navigation.navigate('Inventory')}
+				/>
+				<CustomButton
+					CustomIcon={(size, color) => (
+						<Icon size={30} name="wpforms" color={color} />
+					)}
+					text="Voir les états des lieux"
+					labelStyle={{ fontSize: 17 }}
+					reversed={true}
+					style={{
+						justifyContent: 'center',
+						height: 60,
+						marginTop: 30,
+						width: '80%',
+						transform: [{ translateY: slideAnime4 }],
+					}}
+					onPress={() => navigation.navigate('InventoryList')}
 				/>
 			</View>
 		</View>

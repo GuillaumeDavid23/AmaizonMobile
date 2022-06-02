@@ -73,16 +73,16 @@ const InventoryFormStep1 = (props) => {
 				<Controller
 					control={control}
 					rules={validate.alphaNumeric}
-					name="ClientRef"
+					name="userReference"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<TextInput
 							mode="outlined"
 							label="Référence du client"
 							onBlur={onBlur}
 							onChangeText={onChange}
-							autoComplete="ClientRef"
+							autoComplete="userReference"
 							value={value}
-							error={errors?.ClientRef}
+							error={errors?.userReference}
 							style={{ width: '90%' }}
 							theme={{ colors: { error: '#f57c00' } }}
 							right={
@@ -94,9 +94,9 @@ const InventoryFormStep1 = (props) => {
 						/>
 					)}
 				/>
-				{errors?.ClientRef && (
+				{errors?.userReference && (
 					<Text style={{ color: theme.colors.warning }}>
-						{errors.ClientRef.message}
+						{errors.userReference.message}
 					</Text>
 				)}
 			</View>
@@ -107,16 +107,16 @@ const InventoryFormStep1 = (props) => {
 				<Controller
 					control={control}
 					rules={validate.alphaNumeric}
-					name="OldClientRef"
+					name="previousBuyerRef"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<TextInput
 							mode="outlined"
 							label="Référence de l'ancien locataire / Propriétaire"
 							onBlur={onBlur}
 							onChangeText={onChange}
-							autoComplete="OldClientRef"
+							autoComplete="previousBuyerRef"
 							value={value}
-							error={errors?.OldClientRef}
+							error={errors?.previousBuyerRef}
 							style={{ width: '90%' }}
 							theme={{ colors: { error: '#f57c00' } }}
 							right={
@@ -128,9 +128,9 @@ const InventoryFormStep1 = (props) => {
 						/>
 					)}
 				/>
-				{errors?.OldClientRef && (
+				{errors?.previousBuyerRef && (
 					<Text style={{ color: theme.colors.warning }}>
-						{errors.OldClientRef.message}
+						{errors.previousBuyerRef.message}
 					</Text>
 				)}
 			</View>
@@ -140,7 +140,7 @@ const InventoryFormStep1 = (props) => {
 			<View style={{ marginTop: 15, alignItems: 'center' }}>
 				<Controller
 					control={control}
-					name="dateStart"
+					name="date"
 					rules={{
 						required: {
 							value: true,
@@ -171,9 +171,9 @@ const InventoryFormStep1 = (props) => {
 						/>
 					)}
 				/>
-				{errors?.dateStart && (
+				{errors?.date && (
 					<Text style={{ color: theme.colors.warning }}>
-						{errors.dateStart.message}
+						{errors.date.message}
 					</Text>
 				)}
 				{dateTimeShow && (
@@ -184,7 +184,7 @@ const InventoryFormStep1 = (props) => {
 						onChange={(event, date) => {
 							setDateTimeShow(false)
 							setValue(
-								'dateStart',
+								'date',
 								moment(date).format('YYYY-MM-DD')
 							)
 						}}

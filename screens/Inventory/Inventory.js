@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Image } from 'react-native'
-import { Title, useTheme } from 'react-native-paper'
+import { FAB, Title, useTheme } from 'react-native-paper'
 import logo from '../../assets/images/logoFull.png'
 import InventoryFormStep1 from './components/InventoryFormStep1'
 import { ProgressSteps, ProgressStep } from 'react-native-progress-steps'
@@ -8,9 +8,15 @@ import { useForm } from 'react-hook-form'
 import InventoryFormStep2 from './components/InventoryFormStep2'
 import moment from 'moment'
 import InventoryFormStep3 from './components/InventoryFormStep3'
+import InventoryFormStep4 from './components/InventoryFormStep4'
+import { createInventory } from '../../services/Inventory'
+import { useSelector } from 'react-redux'
 
 export default function InventoryScreen({ navigation }) {
 	const theme = useTheme()
+	const token = useSelector((state) => state.user.auth.token)
+	const user = useSelector((state) => state.user.auth.data)
+
 	//Création du formulaire
 	const {
 		control,
@@ -20,15 +26,17 @@ export default function InventoryScreen({ navigation }) {
 	} = useForm({
 		defaultValues: {
 			PropertyRef: 'APT4585',
-			ClientRef: 'CL1223E',
-			OldClientRef: 'CL1245E',
-			dateStart: moment(new Date()).format('YYYY-MM-DD'),
+			userReference: 'CL1223E',
+			previousBuyerRef: 'CL1245E',
+			date: moment(new Date()).format('YYYY-MM-DD'),
 			inOut: false,
 			keyNumber: '2',
 			lst_equipement: [],
 			lst_heater: [],
 			lst_hotWater: [],
 			lst_statsMeters: [],
+			lst_roomDetails: [],
+			id_agent: user._id
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
@@ -85,11 +93,25 @@ export default function InventoryScreen({ navigation }) {
 		ref: '',
 		value: '',
 	})
+	const [roomsDetails, setRoomsDetails] = React.useState([
+		
+	])
 
 	//ENVOIE DES DONNEES
 	const onSubmit = (data) => {
+		setValue('lst_statsMeters', [electricMeter, gazMeter, waterMeter])
 		data.lst_statsMeters = [electricMeter, gazMeter, waterMeter]
-		console.log(data)
+	}
+
+	const onFinish = (data) => {
+		if (roomsDetails.length > 0) {
+			data.lst_roomDetails = roomsDetails
+		}
+		createInventory(data, token).then((response)=> {
+			console.log(response);
+		}).catch((error) => {
+			console.log(typeof error);
+		})
 	}
 
 
@@ -126,7 +148,7 @@ export default function InventoryScreen({ navigation }) {
 						errors={Object.keys(errors).length > 0 ? true : false}
 						nextBtnTextStyle={{ color: theme.colors.primary }}
 					>
-						<View style={{ alignItems: 'center' }}>
+						<View style={{ alignItems: 'center', marginBottom:20 }}>
 							<InventoryFormStep1
 								control={control}
 								errors={errors}
@@ -164,7 +186,7 @@ export default function InventoryScreen({ navigation }) {
 
 					{/* Début étape numéro 3 */}
 					<ProgressStep
-						label="Etape 3"
+						label="Relevés"
 						previousBtnText="Précédent"
 						nextBtnText="Suivant"
 						onNext={handleSubmit(onSubmit)}
@@ -189,14 +211,21 @@ export default function InventoryScreen({ navigation }) {
 
 					{/* Début étape numéro 4 */}
 					<ProgressStep
-						label="Etape 4"
+						label="États"
 						previousBtnText="Précédent"
-						finishBtnText="Terminer"
+						finishBtnText="Finaliser"
 						nextBtnTextStyle={{ color: theme.colors.primary }}
 						previousBtnTextStyle={{ color: theme.colors.primary }}
+						onSubmit={handleSubmit(onFinish)}
 					>
 						<View style={{ alignItems: 'center' }}>
-							<Text>This is the content within step 4!</Text>
+							<InventoryFormStep4
+								control={control}
+								errors={errors}
+								setValue={setValue}
+								roomsDetails={roomsDetails}
+								setRoomsDetails={setRoomsDetails}
+							/>
 						</View>
 					</ProgressStep>
 					{/* Fin étape numéro 4 */}
