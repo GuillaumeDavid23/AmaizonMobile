@@ -104,8 +104,9 @@ export default function LoginScreen({ navigation }) {
 					style={{
 						textDecorationLine: 'underline',
 						textAlign: 'center',
-						fontSize: 16,
+						fontSize: 18,
 						marginTop: 20,
+						fontFamily: 'Dosis'
 					}}
 				>
 					{children}
