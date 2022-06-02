@@ -27,7 +27,7 @@ const InventoryFormStep2 = (props) => {
 	} = props
 
 	const theme = useTheme()
-	
+
 	return (
 		<View style={{ flex: 1, width: '100%', marginTop: 20 }}>
 			{/* CLEF INPUT START */}
@@ -43,7 +43,6 @@ const InventoryFormStep2 = (props) => {
 							keyboardType="numeric"
 							onBlur={onBlur}
 							onChangeText={onChange}
-							autoComplete="keyNumber"
 							value={value}
 							error={errors?.keyNumber}
 							style={{ width: '90%' }}
