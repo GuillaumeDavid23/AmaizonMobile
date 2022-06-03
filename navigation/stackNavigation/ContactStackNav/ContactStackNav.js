@@ -1,20 +1,17 @@
-// React imports
-import React from "react";
-
 // Navigation imports
-import { createStackNavigator } from "@react-navigation/stack";
+import { createStackNavigator } from '@react-navigation/stack'
 
 // Screen imports
-import ContactScreen from "../../../screens/Contact/ContactScreen";
-import SingleContactScreen from "../../../screens/SingleContact/SingleContactScreen";
-import ClientSearch from "../../../screens/ClientSearch/ClientSearch";
-import CreateContactScreen from "../../../screens/createContact/createContactScreen";
+import ContactScreen from '../../../screens/Contact/ContactScreen'
+import SingleContactScreen from '../../../screens/SingleContact/SingleContactScreen'
+import ClientSearch from '../../../screens/ClientSearch/ClientSearch'
+import CreateContactScreen from '../../../screens/createContact/createContactScreen'
 
 // Creating Stack Navigator
-const Stack = createStackNavigator();
+const Stack = createStackNavigator()
 
 const ContactStackNav = () => {
-    return (
+	return (
 		<Stack.Navigator
 			screenOptions={{
 				headerShown: false,
@@ -29,6 +26,6 @@ const ContactStackNav = () => {
 			<Stack.Screen name="CreateClient" component={CreateContactScreen} />
 		</Stack.Navigator>
 	)
-};
+}
 
-export default ContactStackNav;
+export default ContactStackNav

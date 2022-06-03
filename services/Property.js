@@ -1,4 +1,4 @@
-const getAllProperties = async () => {
+const getAllProperties = async (userToken) => {
 	return fetch(`${process.env.API_URL}api/property`, {
 		method: 'GET',
 		headers: {
