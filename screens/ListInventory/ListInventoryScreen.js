@@ -1,38 +1,31 @@
 import * as React from 'react'
 import { StyleSheet, Text, View, Image, FlatList } from 'react-native'
 import { useSelector } from 'react-redux'
-import { getAllProperties } from '../../services/Property'
+import { getAllInventory } from '../../services/Inventory'
 import CustomCard from './components/CustomCard'
 import logo from '../../assets/images/logoFull.png'
 
-export default function ListProperty({ navigation }) {
-	const user = useSelector((state) => state.user.auth)
-	const [allProperties, setAllProperties] = React.useState([])
 
-	React.useLayoutEffect(() => {
-		getAllProperties(user.token)
-			.then((response) => {
-				if (response) {
-					const allDatas = response.properties
-					setAllProperties(allDatas)
-				} else {
-					console.error(response)
-				}
-			})
-			.catch((err) => {
-				console.error(err)
-			})
+export default function ListInventory({ navigation }) {
+	const user = useSelector((state) => state.user.auth)
+	const [allInventories, setAllInventories] = React.useState([])
+
+    React.useLayoutEffect(() => {
+		getAllInventory(user.token).then((response) => {
+			const allDatas = response.inventories
+			setAllInventories(allDatas)
+		})
 	}, [])
 	return (
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
 			{/* <Text style={styles.title}>Liste des propriétés</Text> */}
 			<FlatList
-				data={allProperties}
+				data={allInventories}
 				keyExtractor={(item) => item._id}
 				renderItem={(item) => {
-					const { item: property } = item
-					return <CustomCard property={property} />
+					const { item: inventory } = item
+					return <CustomCard inventory={inventory} />
 				}}
 				style={styles.list}
 			/>

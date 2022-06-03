@@ -17,12 +17,13 @@ const Page6 = ({ display, token, checked, setChecked }) => {
 					console.log(err)
 				})
 		}
+		//Get ALL des vendeurs et affichage A FAIRE !!
 	}, [searchSeller])
 
 	return (
 		<View style={{ display }}>
 			<Text style={{ fontSize: 25, textAlign: 'center' }}>
-				Infos Vendeur:
+				Nom du vendeur:
 			</Text>
 
 			<View style={{ height: 30, marginVertical: 20 }}>

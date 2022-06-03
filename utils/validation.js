@@ -39,6 +39,22 @@ const validate = {
 			message: 'Entrer un nombre valide',
 		},
 	},
+	alphaNumeric: {
+		required: {
+			value: true,
+			message: 'Champ requis',
+		},
+		pattern: {
+			value: /^[a-zA-Z\u00C0-\u00FF'0-9]*$/i,
+			message: 'Entrer un nom/prénom valide',
+		},
+	},
+	required: {
+		required: {
+			value: true,
+			message: 'Champ requis',
+		}
+	}
 }
 
 export default validate

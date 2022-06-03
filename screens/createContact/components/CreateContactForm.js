@@ -19,7 +19,6 @@ import { createClient } from '../../../services/Contact'
 import { addContact } from '../../../redux/userSlice'
 import validate from '../../../utils/validation'
 
-
 const CreateContactForm = (props) => {
 	const [isVisible, setIsVisible] = React.useState(false)
 	const { client, setClient, navigation } = props
@@ -49,7 +48,7 @@ const CreateContactForm = (props) => {
 		const sendData = {
 			...data,
 			buyer: {
-				agent: user.data._id
+				agent: user.data._id,
 			},
 		}
 		createClient(user.token, sendData).then((response) => {
@@ -86,7 +85,7 @@ const CreateContactForm = (props) => {
 								label="Nom"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="lastname"
+								autoComplete="name-family"
 								value={value}
 								error={errors?.lastname}
 								style={{
@@ -121,7 +120,7 @@ const CreateContactForm = (props) => {
 								label="Prénom"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="firstname"
+								autoComplete="name"
 								value={value}
 								error={errors?.firstname}
 								style={{
@@ -186,7 +185,7 @@ const CreateContactForm = (props) => {
 							onBlur={onBlur}
 							keyboardType="phone-pad"
 							onChangeText={onChange}
-							autoComplete="phone"
+							autoComplete="tel"
 							value={value}
 							error={errors?.phone}
 							style={{ width: '90%' }}
@@ -203,7 +202,13 @@ const CreateContactForm = (props) => {
 			{/* PHONE INPUT END */}
 
 			{/* PASSWORD INPUT START*/}
-			<View style={{ marginBottom: 30, marginTop: 20, alignItems:'center' }}>
+			<View
+				style={{
+					marginBottom: 30,
+					marginTop: 20,
+					alignItems: 'center',
+				}}
+			>
 				<Controller
 					control={control}
 					rules={{
@@ -222,7 +227,7 @@ const CreateContactForm = (props) => {
 							onChangeText={onChange}
 							value={value}
 							error={errors?.password}
-							style={{ width: '90%'}}
+							style={{ width: '90%' }}
 							right={
 								<TextInput.Icon
 									name={isVisible ? 'eye-off' : 'eye'}
@@ -235,7 +240,7 @@ const CreateContactForm = (props) => {
 				/>
 				{/* Password Form show-error part */}
 				{errors?.password && (
-					<Text style={{ color: 'red' }}>
+					<Text style={{ color: theme.colors.error }}>
 						{errors.password.message}
 					</Text>
 				)}

@@ -15,7 +15,6 @@ import { useTheme, TextInput, RadioButton } from 'react-native-paper'
 import SendButton from './SendButton'
 import Icon from 'react-native-vector-icons/FontAwesome'
 
-
 //Import fetch method
 import { getClient, updateClient } from '../../../services/Contact'
 import validate from '../../../utils/validation'
@@ -32,7 +31,7 @@ const ClientSearchForm = (props) => {
 	React.useLayoutEffect(() => {
 		getClient(clientId, user.token).then((response) => {
 			const clientInfos = response.data
-			setClient(clientInfos);
+			setClient(clientInfos)
 			setValue(
 				'budgetMin',
 				clientInfos.buyer.budgetMin
@@ -116,9 +115,8 @@ const ClientSearchForm = (props) => {
 		}
 		updateClient(client._id, user.token, clientSend)
 			.then((response) => {
-				console.log(response);
+				console.log(response)
 				setSnackVisisble(true)
-
 			})
 			.catch((errors) => {
 				console.log(errors)
@@ -146,7 +144,6 @@ const ClientSearchForm = (props) => {
 								keyboardType="numeric"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="budgetMin"
 								value={value}
 								error={errors?.budgetMin}
 								style={{
@@ -194,7 +191,6 @@ const ClientSearchForm = (props) => {
 								keyboardType="numeric"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="budgetMax"
 								value={value}
 								error={errors?.budgetMax}
 								style={{
@@ -250,7 +246,6 @@ const ClientSearchForm = (props) => {
 								label="Ville"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="city"
 								value={value}
 								error={errors?.city}
 								style={{
@@ -298,7 +293,6 @@ const ClientSearchForm = (props) => {
 								keyboardType="numeric"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="rooms"
 								value={value}
 								error={errors?.rooms}
 								style={{
@@ -355,7 +349,6 @@ const ClientSearchForm = (props) => {
 								keyboardType="numeric"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="surfaceMin"
 								value={value}
 								error={errors?.surfaceMin}
 								style={{
@@ -403,7 +396,6 @@ const ClientSearchForm = (props) => {
 								keyboardType="numeric"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="surfaceMax"
 								value={value}
 								error={errors?.surfaceMax}
 								style={{
@@ -582,7 +574,6 @@ const ClientSearchForm = (props) => {
 			</View>
 			{/* PROPERTY TYPE END */}
 			<SendButton handleSubmit={handleSubmit} onSubmit={onSubmit} />
-			
 		</View>
 	)
 }

@@ -387,6 +387,7 @@ const styles = StyleSheet.create({
 		backgroundColor: '#ECE6DE',
 		justifyContent: 'space-between',
 		alignItems: 'center',
+		paddingTop:20,
 	},
 	logo: {
 		width: 250,
