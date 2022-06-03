@@ -29,7 +29,7 @@ const TabNavigation = () => {
 		>
 			{/* Home Screen */}
 			<Tab.Screen
-				name="Home"
+				name="Accueil"
 				component={HomeScreen}
 				options={{
 					tabBarIcon: ({ size, color }) => (
@@ -59,7 +59,7 @@ const TabNavigation = () => {
 			/>
 			{/* Contact Stack Screen */}
 			<Tab.Screen
-				name="Contact"
+				name="Clients"
 				component={ContactStackNav}
 				options={{
 					tabBarIcon: ({ size, color }) => (

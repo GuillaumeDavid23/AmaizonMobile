@@ -50,7 +50,7 @@ export default function ContactScreen({ navigation }) {
 		<View style={styles.container}>
 			<Image style={styles.fullLogo} source={logo} />
 			<View style={styles.header}>
-				<Title style={styles.title}>Carnet de contact</Title>
+				<Title style={styles.title}>Carnet clients</Title>
 			</View>
 			<View>
 				<View

@@ -21,6 +21,7 @@ import { Provider as ReduxProvider } from 'react-redux'
 // Stack Screen imports
 import { LoginStackNav } from './navigation/stackNavigation'
 import moment from 'moment'
+import { SafeAreaView } from 'react-native-safe-area-context'
 moment.locale('fr')
 export default function App() {
 	const [appIsReady, setAppIsReady] = React.useState(false)
@@ -60,7 +61,7 @@ export default function App() {
 	return (
 		<ReduxProvider store={store}>
 			<PaperProvider theme={theme}>
-				<StatusBar style="auto" />
+					<StatusBar style="auto" />
 					<NavigationContainer theme={theme}>
 						<LoginStackNav />
 					</NavigationContainer>
