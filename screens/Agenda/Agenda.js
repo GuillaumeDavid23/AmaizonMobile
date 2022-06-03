@@ -51,6 +51,11 @@ const Agenda = ({ navigation }) => {
 		}
 	}, [isFocus])
 
+	const rowHasChanged = (r1, r2) => {
+		return r1.text !== r2.text
+		// return true
+	}
+
 	// Suppression d'un rendez-vous:
 	const handleDeleteAppointment = (appointmentId) => {
 		deleteAppointment(token, appointmentId)
@@ -62,9 +67,10 @@ const Agenda = ({ navigation }) => {
 						(item) => item._id !== parseInt(appointmentId)
 					)
 				}
+				// On call la fonction rowHasChanged avant la mise à jour du state:
+				rowHasChanged(items, itemsToState)
+
 				setItems(itemsToState)
-				//Temporaire:
-				navigation.navigate('Agenda')
 			})
 			.catch((err) => {
 				console.log(err)
@@ -80,6 +86,8 @@ const Agenda = ({ navigation }) => {
 					handleDeleteAppointment={(_id) =>
 						handleDeleteAppointment(_id)
 					}
+					rowHasChanged={rowHasChanged}
+					navigation={navigation}
 				/>
 			</View>
 			<CustomButton

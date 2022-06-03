@@ -1,8 +1,13 @@
 import { Agenda, LocaleConfig } from 'react-native-calendars'
-import { View, Text } from 'react-native'
-import { FAB } from 'react-native-paper'
+import AgendaItem from './AgendaItem'
 
-const AgendaCalendar = ({ items, markedDates, handleDeleteAppointment }) => {
+const AgendaCalendar = ({
+	items,
+	markedDates,
+	handleDeleteAppointment,
+	rowHasChanged,
+	navigation,
+}) => {
 	// Configuration du calendrier:
 	LocaleConfig.locales['fr'] = {
 		monthNames: [
@@ -55,33 +60,13 @@ const AgendaCalendar = ({ items, markedDates, handleDeleteAppointment }) => {
 			items={items}
 			// Specify how each item should be rendered in agenda
 			renderItem={(item, firstItemInDay) => {
-				let { _id, startTime, endTime, buyer, address } = item
 				return (
-					<View
-						style={{
-							height: 100,
-							flexDirection: 'row',
-							alignItems: 'center',
-							justifyContent: 'space-between',
-							// border: 'black solid 1px',
-						}}
-					>
-						<View>
-							<Text>
-								{startTime}-{endTime} avec {buyer.lastname}{' '}
-								{buyer.firstname}
-							</Text>
-							<Text>{address}</Text>
-						</View>
-						<View>
-							<FAB
-								style={{ margin: 10 }}
-								small
-								icon="delete"
-								onPress={() => handleDeleteAppointment(_id)}
-							/>
-						</View>
-					</View>
+					<AgendaItem
+						item={item}
+						firstItemInDay={firstItemInDay}
+						handleDeleteAppointment={handleDeleteAppointment}
+						navigation={navigation}
+					/>
 				)
 			}}
 			// // Minimum date that can be selected, dates before minDate will be grayed out. Default = undefined
@@ -99,6 +84,22 @@ const AgendaCalendar = ({ items, markedDates, handleDeleteAppointment }) => {
 			pastScrollRange={1}
 			// Max amount of months allowed to scroll to the future. Default = 50
 			futureScrollRange={3}
+			// When `true` and `hideKnob` prop is `false`, the knob will always be visible and the user will be able to drag the knob up and close the calendar. Default = false
+			showClosingKnob={true}
+			// Specify your item comparison function for increased performance
+			// rowHasChanged={(r1, r2) => {
+			// 	return true
+			// 	// return r1.text !== r2.text
+			// }}
+			rowHasChanged={rowHasChanged}
+			// Agenda theme
+			theme={{
+				// ...calendarTheme,
+				agendaDayTextColor: '#647F94',
+				agendaDayNumColor: '#647F94',
+				// agendaTodayColor: 'red',
+				agendaKnobColor: '#647F94',
+			}}
 		/>
 	)
 }

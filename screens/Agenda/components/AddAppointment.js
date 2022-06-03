@@ -1,15 +1,20 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { View, Text } from 'react-native'
 import { useSelector } from 'react-redux'
 import { useForm } from 'react-hook-form'
 import CustomSnackBar from '../../../components/CustomSnackBar'
-import { createAppointment } from '../../../services/Appointment'
+import {
+	createAppointment,
+	updateAppointment,
+	getOneAppointment,
+} from '../../../services/Appointment'
+import { getClient } from '../../../services/Contact'
 
 // Pages imports
 import AddAppointmentPage1 from './AddAppointmentPage1'
 import AddAppointmentPage2 from './AddAppointmentPage2'
 
-const AddAppointment = ({ navigation }) => {
+const AddAppointment = ({ navigation, route }) => {
 	// Récupération du token:
 	const token = useSelector((state) => state.user.auth.token)
 
@@ -19,48 +24,62 @@ const AddAppointment = ({ navigation }) => {
 
 	// Gestion de la pagination:
 	const [visiblePage, setVisiblePage] = useState(1)
-	const handleNavigation = (previousOrNext) => {
-		// let newVisiblePage = visiblePage
-		// if (previousOrNext === 'previous') {
-		// 	newVisiblePage--
-		// } else if (previousOrNext === 'next') {
-		// 	// On check si des erreurs on été générés sur la page actuelle et dans ce cas, on bloque l'accès à la page suivante.
-		// 	if (
-		// 		(visiblePage === 1 &&
-		// 			!(
-		// 				errors.title ||
-		// 				errors.propertyType ||
-		// 				errors.description
-		// 			)) ||
-		// 		(visiblePage === 2 &&
-		// 			!(
-		// 				errors.location ||
-		// 				errors.postalCode ||
-		// 				errors.city ||
-		// 				errors.country
-		// 			))
-		// 	) {
-		// 		newVisiblePage++
-		// 	}
-		// }
-		// setVisiblePage(newVisiblePage)
-	}
+
+	// useEffect(() => {
+	// 	console.log(1)
+	// }, [startTimeSlots])
 
 	// Déclaration des states hors React-hook-form:
 	const [outdoor, setOutdoor] = useState(false)
 	const [buyerSelected, setBuyerSelected] = useState()
 	const [propertySelected, setPropertySelected] = useState()
 
+	// Recherche du Buyer:
+	const [searchBuyer, setSearchBuyer] = useState('')
+
 	// Destructuring HookForm hook:
 	const {
 		control,
 		handleSubmit,
 		formState: { errors },
+		setValue,
 	} = useForm({
 		mode: 'onChange',
 		shouldFocusError: true,
 		// defaultValues: {},
 	})
+
+	// En cas d'update, récupération du rendez-vous concerné:
+	useEffect(() => {
+		if (route.params !== undefined) {
+			// Récupération du rendez-vous:
+			getOneAppointment(route.params._id, token)
+				.then((res) => {
+					let { dateBegin, dateEnd, outdoor, address, id_property } =
+						res.appointment
+					// Insertion des valeurs dans les champs:
+					setValue('date', dateBegin.substring(0, 10))
+					setValue('startTime', dateBegin.substring(11, 16))
+					setValue('endTime', dateEnd.substring(11, 16))
+					setOutdoor(outdoor)
+					setValue('address', address)
+					setPropertySelected(id_property)
+
+					// Récupération de l'utilisateur:
+					getClient(res.appointment.id_buyer, token)
+						.then((res2) => {
+							setSearchBuyer(res2.data.lastname)
+							setBuyerSelected(res2.data._id)
+						})
+						.catch((err) => {
+							console.log(err)
+						})
+				})
+				.catch((err) => {
+					console.log(err)
+				})
+		}
+	}, [route.params])
 
 	// Envoi du formulaire:
 	const onSubmit = (data) => {
@@ -83,20 +102,43 @@ const AddAppointment = ({ navigation }) => {
 		}
 
 		// Execution de la requête:
-		createAppointment(dataToSend, token)
-			.then((res) => {
-				if (res !== undefined && res.status_code === 201) {
-					navigation.navigate('Agenda')
-				} else {
+		if (route.params === undefined) {
+			createAppointment(dataToSend, token)
+				.then((res) => {
+					if (res !== undefined && res.status_code === 201) {
+						navigation.navigate('Agenda')
+					} else {
+						setSnackText(
+							"Erreur, veuillez contacter l'administrateur"
+						)
+						setIsSnackVisible(true)
+					}
+				})
+				.catch(async (err) => {
+					await err
+					console.log(err)
 					setSnackText("Erreur, veuillez contacter l'administrateur")
 					setIsSnackVisible(true)
-				}
-			})
-			.catch((err) => {
-				console.log(err)
-				setSnackText("Erreur, veuillez contacter l'administrateur")
-				setIsSnackVisible(true)
-			})
+				})
+		} else {
+			updateAppointment(route.params._id, dataToSend, token)
+				.then((res) => {
+					if (res !== undefined && res.status_code === 200) {
+						navigation.navigate('Agenda')
+					} else {
+						setSnackText(
+							"Erreur, veuillez contacter l'administrateur"
+						)
+						setIsSnackVisible(true)
+					}
+				})
+				.catch(async (err) => {
+					await err
+					console.log(err)
+					setSnackText("Erreur, veuillez contacter l'administrateur")
+					setIsSnackVisible(true)
+				})
+		}
 	}
 
 	return (
@@ -138,9 +180,12 @@ const AddAppointment = ({ navigation }) => {
 				onSubmit={onSubmit}
 				token={token}
 				buyerSelected={buyerSelected}
+				searchBuyer={searchBuyer}
+				setSearchBuyer={setSearchBuyer}
 				setBuyerSelected={setBuyerSelected}
 				propertySelected={propertySelected}
 				setPropertySelected={setPropertySelected}
+				route={route}
 			/>
 
 			{/* SnackBar */}

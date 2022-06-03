@@ -13,24 +13,13 @@ const AddAppointmentPage2 = ({
 	onSubmit,
 	token,
 	buyerSelected,
+	searchBuyer,
+	setSearchBuyer,
 	setBuyerSelected,
 	propertySelected,
 	setPropertySelected,
+	route,
 }) => {
-	// Listing des propriétés:
-	const [properties, setProperties] = useState([])
-	useEffect(() => {
-		getAllProperties(token)
-			.then((res) => {
-				setProperties(res.properties)
-			})
-			.catch((err) => {
-				console.log(err)
-			})
-	}, [])
-
-	// Recherche du Buyer:
-	const [searchBuyer, setSearchBuyer] = useState('')
 	const [buyers, setBuyers] = useState([])
 	useEffect(() => {
 		if (searchBuyer.length > 0) {
@@ -43,6 +32,18 @@ const AddAppointmentPage2 = ({
 				})
 		}
 	}, [searchBuyer])
+
+	// Listing des propriétés:
+	const [properties, setProperties] = useState([])
+	useEffect(() => {
+		getAllProperties(token)
+			.then((res) => {
+				setProperties(res.properties)
+			})
+			.catch((err) => {
+				console.log(err)
+			})
+	}, [])
 
 	return (
 		<View style={{ display }}>
@@ -135,9 +136,13 @@ const AddAppointmentPage2 = ({
 			/>
 			<CustomButton
 				style={{ marginBottom: 25, marginHorizontal: 25 }}
-				text="Ajouter"
+				text={route.params === undefined ? 'Ajouter' : 'Modifier'}
 				CustomIcon={(size, color) => (
-					<Icon size={size} name="plus" color={color} />
+					<Icon
+						size={size}
+						name={route.params === undefined ? 'plus' : 'pencil'}
+						color={color}
+					/>
 				)}
 				onPress={handleSubmit(onSubmit)}
 			/>
