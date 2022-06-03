@@ -240,7 +240,7 @@ const CreateContactForm = (props) => {
 				/>
 				{/* Password Form show-error part */}
 				{errors?.password && (
-					<Text style={{ color: 'red' }}>
+					<Text style={{ color: theme.colors.error }}>
 						{errors.password.message}
 					</Text>
 				)}
