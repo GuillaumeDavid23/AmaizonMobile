@@ -49,8 +49,8 @@ const createClient = async (token, data) => {
 		.catch((errors) => console.log(errors))
 }
 
-const searchClient = async (token) => {
-	return fetch(`${process.env.API_URL}api/user/searchClient/`, {
+const searchClient = async (token, search) => {
+	return fetch(`${process.env.API_URL}api/user/searchClient/${search}`, {
 		method: 'GET',
 		headers: { Authorization: `bearer ${token}` },
 	})
@@ -58,6 +58,7 @@ const searchClient = async (token) => {
 			if (response.ok) {
 				return response.json()
 			}
+			return response.json()
 		})
 		.catch((errors) => console.log(errors))
 }

@@ -57,6 +57,7 @@ const createProperty = async (data, userToken) => {
 				return reject(response.json())
 			})
 			.catch((err) => {
+				console.log(err);
 				// Handling Fetch problems
 				return reject({
 					message: "L'API ne semble pas être disponible",

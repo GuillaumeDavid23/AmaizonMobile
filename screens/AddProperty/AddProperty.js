@@ -248,7 +248,7 @@ export default function AddProperty({ navigation }) {
 
 		// Formattage des datas to display
 		let datasToDisplayToState = {}
-		for (var pair of formData.entries()) {
+		for (var pair of formData._parts) {
 			datasToDisplayToState[pair[0]] = pair[1]
 		}
 		setDatasToDisplay(datasToDisplayToState)

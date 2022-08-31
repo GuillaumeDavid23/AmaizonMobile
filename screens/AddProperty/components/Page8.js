@@ -10,6 +10,22 @@ const Page8 = ({
 	datasToValidate,
 	handleValidation,
 }) => {
+	const translation = {
+		title: 'Titre',
+		location: 'Adresse',
+		surface: 'Surface',
+		roomNumber: 'Nombre de chambre',
+		amount: "Prix",
+		propertyType: 'Type de propriété',
+		transactionType: 'Type de transaction',
+		isToSell: 'A vendre maintenant ?',
+		propertyRef: 'Référence propriété',
+		photo1: 'Photo 1',
+		photo2: 'Photo 2',
+		photo3: 'Photo 3',
+		photo4: 'Photo 4',
+		photo5: 'Photo 5',
+	}
 	return (
 		<ScrollView style={{ display, width: Dimensions.get('screen').width }}>
 			<Text style={{ fontSize: 25, textAlign: 'center' }}>
@@ -21,7 +37,9 @@ const Page8 = ({
 						{Object.keys(datasToDisplay).map((key) => {
 							return (
 								<DataTable.Row key={key}>
-									<DataTable.Cell>{key}</DataTable.Cell>
+									<DataTable.Cell>
+										{translation[key] ? translation[key] : key}
+									</DataTable.Cell>
 									<View
 										style={{
 											flex: 1,
@@ -29,8 +47,7 @@ const Page8 = ({
 										}}
 									>
 										{/* Tableaux: */}
-										{typeof datasToDisplay[key] ===
-											'object' &&
+										{Array.isArray(datasToDisplay[key]) &&
 											!datasToDisplay[key].name && (
 												<Text>
 													{datasToDisplay[key].join(
@@ -54,10 +71,12 @@ const Page8 = ({
 												</Text>
 											)}
 										{/* Photos non-prises: */}
-										{datasToDisplay[key] ===
-											'[object Object]' && (
-											<Text>Photo non prise</Text>
-										)}
+										{typeof datasToDisplay[key] ===
+											'object' &&
+											Object.keys(datasToDisplay[key])
+												.length === 0 && (
+												<Text>Photo non prise</Text>
+											)}
 										{/* Booleans true: */}
 										{typeof datasToDisplay[key] ===
 											'boolean' &&
@@ -76,7 +95,7 @@ const Page8 = ({
 						})}
 						<DataTable.Row>
 							<DataTable.Cell>
-								<Text>Client</Text>
+								<Text>Vendeur / Propriétaire</Text>
 							</DataTable.Cell>
 							<DataTable.Cell>
 								<Text>

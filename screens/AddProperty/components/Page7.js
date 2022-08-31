@@ -12,26 +12,28 @@ const Page7 = ({
 }) => {
 	const handlePhotos = async (photoNumber) => {
 		let result = await DocumentPicker.getDocumentAsync()
-		let photosListToState = photosList
-		switch (photoNumber) {
-			case 1:
-				photosListToState.photo1 = result.file
-				break
-			case 2:
-				photosListToState.photo2 = result.file
-				break
-			case 3:
-				photosListToState.photo3 = result.file
-				break
-			case 4:
-				photosListToState.photo4 = result.file
-				break
-			case 5:
-				photosListToState.photo5 = result.file
-				break
-			default:
+		if(result.type !== 'cancel'){
+			let photosListToState = photosList
+			switch (photoNumber) {
+				case 1:
+					photosListToState.photo1 = result.file
+					break
+				case 2:
+					photosListToState.photo2 = result.file
+					break
+				case 3:
+					photosListToState.photo3 = result.file
+					break
+				case 4:
+					photosListToState.photo4 = result.file
+					break
+				case 5:
+					photosListToState.photo5 = result.file
+					break
+				default:
+			}
+			setPhotosList(photosList)
 		}
-		setPhotosList(photosList)
 	}
 
 	return (
