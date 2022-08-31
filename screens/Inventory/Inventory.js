@@ -108,9 +108,9 @@ export default function InventoryScreen({ navigation }) {
 			data.lst_roomDetails = roomsDetails
 		}
 		createInventory(data, token).then((response)=> {
-			console.log(response);
+			console.log('resp:' ,response);
 		}).catch((error) => {
-			console.log(typeof error);
+			console.log('error: ', error);
 		})
 	}
 

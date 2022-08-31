@@ -30,7 +30,7 @@ const InventoryFormStep1 = (props) => {
 			<View style={{ width: '100%' }}>
 				<Controller
 					control={control}
-					rules={validate.alphaNumeric}
+					rules={validate.propertyRef}
 					name="PropertyRef"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<TextInput
@@ -72,7 +72,7 @@ const InventoryFormStep1 = (props) => {
 			<View style={{ marginTop: 15, alignItems: 'center' }}>
 				<Controller
 					control={control}
-					rules={validate.alphaNumeric}
+					rules={validate.propertyRef}
 					name="userReference"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<TextInput
@@ -105,7 +105,7 @@ const InventoryFormStep1 = (props) => {
 			<View style={{ marginTop: 15, alignItems: 'center' }}>
 				<Controller
 					control={control}
-					rules={validate.alphaNumeric}
+					rules={validate.propertyRef}
 					name="previousBuyerRef"
 					render={({ field: { onChange, onBlur, value } }) => (
 						<TextInput

@@ -1,5 +1,4 @@
 const createInventory = async (data, userToken) => {
-    console.log('test', data);
 	// Returning new Promise
 	return new Promise((resolve, reject) => {
 		// Fetching API
@@ -13,15 +12,18 @@ const createInventory = async (data, userToken) => {
 			body: JSON.stringify(data),
 		})
 			.then((response) => {
-				// If response 2xx
-				if (response.ok) {
-					// Returning User info
-					return resolve(response.json())
-				}
-				// Else: Returning Error info
-				return reject(response.json())
+				response.json().then((final) => {
+					// If response 2xx
+					if (final.ok) {
+						// Returning User info
+						return resolve(final)
+					}
+					// Else: Returning Error info
+					return reject(final)
+				})
 			})
 			.catch((err) => {
+				console.log(err);
 				// Handling Fetch problems
 				return reject({
 					message: "L'API ne semble pas être disponible",

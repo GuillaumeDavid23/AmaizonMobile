@@ -53,8 +53,26 @@ const validate = {
 		required: {
 			value: true,
 			message: 'Champ requis',
-		}
-	}
+		},
+	},
+	propertyRef: {
+		required: {
+			value: true,
+			message: 'Champ requis',
+		},
+		pattern: {
+			value: /^[a-zA-Z\u00C0-\u00FF'0-9]*$/i,
+			message: 'Entrer une référence valide',
+		},
+		maxLength: {
+			value: 10,
+			message: 'La longueur doit être de 10 caractères',
+		},
+		minLength: {
+			value: 10,
+			message: 'La longueur doit être de 10 caractères',
+		},
+	},
 }
 
 export default validate

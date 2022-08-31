@@ -52,7 +52,7 @@ export default function ContactScreen({ navigation }) {
 			<View style={styles.header}>
 				<Title style={styles.title}>Carnet clients</Title>
 			</View>
-			<View>
+			<View style={{ paddingBottom: 50 }}>
 				<View
 					style={{
 						width: 250,
