@@ -1,6 +1,3 @@
-// React imports
-import React from 'react'
-
 // Navigation imports
 import { createStackNavigator } from '@react-navigation/stack'
 

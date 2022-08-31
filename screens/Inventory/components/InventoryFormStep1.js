@@ -38,7 +38,7 @@ const InventoryFormStep1 = (props) => {
 							label="Référence du bien"
 							onBlur={onBlur}
 							onChangeText={onChange}
-							autoComplete="lastname"
+							autoComplete="name-family"
 							value={value}
 							error={errors?.PropertyRef}
 							style={{
@@ -80,7 +80,6 @@ const InventoryFormStep1 = (props) => {
 							label="Référence du client"
 							onBlur={onBlur}
 							onChangeText={onChange}
-							autoComplete="userReference"
 							value={value}
 							error={errors?.userReference}
 							style={{ width: '90%' }}
@@ -114,7 +113,6 @@ const InventoryFormStep1 = (props) => {
 							label="Référence de l'ancien locataire / Propriétaire"
 							onBlur={onBlur}
 							onChangeText={onChange}
-							autoComplete="previousBuyerRef"
 							value={value}
 							error={errors?.previousBuyerRef}
 							style={{ width: '90%' }}
@@ -183,10 +181,7 @@ const InventoryFormStep1 = (props) => {
 						is24Hour={true}
 						onChange={(event, date) => {
 							setDateTimeShow(false)
-							setValue(
-								'date',
-								moment(date).format('YYYY-MM-DD')
-							)
+							setValue('date', moment(date).format('YYYY-MM-DD'))
 						}}
 					/>
 				)}

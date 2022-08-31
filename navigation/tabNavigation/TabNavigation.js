@@ -1,20 +1,17 @@
-// React imports
-import React from 'react'
-
 // Design imports
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs'
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons'
 
 // Screen imports
 import HomeScreen from '../../screens/HomeScreen'
-import PropertyScreen from '../../screens/PropertyScreen'
 
 // NavigationScreen imports
 import { ContactStackNav } from '../stackNavigation/ContactStackNav'
+import { AgendaStackNav } from '../stackNavigation/AgendaStackNav'
+import { PropertyStackNav } from '../stackNavigation/PropertyStackNav'
 
 // Hook imports
 import { useTheme } from 'react-native-paper'
-import { PropertyStackNav } from '../stackNavigation/PropertyStackNav'
 
 // Create Bottom Tab Navigator
 const Tab = createMaterialBottomTabNavigator()
@@ -65,6 +62,21 @@ const TabNavigation = () => {
 					tabBarIcon: ({ size, color }) => (
 						<Icon
 							name="card-account-details"
+							size={30}
+							color={color}
+							style={{ width: 30, height: 30 }}
+						/>
+					),
+				}}
+			/>
+			{/* Agenda Stack Screen */}
+			<Tab.Screen
+				name="AgendaStack"
+				component={AgendaStackNav}
+				options={{
+					tabBarIcon: ({ size, color }) => (
+						<Icon
+							name="calendar"
 							size={30}
 							color={color}
 							style={{ width: 30, height: 30 }}

@@ -92,7 +92,7 @@ const SingleContactForm = (props) => {
 								label="Nom"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="lastname"
+								autoComplete="name-family"
 								value={value}
 								error={errors?.lastname}
 								style={[
@@ -131,7 +131,7 @@ const SingleContactForm = (props) => {
 								label="Prénom"
 								onBlur={onBlur}
 								onChangeText={onChange}
-								autoComplete="firstname"
+								autoComplete="name"
 								value={value}
 								error={errors?.firstname}
 								style={[
@@ -200,7 +200,7 @@ const SingleContactForm = (props) => {
 							onBlur={onBlur}
 							onChangeText={onChange}
 							keyboardType="phone-pad"
-							autoComplete="phone"
+							autoComplete="tel"
 							value={value}
 							error={errors?.phone}
 							style={{ width: '90%' }}
