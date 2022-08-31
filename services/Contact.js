@@ -49,8 +49,8 @@ const createClient = async (token, data) => {
 		.catch((errors) => console.log(errors))
 }
 
-const searchClient = async (token, lastname) => {
-	return fetch(`${process.env.API_URL}api/user/searchClient/${lastname}`, {
+const searchClient = async (token) => {
+	return fetch(`${process.env.API_URL}api/user/searchClient/`, {
 		method: 'GET',
 		headers: { Authorization: `bearer ${token}` },
 	})

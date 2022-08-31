@@ -119,10 +119,10 @@ const InventoryFormStep4 = (props) => {
 							<Slider
 								value={room.condition}
 								minimumValue={1}
-								maximumValue={5}
+								maximumValue={6}
 								step={1}
 								trackClickable={true}
-								trackMarks={[1, 2, 3, 4, 5]}
+								trackMarks={[1, 2, 3, 4, 5, 6]}
 								renderTrackMarkComponent={(mark) =>
 									labelSlider(mark)
 								}
@@ -167,6 +167,14 @@ const InventoryFormStep4 = (props) => {
 												condition: 5,
 											}
 											setRoomsDetails(newArr4)
+											break
+										case 6:
+											let newArr5 = [...roomsDetails]
+											newArr5[index] = {
+												...room,
+												condition: 6,
+											}
+											setRoomsDetails(newArr5)
 											break
 										default:
 											break
