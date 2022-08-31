@@ -26,6 +26,7 @@ const InventoryFormStep4 = (props) => {
 	const { control, errors, setValue, roomsDetails, setRoomsDetails } = props
 	const theme = useTheme()
 	const [visible, setVisible] = React.useState(false)
+	const [error, setError] = React.useState(false)
 	const [addRoom, setAddRoom] = React.useState('')
 
 	const labelNames = {
@@ -222,6 +223,7 @@ const InventoryFormStep4 = (props) => {
 					</Dialog.Title>
 					<Dialog.Content>
 						<TextInput
+							error={error}
 							mode="outlined"
 							label="Nom de la pièce"
 							onChangeText={(value) => {
@@ -234,6 +236,7 @@ const InventoryFormStep4 = (props) => {
 								height: 50,
 							}}
 						/>
+						{error && (<Text style={{color: 'red', textAlign: 'center'}}>Veuillez remplir correctement le nom</Text>)}
 					</Dialog.Content>
 					<Dialog.Actions
 						style={{
@@ -252,12 +255,17 @@ const InventoryFormStep4 = (props) => {
 						</Button>
 						<Button
 							onPress={() => {
-								roomsDetails.push({
-									name: addRoom,
-									condition: 3,
-								})
-								setAddRoom('')
-								hideDialog()
+								if (addRoom != '') {
+									roomsDetails.push({
+										name: addRoom,
+										condition: 3,
+									})
+									setAddRoom('')
+									hideDialog()
+								}else{
+									setError(true)
+								}
+						
 							}}
 							style={{
 								backgroundColor: theme.colors.success,

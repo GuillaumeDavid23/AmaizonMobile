@@ -34,6 +34,36 @@ const getAllProperties = async (userToken) => {
 		})
 }
 
+const searchProperties = async (data) => {
+	return fetch(`${process.env.API_URL}api/property/searchProperties`, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json;charset=utf-8',
+		},
+		body: JSON.stringify(data),
+	})
+		.then((response) => {
+			// If 2xx
+			if (response.ok) {
+				// Return Promise to handle
+				return response.json()
+			}
+
+			// Return Promise Rejection
+			return Promise.reject(`Erreur - Code ${response.status} : ${response.error}`)
+		})
+		.catch((error) => {
+			// If error is a Promise
+			if (typeof (error, Promise)) {
+				// Propagate Promise rejection
+				throw error
+			}
+
+			// return new Promise Rejection
+			return Promise.reject("L'API ne semble pas être disponible")
+		})
+}
+
 const createProperty = async (data, userToken) => {
 	// Returning new Promise
 	return new Promise((resolve, reject) => {
@@ -66,4 +96,4 @@ const createProperty = async (data, userToken) => {
 	})
 }
 
-export { getAllProperties, createProperty }
+export { getAllProperties, createProperty, searchProperties }

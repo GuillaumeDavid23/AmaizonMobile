@@ -35,7 +35,7 @@ const CustomCard = (props) => {
 					<View style={{ alignItems: 'center' }}>
 						<Icon name="map-marker" size={20} color="black" />
 						<Text style={{ fontSize: 14, flex: 1 }}>
-							{property?.location}{' '}
+							{property?.location[2]}{' '}
 						</Text>
 					</View>
 					<View style={{ alignItems: 'center' }}>
@@ -62,7 +62,8 @@ const CustomCard = (props) => {
 					{property?.transactionType === 'Location' ? ' / Mois' : ''}
 				</Text>
 			</Card.Content>
-			<Card.Actions style={{ alignSelf: 'flex-end' }}>
+			<Card.Actions style={{ justifyContent: 'space-between' }}>
+				<Text>Ref : {property?.propertyRef} </Text>
 				<Button onPress={showDialog}>
 					Voir Plus <Icon name="arrow-right" size={18} />
 				</Button>
