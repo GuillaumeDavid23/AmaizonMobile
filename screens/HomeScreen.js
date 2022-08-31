@@ -106,7 +106,7 @@ export default function HomeScreen({ navigation }) {
 					justifyContent: 'center',
 					transform: [{ translateX: slideAnime3 }],
 				}}
-				onPress={() => navigation.navigate('Contact')}
+				onPress={() => navigation.navigate('Clients')}
 			/>
 			{/* <MyNavigation navigation={navigation} /> */}
 		</View>
