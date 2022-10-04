@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo.png",
         "backgroundColor": "#ECE6DE"
-      }
+      },
+      "package": "com.volkyrias.Amaizon"
     },
     "web": {
       "favicon": "./assets/images/logo.png"
