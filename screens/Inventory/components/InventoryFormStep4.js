@@ -35,6 +35,7 @@ const InventoryFormStep4 = (props) => {
 		2: 'MOYEN',
 		3: 'BON',
 		4: 'TB',
+		5: 'Parfait',
 	}
 	const labelSlider = (label) => {
 		return (

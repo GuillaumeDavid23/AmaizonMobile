@@ -30,6 +30,7 @@ const CustomCard = (props) => {
 		3: 'Moyen',
 		4: 'Bon',
 		5: 'Très bon',
+		6: 'Parfait',
 	}
 	return (
 		<Card style={styles.container}>

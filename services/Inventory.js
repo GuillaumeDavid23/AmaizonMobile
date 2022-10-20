@@ -14,7 +14,7 @@ const createInventory = async (data, userToken) => {
 			.then((response) => {
 				response.json().then((final) => {
 					// If response 2xx
-					if (final.ok) {
+					if (!final.errors) {
 						// Returning User info
 						return resolve(final)
 					}
