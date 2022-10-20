@@ -25,9 +25,9 @@ export default function InventoryScreen({ navigation }) {
 		setValue,
 	} = useForm({
 		defaultValues: {
-			PropertyRef: 'APT4585',
-			userReference: 'CL1223E',
-			previousBuyerRef: 'CL1245E',
+			PropertyRef: 'FGDTRATFTY',
+			userReference: 'CL00000010',
+			previousBuyerRef: 'CL00000010',
 			date: moment(new Date()).format('YYYY-MM-DD'),
 			inOut: false,
 			keyNumber: '2',
@@ -36,7 +36,7 @@ export default function InventoryScreen({ navigation }) {
 			lst_hotWater: [],
 			lst_statsMeters: [],
 			lst_roomDetails: [],
-			id_agent: user._id
+			id_agent: user._id,
 		},
 		mode: 'onChange',
 		shouldFocusError: true,
@@ -80,18 +80,18 @@ export default function InventoryScreen({ navigation }) {
 	})
 	const [electricMeter, setElectricMeter] = React.useState({
 		name: 'electric',
-		ref: '',
-		value: '',
+		ref: 'EL12457896',
+		value: '12001',
 	})
 	const [gazMeter, setGazMeter] = React.useState({
 		name: 'gaz',
-		ref: '',
-		value: '',
+		ref: 'GZ54121478',
+		value: '1205',
 	})
 	const [waterMeter, setWaterMeter] = React.useState({
 		name: 'water',
-		ref: '',
-		value: '',
+		ref: 'WA45789568',
+		value: '15014',
 	})
 	const [roomsDetails, setRoomsDetails] = React.useState([
 		
@@ -109,6 +109,10 @@ export default function InventoryScreen({ navigation }) {
 		}
 		createInventory(data, token).then((response)=> {
 			console.log('resp:' ,response);
+			navigation.navigate('Propriétés', {
+				screen: 'InventoryList',
+				initial: false,
+			})
 		}).catch((error) => {
 			console.log('error: ', error);
 		})
